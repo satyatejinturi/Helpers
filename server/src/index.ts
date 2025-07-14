@@ -6,31 +6,21 @@ dotenv.config();
 import count from "./models/Employeeid";
 const app:Application=express();
 import Qrcode from "qrcode";
+import {v2 as cloudinary } from 'cloudinary';
+import helperRoute from "./routes/helperRoute"
 
 app.use(express.json());
 
 app.get("/",(req:Request,res:Response)=>{
-    res.send("mongo connected")
+    res.send("Server connected")
 })
 
 
-app.get("/data",async (req:Request,res:Response)=>{
-    try{
-        const data=await User.find();
-        console.log(data);
+// app.get("/data",async (req:Request,res:Response)=>{
+    
+// })
 
-        if(data.length==0){
-            res.send("no data");
-            return;
-        }
-        //const sent=Json.parse(data);
-        res.json(data);
-    }
-    catch(error){
-        console.log(error);
-        res.send("error");
-    }
-})
+app.use("/r",helperRoute);
 
 app.post("/data",async (req : Request,res : Response)=>{
     try{
@@ -127,14 +117,6 @@ async function getempid(){
     return result.employeid;
 }
 
-console.log(getempid());
-
-console.log(getempid());
-
-console.log(getempid());
-
-console.log(getempid());
-
 app.get("/count",async(req:Request,res:Response)=>{
     try{
         const value=await count.find();
@@ -166,7 +148,6 @@ async function generateQr(name: string, employeeid: number): Promise<string> {
     return qrcodedata;
 }
 
-
 app.get("/qr",async (req:Request,res:Response)=>{
     try{
         const name=req.query.name as string;
@@ -184,6 +165,28 @@ app.get("/qr",async (req:Request,res:Response)=>{
 })
 
 
+// async function check() {
+
+//     cloudinary.config({
+//         cloud_name:process.env.CLOUD_NAME,
+//         api_key: process.env.API_KEY,
+//         api_secret:process.env.API_SECRET
+//     })
+//      const uploadResult = await cloudinary.uploader
+//        .upload(
+//            'https://res.cloudinary.com/demo/image/upload/getting-started/shoes.jpg', {
+//                public_id: 'shoes',
+//            }
+//        )
+//        .catch((error) => {
+//            console.log(error);
+//        });
+    
+//     console.log(uploadResult);
+// }
+// check();
+    
+    
 
 
 

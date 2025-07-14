@@ -2,13 +2,13 @@ import mongoose,{Document,Schema} from "mongoose";
 
 export interface Ecounter extends Document{
     employeid:number,
-    retreivevar:string
+    name:string
 }
 
-const counterSchema=new mongoose.Schema(
+const counterSchema=new Schema<Ecounter>(
     {
         employeid:{type:Number,required:true},
-        retreivevar:{type:String,required:true}
+        name:{type:String,required:true}
     }
 )
 
