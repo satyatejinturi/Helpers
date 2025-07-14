@@ -37,7 +37,6 @@ async function getfileurl(localpath:string , folder:string
 
 export const postHelper = async (req:Request,res:Response)=>{
     const employeeid=await getempid();
-    console.log(employeeid);
     const {
         typeOfService,
         organizationName,
@@ -113,18 +112,32 @@ export const getHelper = async (req:Request,res:Response)=>{
 
 export const getHelperbySearch = async (req: Request, res: Response) => {
     try {
-        const query = req.query.query || req.params.query;
-        if (!query || typeof query !== 'string') {
-            return res.status(500).json("invalid search query");
+        const query = req.query.query;
+
+        if (typeof query !== 'string' || !query.trim()) {
+            return res.status(400).json("invalid search query");
         }
+
+        const is_num = /^\d+$/.test(query);
         const searchQuery = new RegExp(query, "i");
-        const user =await User.findOne({
-            $or: [
-                { fullName: searchQuery },
-                { phno: searchQuery },
-                
+
+        const searchcommand:any[]=[
+            { fullName : {$regex : searchQuery}},
+            { phno : {$regex : searchQuery}},   
+        ]
+        if(is_num){
+            searchcommand.push({employeeid : Number(query)})
+        }
+
+        const user =await User.aggregate(
+            [
+                { $match :{
+                        $or : searchcommand
+                    }
+                }
             ]
-        })
+        )
+        res.status(200).json(user);
     }
     catch(error){
         console.log(error);

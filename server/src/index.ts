@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const app:Application=express();
 import helperRoute from "./routes/helperRoute"
-
+import modifyRoute from "./routes/modifyRoute"
 app.use(express.json());
 
 app.get("/",(req:Request,res:Response)=>{
@@ -13,39 +13,7 @@ app.get("/",(req:Request,res:Response)=>{
 })
 
 app.use("/api",helperRoute);
-
-app.post("/data",async (req : Request,res : Response)=>{
-    try{
-        const user=new User(req.body);
-        await user.save();
-        console.log("user posted");
-        res.status(201).json("posted");
-    }
-    catch(error){
-        console.log(error);
-        res.status(500).json("internal server error");
-    }
-})
-
-app.get("/data/:name",async (req:Request,res:Response)=>{
-    try{
-        const {name}=req.params;
-        const data=await User.find({name : {
-            $regex:name,
-            $options:"i"
-        }});
-        if(data.length==0){
-            res.status(404).json({message: "no data"});
-            return;
-        }
-        res.status(200).json(data);
-    }
-    catch(error){
-        console.log(error);
-        res.status(500).json("internal server error");
-    }
-})
-
+app.use("/api",modifyRoute);
 app.delete("/delete/:name",async (req:Request,res:Response)=>{
     try{
         const {name}=req.params;
