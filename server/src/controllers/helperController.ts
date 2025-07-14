@@ -5,13 +5,11 @@ import count, { Ecounter } from "../models/Employeeid";
 import { error, profile, timeStamp } from "console";
 import cloudinary from "../utils/cloudinary"
 import { Query } from "mongoose";
+import fs from "fs";
 
 async function generateQr(name: string, employeeid: number | undefined): Promise<string> {
-    
     const dataforqr = `Name : ${name}, Number : ${employeeid}`;
-
     const qrcodedata = await QRCode.toDataURL(dataforqr);
-    console.log(qrcodedata);
     return qrcodedata;
 }
 
@@ -66,7 +64,14 @@ export const postHelper = async (req:Request,res:Response)=>{
 
     const profilePhotourl= profilePhoto ? await getfileurl(profilePhoto.path,"profile") : "";
     const kycDocUrl=kycDoc? await getfileurl(kycDoc.path,"Kyc") : "";
-    const additionalDocUrl = additionalDoc ? await getfileurl(additionalDoc.path,"AdditionalDoc") : ""
+    const additionalDocUrl = additionalDoc ? await getfileurl(additionalDoc.path,"AdditionalDoc") : "";
+    
+    for(const i in files){
+        const file=files[i][0];
+        fs.unlink(file.path,(error)=>{
+            if(error) console.log(`error deleting file ${i}`,error);
+        })
+    }
     
     const newhelper = new User({
         employeeid,
@@ -90,17 +95,14 @@ export const postHelper = async (req:Request,res:Response)=>{
     res.status(200).json({employeeid, profilePhotourl,organizationName,phno,timeStamp,typeOfService,qrcodeUrl});
 }
 
-
 export const getHelper = async (req:Request,res:Response)=>{
     try{
         const data=await User.find();
         console.log(data);
-
         if(data.length==0){
             res.send("no data");
             return;
         }
-        //const sent=Json.parse(data);
         res.json(data);
     }
     catch(error){
