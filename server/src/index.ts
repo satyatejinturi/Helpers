@@ -14,22 +14,6 @@ app.get("/",(req:Request,res:Response)=>{
 
 app.use("/api",helperRoute);
 app.use("/api",modifyRoute);
-app.delete("/delete/:name",async (req:Request,res:Response)=>{
-    try{
-        const {name}=req.params;
-        const count=await User.deleteOne({name:name});
-        if(count.deletedCount==0){
-            res.status(404).json({message:"no user deleted"});
-            return;
-        }
-        console.log(`user with ${name } deleted`);
-        res.status(200).json(count);
-    }
-    catch(error){
-        console.log(error);
-        res.status(500).json("internal server error");
-    }
-})
 
 app.put("/edit/:name",async(req:Request,res:Response)=>{
     try{

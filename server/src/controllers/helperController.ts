@@ -71,27 +71,33 @@ export const postHelper = async (req:Request,res:Response)=>{
             if(error) console.log(`error deleting file ${i}`,error);
         })
     }
-    
-    const newhelper = new User({
-        employeeid,
-        profilePhotourl,
-        typeOfService,
-        organizationName,
-        fullName,
-        languages: Array.isArray(languages) ? languages : [languages],
-        gender,
-        phno,
-        email,
-        vehicleType,
-        vehicleNo,
-        kycDocType,
-        kycDocUrl,
-        additionalDocType,
-        additionalDocUrl,
-        qrcodeUrl 
-    })
-    await newhelper.save();
-    res.status(200).json({employeeid, profilePhotourl,organizationName,phno,timeStamp,typeOfService,qrcodeUrl});
+    try{
+            
+        const newhelper = new User({
+            employeeid,
+            profilePhotourl,
+            typeOfService,
+            organizationName,
+            fullName,
+            languages: Array.isArray(languages) ? languages : [languages],
+            gender,
+            phno,
+            email,
+            vehicleType,
+            vehicleNo,
+            kycDocType,
+            kycDocUrl,
+            additionalDocType,
+            additionalDocUrl,
+            qrcodeUrl 
+        })
+        await newhelper.save();
+        res.status(200).json({employeeid, profilePhotourl,organizationName,phno,timeStamp,typeOfService,qrcodeUrl});
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json("internal server error");
+    }
 }
 
 export const getHelper = async (req:Request,res:Response)=>{
