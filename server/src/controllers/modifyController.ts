@@ -1,23 +1,24 @@
-import { Application, Request,Response } from "express";
+import { Request,Response } from "express";
 import User from "../models/User";
 import cloudinary from "../utils/cloudinary";
-import { profile } from "console";
 import fs from "fs";
-export const deletehelper =async (req:Request,res:Response)=>{
-    try{
-        const employee_id=req.query.id;
-        const result=await User.deleteOne({employeeid : employee_id});
-        if( result.deletedCount==0){
-            res.status(400).json(`no employee with ${employee_id}`);
-        }
-        res.status(200).json(`employee with ${employee_id} deleted`);
-    }
-    catch(error){
-        console.log(error);
-        res.status(400).json({message : error});
-    }
+import count, { Ecounter } from "../models/Employeeid";
+import  QRCode  from "qrcode";
+
+async function generateQr(name: string, employeeid: number | undefined): Promise<string> {
+    const dataforqr = `Name : ${name}, Number : ${employeeid}`;
+    const qrcodedata = await QRCode.toDataURL(dataforqr);
+    return qrcodedata;
 }
 
+async function getempid(){
+    const result : Ecounter | null=await count.findOneAndUpdate({'name':"employee"},{$inc : {employeid : 1}},{new:true});
+    if(!result){
+        console.log("no result");
+        return;
+    }
+    return result.employeid;
+}
 
 async function getfileurl(localpath:string , folder:string
 ):Promise<string> {
@@ -31,6 +32,72 @@ async function getfileurl(localpath:string , folder:string
         return "";
     }
 }
+
+export const postHelper = async (req:Request,res:Response)=>{
+    const employeeid=await getempid();
+    const {
+        typeOfService,
+        organizationName,
+        fullName,
+        languages,
+        gender,
+        phno,
+        email,
+        vehicleType,
+        vehicleNo,
+        kycDocType,
+        additionalDocType
+    }=req.body;
+
+    const qrcode=await generateQr(fullName,employeeid);
+    const qrcodeUrl=qrcode
+    const files=req.files as {
+        [filename:string]: Express.Multer.File[];
+    }
+
+    const profilePhoto=files["profile"]?.[0];
+    const kycDoc=files["Kyc"]?.[0];
+    const additionalDoc=files["AdditionalDoc"]?.[0];
+
+    const profilePhotourl= profilePhoto ? await getfileurl(profilePhoto.path,"profile") : "";
+    const kycDocUrl=kycDoc? await getfileurl(kycDoc.path,"Kyc") : "";
+    const additionalDocUrl = additionalDoc ? await getfileurl(additionalDoc.path,"AdditionalDoc") : "";
+    
+    for(const i in files){
+        const file=files[i][0];
+        fs.unlink(file.path,(error)=>{
+            if(error) console.log(`error deleting file ${i}`,error);
+        })
+    }
+    try{
+            
+        const newhelper = new User({
+            employeeid,
+            profilePhotourl,
+            typeOfService,
+            organizationName,
+            fullName,
+            languages: Array.isArray(languages) ? languages : [languages],
+            gender,
+            phno,
+            email,
+            vehicleType,
+            vehicleNo,
+            kycDocType,
+            kycDocUrl,
+            additionalDocType,
+            additionalDocUrl,
+            qrcodeUrl 
+        })
+        await newhelper.save();
+        res.status(200).json(newhelper);
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json("internal server error");
+    }
+}
+
 
 export const edithelper = async (req:Request,res:Response)=>{
     try{
@@ -80,7 +147,6 @@ export const edithelper = async (req:Request,res:Response)=>{
         for(const i in files){
             const file=files[i][0];
             fs.unlink(file.path,(error)=>{
-                console.log(file.path,error);
                 if(error) console.log(`error deleting file ${i}`,error);
             })
         }
