@@ -5,8 +5,10 @@ dotenv.config();
 const app:Application=express();
 import helperRoute from "./routes/helperRoute"
 import modifyRoute from "./routes/modifyRoute"
-app.use(express.json());
+import cors from "cors"
 
+app.use(express.json());
+app.use(cors())
 app.get("/",(req:Request,res:Response)=>{
     res.send("Server connected")
 })

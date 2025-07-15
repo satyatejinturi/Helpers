@@ -1,9 +1,5 @@
-import {Application,Request,Response} from "express";
+import {Request,Response} from "express";
 import User from "../models/User";
-import  QRCode  from "qrcode";
-import count, { Ecounter } from "../models/Employeeid";
-import cloudinary from "../utils/cloudinary"
-import fs from "fs";
 
 export const getHelper = async (req:Request,res:Response)=>{
     try{
