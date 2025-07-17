@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InputTextTagComponent } from './input-text-tag.component';
+import { HelperDataComponent } from './helper-data.component';
 
-describe('InputTextTagComponent', () => {
-  let component: InputTextTagComponent;
-  let fixture: ComponentFixture<InputTextTagComponent>;
+describe('HelperDataComponent', () => {
+  let component: HelperDataComponent;
+  let fixture: ComponentFixture<HelperDataComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InputTextTagComponent]
+      imports: [HelperDataComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(InputTextTagComponent);
+    fixture = TestBed.createComponent(HelperDataComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

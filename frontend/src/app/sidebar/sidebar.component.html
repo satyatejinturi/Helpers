@@ -1,31 +1,12 @@
-<!-- 
-<div *ngIf="getdata; else loading">
-  <h2>Custom Temp Data Display</h2> -->
-  <!-- <pre>{{ getdata | json }}</pre> -->
-    <!-- <h2>{{getdata.length}}</h2>
-  <ul *ngIf="getdata.length">
+<div class="">
+  <div *ngFor="let item of allhelper; let i=index" >
     
-    <li *ngFor="let item of getdata">
-      <h2>{{ item.employeeid }}</h2> :: -->
-      <!-- <img [src]="item.qrcodeUrl" alt="not">
-       -->
-    <!-- </li>
-  </ul>
-</div>
-<ng-template #loading>
-  <p>Loading data...</p>
-</ng-template> -->
-
-<div class=" w-100 h-200 bg-blue-50 rounded-4xl ml-5.5">
-    <div *ngFor = "let item of getdata" >
-        <div class="w-20 h-20 ml-2.5 flex">
-            <app-profile-photo [userName]="item.fullName" [profilephotourl]="item.profilePhotourl"></app-profile-photo>
-            <div>
-            <h1>{{item.fullName}}</h1>
-            <p>{{item.typeOfService}}</p></div>
-        </div>
-        
+    <div [style.background]="i===curind ? '#f0f0f0' : '' " (click)="selectuser(item,i)" class="cursor-pointer flex p-5">
+      <app-profile-photo [userName]="item.fullName" [profilephotourl]="item.profilePhotourl" class="mr-5"></app-profile-photo>
+      <div>
+        <h2 class="text-2xl">{{item.fullName}}</h2>
+        <p>{{item.typeOfService}}</p>
+      </div>
     </div>
+  </div>
 </div>
-
-

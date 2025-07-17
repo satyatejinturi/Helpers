@@ -1,6 +1,12 @@
 <p class=" font-semibold ">Helpers</p>
 <hr class=" slate-500 w-screen ml-50">
-
-  <app-sidebar></app-sidebar>
-
+<div class="flex">
+  <div class="bg-amber-100 p-1 ">
+    <app-sidebar [allhelper]="allhelper" (selectedhelper)="handleselect($event)">
+      <hr>
+    </app-sidebar>
+  </div>
   
+  <app-helper-data [helper]="selectedhelper">
+  </app-helper-data>
+</div>

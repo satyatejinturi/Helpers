@@ -1,0 +1,10 @@
+<h2>{{helper.employeeid}}</h2>
+<h2>{{helper.phno}}</h2>
+<h2>{{helper.email}}</h2>
+
+<button (click)="ondeletehelper(helper.employeeid)">Delete helper {{helper.fullName}}</button>
+<button (click)="onGetData()" class="bg-blue">GetData</button>
+
+<div *ngFor="let user of Alldata">
+  <p class="font-semibold">{{user.fullName}}</p>
+</div>
