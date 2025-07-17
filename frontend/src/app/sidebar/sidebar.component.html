@@ -1,12 +1,19 @@
-<div class="">
-  <div *ngFor="let item of allhelper; let i=index" >
+<!-- sidebar.component.html -->
+<div class="w-64 bg-gray-50 border-r border-gray-200 h-screen overflow-auto">
+  <div *ngFor="let item of allhelper; let i = index" 
+       (click)="selectuser(item, i)" 
+       [class.bg-blue-100]="i === curind" 
+       class="cursor-pointer flex items-center p-3 hover:bg-blue-200 transition-colors">
+       
+    <app-profile-photo 
+      [userName]="item.fullName" 
+      [profilephotourl]="item.profilePhotourl" 
+      class="mr-3 rounded-full w-12 h-12 border border-gray-300">
+    </app-profile-photo>
     
-    <div [style.background]="i===curind ? '#f0f0f0' : '' " (click)="selectuser(item,i)" class="cursor-pointer flex p-5">
-      <app-profile-photo [userName]="item.fullName" [profilephotourl]="item.profilePhotourl" class="mr-5"></app-profile-photo>
-      <div>
-        <h2 class="text-2xl">{{item.fullName}}</h2>
-        <p>{{item.typeOfService}}</p>
-      </div>
+    <div>
+      <h3 class="font-semibold text-gray-800">{{ item.fullName }}</h3>
+      <p class="text-xs text-gray-500">{{ item.typeOfService }}</p>
     </div>
   </div>
 </div>
