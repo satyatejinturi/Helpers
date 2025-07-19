@@ -1,4 +1,5 @@
 /* app.component.css */
+
 :host {
   display: flex;
   min-height: 100vh;

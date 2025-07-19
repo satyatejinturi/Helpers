@@ -10,12 +10,5 @@ import { ProfilePhotoComponent } from '../profile-photo/profile-photo.component'
   styleUrl: './helper-card.component.css'
 })
 export class HelperCardComponent {
-    @Input() qrcodeurl:string="";
-    @Input() username:string="";
-    @Input() employee_id:string="";
-    @Input() typeofservice:string="";
-    @Input() orgName:string="";
-    @Input() phonenumber:string="";
-    @Input() profilephotourl:string="";
-    @Input() joineddate:string="";
+    @Input() helper:any;
   }

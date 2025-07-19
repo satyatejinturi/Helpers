@@ -1,12 +1,13 @@
 // helper-data.component.ts
 import { Component, Input, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HelperServiceService } from '../shared/helper-service.service';
+import { HelperServiceService } from '../../shared/helper-service.service';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-helper-data',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,RouterModule],
   templateUrl: './helper-data.component.html',
   styleUrls: ['./helper-data.component.css']
 })

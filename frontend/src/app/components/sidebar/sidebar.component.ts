@@ -1,8 +1,8 @@
 
 import { CommonModule } from '@angular/common';
 
-import { ProfilePhotoComponent } from '../shared/profile-photo/profile-photo.component';
-import { HelperCardComponent } from '../shared/helper-card/helper-card.component';
+import { ProfilePhotoComponent } from '../helper/profile-photo/profile-photo.component';
+import { HelperCardComponent } from '../helper/helper-card/helper-card.component';
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
