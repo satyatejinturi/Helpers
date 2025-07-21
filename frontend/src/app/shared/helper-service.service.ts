@@ -12,12 +12,14 @@ export class HelperServiceService {
   constructor(private http:HttpClient) { }
   private users=signal<any[]>([]);
   readonly helper=computed(()=> this.users());
-
+  readonly noofhelpers = computed(() => this.users().length);
   getData()
   {
     this.http.get<any[]>(`${this.url}/allhelpers`).subscribe(helper=>{
       this.users.set(helper);
+      
     });
+
   }
   deletehelper(id:number){
     return this.http.delete(`${this.url}/delete?id=${id}`).subscribe(()=>{

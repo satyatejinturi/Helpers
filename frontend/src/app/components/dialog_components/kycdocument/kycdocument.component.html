@@ -1,0 +1,31 @@
+<mat-dialog-content class="dialog-content">
+  <div class="header flex justify-around" >
+    <h2>Upload KYC Documents</h2>
+    <button  (click)="cancel()" class="close-btn" aria-label="Close">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="form-section">
+    <h3>Select Document Type</h3>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Document Type</mat-label>
+      <input matInput [(ngModel)]="Kycdoctype" placeholder="e.g., Aadhar, PAN">
+    </mat-form-field>
+
+    <p>Please ensure both sides of the document are uploaded</p>
+    
+    <div class="file-input-wrapper">
+  <label for="fileUpload" class="file-label">Upload Document</label>
+  <input type="file" id="fileUpload" (change)="onFileChange($event)" />
+</div>
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="submit()">Submit</button>
+</mat-dialog-actions>
