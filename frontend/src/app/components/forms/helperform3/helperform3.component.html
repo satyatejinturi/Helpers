@@ -1,9 +1,9 @@
 <div class=" mx-auto bg-white rounded-xl shadow p-6 w-[1100px]">
   <div class="flex items-center space-x-4">
-    <app-profile-photo [userName]="helper.name"></app-profile-photo>
+    <app-profile-photo [userName]="helper.fullName" ></app-profile-photo>
     <div>
-      <h2 class="text-xl font-semibold text-gray-800">{{ helper.name }}</h2>
-      <p class="text-sm text-gray-500">{{ helper.role }}</p>
+      <h2 class="text-xl font-semibold text-gray-800">{{ helper.fullName }}</h2>
+      <p class="text-sm text-gray-500">{{ helper.typeOfService }}</p>
     </div>
   </div>
 
@@ -43,10 +43,10 @@
       <div>{{ helper.serviceType }}</div>
 
       <div class="font-medium">Organization</div>
-      <div>{{ helper.organization }}</div>
+      <div>{{ helper.organizationName }}</div>
 
       <div class="font-medium">Joined On</div>
-      <div>{{ helper.joinedOn }}</div>
+      <div>{{ helper.createdAt }}</div>
     </div>
   </div>
 </div>

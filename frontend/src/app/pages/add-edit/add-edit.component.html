@@ -1,12 +1,20 @@
+<div class="flex items-center gap-3 px-6 pt-6 pb-4 bg-white min-w-screen">
+  <button (click)="goback()" class="flex items-center p-1 gap-1">
+    <i class="ph ph-caret-left"></i>
+    <span>Add Helper</span>
+  </button>
+</div>
+
 <div class="flex min-h-screen">
   <app-step-slider
     [currentStep]="presentstep()"
     class="w-64 bg-gray-100 p-4">
   </app-step-slider>
+
   <div class="flex-1 p-6">
     <app-helperform1 *ngIf="presentstep() === 1"></app-helperform1>
     <app-helperform2 *ngIf="presentstep() === 2"></app-helperform2>
-    <app-helperform3 *ngIf="presentstep() === 3" [helper]="mockHelper"></app-helperform3>
+    <app-helperform3 *ngIf="presentstep() === 3" ></app-helperform3>
 
     <div class="flex justify-end mt-6 gap-4">
       <button
@@ -16,6 +24,7 @@
       >
         Previous
       </button>
+
       <button
         *ngIf="presentstep() < 3"
         (click)="goto(presentstep() + 1)"
@@ -23,8 +32,10 @@
       >
         Next
       </button>
+
       <button
         *ngIf="presentstep() === 3"
+        (click)="submitHelper()"
         class="bg-indigo-500 text-white rounded-md px-6 py-2"
       >
         Add Helper

@@ -27,20 +27,30 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 export class KycdocumentComponent {
   name:string=""
-  @Output() Kycdoctype=new EventEmitter<any>();
-  @Output() Kycdoc=new EventEmitter<any>();
+  Kycdoctype=new EventEmitter<any>();
+  Kycdoc=new EventEmitter<any>();
   constructor(private dialogRef: MatDialogRef<KycdocumentComponent>) {}
-  submit(){
-    this.dialogRef.close()
+  submit() {
+    if (this.uploadedFile && this.name.trim()) {
+      this.dialogRef.close({
+        kyc: this.uploadedFile,
+        kycDocType: this.name.trim()
+      });
+    } else {
+      alert('Please provide both document type and file');
+    }
   }
   cancel(){
     this.dialogRef.close();
   }
+  uploadedFile: File | null = null;
+
   onFileChange(event: Event): void {
-  const input = event.target as HTMLInputElement;
-  if (input.files && input.files.length > 0) {
-    const file = input.files[0];
-    console.log('Selected file:', file);
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.uploadedFile = input.files[0];
+      console.log('Selected file:', this.uploadedFile);
+    }
   }
-}
+
 }

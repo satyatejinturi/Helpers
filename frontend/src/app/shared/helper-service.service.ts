@@ -31,4 +31,24 @@ export class HelperServiceService {
   searchhelper(searchterm:string){
     return this.http.get(`${this.url}/search?query=${searchterm}`)
   }
+    
+  private form1Data = signal<any>(null);
+  private form2Data = signal<any>(null);
+
+  setForm1Data(data: any) {
+    this.form1Data.set(data);
+  }
+
+  setForm2Data(data: any) {
+    this.form2Data.set(data);
+  }
+
+  getForm1Data(): any {
+    return this.form1Data();
+  }
+
+  getForm2Data(): any {
+    return this.form2Data();
+  }
+
 }

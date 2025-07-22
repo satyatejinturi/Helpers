@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 export class ProfilePhotoComponent {
   @Input() userName:String="";
   @Input() profilephotourl:string ="";
+  @Input() width:string="12";
+  @Input() height:string='12';
   get profile():string{
     if(!this.userName) return "";
     const parts=this.userName[0]+this.userName[1];

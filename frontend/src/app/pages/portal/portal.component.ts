@@ -17,6 +17,7 @@
     allhelper=this.helperservice.helper;
     selectedhelper:any=null;
     searchterm:string="";
+    displaysortpopup:boolean=false;
     nofhelpers = this.helperservice.noofhelpers;
     constructor(public helperservice:HelperServiceService,public router:Router){}
     ngOnInit(): void {
@@ -29,5 +30,15 @@
     onclick(){
       this.router.navigate(['/add-edit-helper']);
       console.log("buton clicked");
+    }
+    sortpopup() {
+      this.displaysortpopup = !this.displaysortpopup;
+    }
+    onsortbyid(){
+    
+      this.allhelper().sort((a,b)=> a.employeeid - b.employeeid);
+    }
+    onsortbyname(){
+      this.allhelper().sort((a,b)=> a.fullName.localeCompare(b.fullName));
     }
   }

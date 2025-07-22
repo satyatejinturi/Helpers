@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { KycdocumentComponent } from '../../dialog_components/kycdocument/kycdocument.component';
 import { RouterOutlet } from '@angular/router';
 import {MatDialog} from '@angular/material/dialog'
+import { HelperServiceService } from '../../../shared/helper-service.service';
+
 @Component({
   selector: 'app-helperform1',
   standalone: true,
@@ -12,21 +14,39 @@ import {MatDialog} from '@angular/material/dialog'
   imports: [CommonModule, FormsModule,KycdocumentComponent]
 })
 export class Helperform1Component implements OnInit {
-  constructor(private dialog: MatDialog) {}
-  onClick()
-  {
-    this.dialog.open(KycdocumentComponent)
+  constructor(private dialog: MatDialog, private helperService: HelperServiceService) {}
+  onSaveForm1() {
+    const formData = {
+      ...this.helper,
+      languages: this.selectedLanguages
+    };
+    this.helperService.setForm1Data(formData);
   }
+  onClick() {
+  const dialogRef = this.dialog.open(KycdocumentComponent);
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.helper.Kyc = result.kyc;
+      this.helper.kycDocType = result.kycDocType;
+
+      console.log('KYC data received:', result);
+    }
+  });
+}
+
   helper = {
-    serviceType: '',
-    orgName: '',
+    typeOfService: '',
+    organizationName: '',
     fullName: '',
     gender: '',
-    countryCode: '+91',
-    phone: '',
+    countryCode:'+91',
+    phno: '',
     email: '',
     vehicleType: 'none',
-    vehicleNumber: ''
+    vehicleNo: '',
+    Kyc: null as File | null,
+    kycDocType: ''
   };
 
   languages = ['English', 'Hindi', 'Telugu', 'Tamil'];

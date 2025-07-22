@@ -1,1 +1,38 @@
-<p>additionalcomponent works!</p>
+<mat-dialog-content class="dialog-content p-6">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-semibold">Upload Additional Document</h2>
+    <button (click)="cancel()" class="focus:outline-none">
+      <i class="ph ph-x text-2xl"></i>
+    </button>
+  </div>
+
+  <mat-divider class="mb-6"></mat-divider>
+
+  <div class="form-section space-y-6">
+    <div>
+      <label class="block text-sm font-medium mb-1">Select Document Type</label>
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Document Type</mat-label>
+        <input matInput [(ngModel)]="name" placeholder="e.g., Offer Letter, Resume" />
+      </mat-form-field>
+    </div>
+
+    <p class="text-sm text-gray-600">Please ensure both sides of the document are uploaded.</p>
+
+    <div class="border-2 border-dashed border-indigo-300 bg-indigo-50 hover:bg-indigo-100 p-6 rounded-md text-center cursor-pointer transition" (click)="fileInput.click()">
+      <div class="flex flex-col items-center space-y-2">
+        <i class="ph ph-cloud-arrow-up text-4xl text-indigo-600"></i>
+        <p>
+          <span class="text-indigo-600 font-medium">Click to upload</span>
+          or drag and drop
+        </p>
+      </div>
+      <input #fileInput type="file" class="hidden" (change)="onFileChange($event)" />
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="p-4">
+  <button mat-stroked-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="submit()">Save</button>
+</mat-dialog-actions>

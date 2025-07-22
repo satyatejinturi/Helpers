@@ -1,31 +1,38 @@
-<mat-dialog-content class="dialog-content">
-  <div class="header flex justify-around" >
-    <h2>Upload KYC Documents</h2>
-    <button  (click)="cancel()" class="close-btn" aria-label="Close">
-      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
+<mat-dialog-content class="dialog-content p-6">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-semibold">Upload KYC Documents</h2>
+    <button (click)="cancel()" class="focus:outline-none">
+      <i class="ph ph-x text-2xl"></i>
     </button>
   </div>
 
-  <mat-divider></mat-divider>
+  <mat-divider class="mb-6"></mat-divider>
 
-  <div class="form-section">
-    <h3>Select Document Type</h3>
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Document Type</mat-label>
-      <input matInput [(ngModel)]="Kycdoctype" placeholder="e.g., Aadhar, PAN">
-    </mat-form-field>
+  <div class="form-section space-y-6">
+    <div>
+      <label class="block text-sm font-medium mb-1">Select Document Type</label>
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Document Type</mat-label>
+        <input matInput [(ngModel)]="name" placeholder="e.g., Aadhar, PAN" />
+      </mat-form-field>
+    </div>
 
-    <p>Please ensure both sides of the document are uploaded</p>
-    
-    <div class="file-input-wrapper">
-  <label for="fileUpload" class="file-label">Upload Document</label>
-  <input type="file" id="fileUpload" (change)="onFileChange($event)" />
-</div>
+    <p class="text-sm text-gray-600">Please ensure both sides of the document are uploaded.</p>
 
+    <div class="border-2 border-dashed border-indigo-300 bg-indigo-50 hover:bg-indigo-100 p-6 rounded-md text-center cursor-pointer transition" (click)="fileInput.click()">
+      <div class="flex flex-col items-center space-y-2">
+        <i class="ph ph-cloud-arrow-up text-4xl text-indigo-600"></i>
+        <p>
+          <span class="text-indigo-600 font-medium">Click to upload</span>
+          or drag and drop
+        </p>
+      </div>
+      <input #fileInput type="file" class="hidden" (change)="onFileChange($event)" />
+    </div>
   </div>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-raised-button color="primary" (click)="submit()">Submit</button>
+<mat-dialog-actions align="end" class="p-4">
+  <button mat-stroked-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="submit()">Save</button>
 </mat-dialog-actions>
