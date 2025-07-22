@@ -1,6 +1,4 @@
 <div class="w-full max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8 space-y-8">
-
-  <!-- Header: Profile and Actions -->
   <div class="flex items-start justify-between">
     <div class="flex items-center space-x-6">
       <app-profile-photo 
@@ -26,21 +24,19 @@
     </div>
   </div>
 
-  <!-- Details Section -->
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-sm text-gray-800">
     <div class="space-y-6">
 
-      <!-- EMPLOYEE ID -->
       <div>
         <div class="flex items-center mb-2">
           <h3 class="font-semibold text-gray-600 mr-4 whitespace-nowrap">EMPLOYEE ID</h3>
-          <div class="flex-grow border-t border-gray-200"></div>
+          <div class="flex-grow border-t border-gray-200 min-w-lvh"></div>
         </div>
 
         <div class="space-y-1">
           <div class="flex justify-between text-gray-500">
             <span>Identification Card:</span>
-            <a [href]="helper.idCardUrl" target="_blank" class="flex items-center gap-1 text-indigo-600 hover:underline">
+            <a [href]="helper.idCardUrl" target="_blank" class="flex items-start gap-1 text-indigo-600 hover:underline">
               <i class="ph ph-eye"></i> View
             </a>
           </div>
@@ -55,7 +51,7 @@
       <div>
         <div class="flex items-center mb-2">
           <h3 class="font-semibold text-gray-600 mr-4 whitespace-nowrap">PERSONAL DETAILS</h3>
-          <div class="flex-grow border-t border-gray-200"></div>
+          <div class="flex-grow border-t border-gray-200 min-w-177"></div>
         </div>
 
         <div class="space-y-1 text-gray-500">
@@ -76,7 +72,7 @@
       <div>
         <div class="flex items-center mb-2">
           <h3 class="font-semibold text-gray-600 mr-4 whitespace-nowrap">SERVICE DETAILS</h3>
-          <div class="flex-grow border-t border-gray-200"></div>
+          <div class="flex-grow border-t border-gray-200 min-w-181"></div>
         </div>
 
         <div class="space-y-1 text-gray-500">

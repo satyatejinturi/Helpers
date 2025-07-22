@@ -48,7 +48,7 @@ export const postHelper = async (req:Request,res:Response)=>{
         kycDocType,
         additionalDocType
     }=req.body;
-
+    console.log(req.body)
     const qrcode=await generateQr(fullName,employeeid);
     const qrcodeUrl=qrcode
     const files=req.files as {
@@ -89,6 +89,7 @@ export const postHelper = async (req:Request,res:Response)=>{
             additionalDocUrl,
             qrcodeUrl 
         })
+        console.log(newhelper);
         await newhelper.save();
         res.status(200).json(newhelper);
     }

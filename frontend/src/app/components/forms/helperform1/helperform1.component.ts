@@ -34,20 +34,21 @@ export class Helperform1Component implements OnInit {
     }
   });
 }
-
-  helper = {
-    typeOfService: '',
-    organizationName: '',
-    fullName: '',
-    gender: '',
-    countryCode:'+91',
-    phno: '',
-    email: '',
-    vehicleType: 'none',
-    vehicleNo: '',
-    Kyc: null as File | null,
-    kycDocType: ''
-  };
+helper = {
+  typeOfService: '',
+  organizationName: '',
+  fullName: '',
+  gender: '',
+  countryCode: '+91',
+  phno: '',
+  email: '',
+  vehicleType: 'none',
+  vehicleNo: '',
+  profile: null as File | null,
+  profilePhotoPreview: '', 
+  Kyc: null as File | null,
+  kycDocType: ''
+};
 
   languages = ['English', 'Hindi', 'Telugu', 'Tamil'];
   languageSelection: { [key: string]: boolean } = {};
@@ -91,11 +92,18 @@ export class Helperform1Component implements OnInit {
   }
 
   onPhotoUpload(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      console.log('Photo uploaded:', input.files[0]);
-    }
+  const input = event.target as HTMLInputElement;
+  if (input.files?.length) {
+    const file = input.files[0];
+    this.helper.profile = file;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.helper.profilePhotoPreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
   }
+}
 
   onKycUpload(event: Event) {
     const input = event.target as HTMLInputElement;

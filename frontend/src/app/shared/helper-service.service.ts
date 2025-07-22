@@ -10,14 +10,27 @@ export class HelperServiceService {
   allhelper:any[] = [];
   private url="http://localhost:3000/api"
   constructor(private http:HttpClient) { }
+
+
   private users=signal<any[]>([]);
   readonly helper=computed(()=> this.users());
   readonly noofhelpers = computed(() => this.users().length);
+
+  private form1Data = signal<any>(null);
+  private form2Data = signal<any>(null);
+
+  private searchusers=signal<any[]>([]);
+  readonly searchhelpers=computed(()=>this.searchusers());
+  readonly searchlength=computed(()=>this.searchusers().length);
+
+  private lasthelper=signal<any>(null);
+  readonly getlasthelper=computed(()=>this.lasthelper());
+  private showmsg=signal<boolean>(false);
+  readonly showsucess=computed(()=>this.showmsg())
   getData()
   {
     this.http.get<any[]>(`${this.url}/allhelpers`).subscribe(helper=>{
       this.users.set(helper);
-      
     });
 
   }
@@ -27,14 +40,12 @@ export class HelperServiceService {
       this.users.set(updatedhelper)
     });
   }
-
   searchhelper(searchterm:string){
-    return this.http.get(`${this.url}/search?query=${searchterm}`)
+    this.http.get<any[]>(`${this.url}/search?query=${searchterm}`).subscribe(helper=>{
+      this.searchusers.set(helper)
+    })
   }
     
-  private form1Data = signal<any>(null);
-  private form2Data = signal<any>(null);
-
   setForm1Data(data: any) {
     this.form1Data.set(data);
   }
@@ -51,4 +62,14 @@ export class HelperServiceService {
     return this.form2Data();
   }
 
+  postData(formdata:any){
+      this.http.post(`${this.url}/allHelpers`, formdata).subscribe(res => {
+        this.lasthelper.set(res);
+        this.showmsg.set(true);
+        console.log(res);
+        setTimeout(() => {
+          this.showmsg.set(false);
+        }, 2000);
+      });
+  }
 }

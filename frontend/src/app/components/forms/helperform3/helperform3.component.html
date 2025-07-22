@@ -1,6 +1,24 @@
-<div class=" mx-auto bg-white rounded-xl shadow p-6 w-[1100px]">
+
+<div *ngIf="showpopup"
+     class="fixed top-5 right-5 bg-indigo-600 text-white px-4 py-2 rounded flex items-center space-x-2 shadow-lg z-50">
+  <i class="ph ph-check-circle text-xl"></i>
+  <span>{{ helper.fullName }} added successfully</span>
+</div>
+
+<div *ngIf="showcard"
+     class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+  <div class="relative bg-white rounded-xl shadow-xl p-6 w-[600px] max-w-full">
+    <button (click)="closepopup()"
+            class="absolute top-2 right-2 text-gray-600 hover:text-red-500 text-xl font-bold">
+      ✕
+    </button>
+    <app-helper-card [helper]="helper"></app-helper-card>
+  </div>
+</div>
+
+<div *ngIf="!showpopup" class="mx-auto bg-white rounded-xl shadow p-6 w-[1100px]">
   <div class="flex items-center space-x-4">
-    <app-profile-photo [userName]="helper.fullName" ></app-profile-photo>
+    <app-profile-photo [userName]="helper.fullName"></app-profile-photo>
     <div>
       <h2 class="text-xl font-semibold text-gray-800">{{ helper.fullName }}</h2>
       <p class="text-sm text-gray-500">{{ helper.typeOfService }}</p>
@@ -35,7 +53,6 @@
     </div>
   </div>
 
-  <!-- Service Details -->
   <div class="mt-6 border-t pt-4">
     <h3 class="text-sm font-bold text-gray-600 mb-2">SERVICE DETAILS</h3>
     <div class="grid grid-cols-2 gap-y-2 text-sm text-gray-700">

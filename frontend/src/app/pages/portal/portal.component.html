@@ -32,7 +32,7 @@
     </span>
     <input
       type="text"
-      [(ngModel)]="searchterm"
+      (input)="onsearch($event)"
       placeholder="Name, Employee ID, Phone"
       class="pl-9 pr-3 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-sm placeholder:text-gray-400"
     />

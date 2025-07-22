@@ -1,9 +1,15 @@
-<div class="w-{{width}} h-{{height}} rounded-full bg-amber-200 white font-bold flex justify-center align-center overflow-hidden text-2xl uppercase">
-    <img *ngIf="profilephotourl ; else initials" [src]="profilephotourl" alt="profile" class="w-full h-full object-cover">
-    <ng-template #initials>
-        <div class="flex items-center justify-center w-full h-full">
-            
-            {{profile}}
-        </div>
-    </ng-template>
+<div
+  [ngClass]="sizeClasses + ' rounded-full bg-amber-200 text-white font-bold flex justify-center items-center overflow-hidden text-2xl uppercase'"
+>
+  <img
+    *ngIf="profilephotourl; else initials"
+    [src]="profilephotourl"
+    alt="profile"
+    class="w-full h-full object-cover"
+  />
+  <ng-template #initials>
+    <div class="flex items-center justify-center w-full h-full">
+      {{ profile }}
+    </div>
+  </ng-template>
 </div>

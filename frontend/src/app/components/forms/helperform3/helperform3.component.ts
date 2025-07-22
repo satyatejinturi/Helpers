@@ -5,17 +5,22 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { HelperServiceService } from '../../../shared/helper-service.service';
 import { HttpClient } from '@angular/common/http';
-
+import { Router } from '@angular/router';
+import { HelperCardComponent } from '../../helper-components/helper-card/helper-card.component';
 @Component({
   selector: 'app-helperform3',
   standalone: true,
-  imports: [ProfilePhotoComponent,CommonModule],
+  imports: [ProfilePhotoComponent,CommonModule,HelperCardComponent],
   templateUrl: './helperform3.component.html',
   styleUrl: './helperform3.component.css'
 })
 export class Helperform3Component implements OnInit {
   helper:any;
-  constructor(private helperService: HelperServiceService, private http: HttpClient) {}
+  constructor(private helperService: HelperServiceService, private http: HttpClient,private router:Router) {}
+  showcard:boolean=false
+  get showpopup(): boolean {
+    return this.helperService.showsucess();
+  }
 
   ngOnInit() {
     const data1 = this.helperService.getForm1Data();
@@ -44,9 +49,14 @@ export class Helperform3Component implements OnInit {
         formData.append('additionalDocs', file);
       });
     }
-
-    this.http.post('http://localhost:3000/api/allHelpers', formData).subscribe(res => {
-      console.log('Posted successfully', res);
-    });
+    this.helperService.postData(formData);
+    setTimeout(() => {
+      this.helper=this.helperService.getlasthelper;
+      this.showcard=true;
+    }, 2500);
+  }
+  closepopup(){
+    this.showcard=false;
+    this.router.navigate(['/']);
   }
 }

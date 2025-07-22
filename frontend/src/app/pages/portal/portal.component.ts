@@ -16,13 +16,14 @@
   export class PortalComponent implements OnInit{
     allhelper=this.helperservice.helper;
     selectedhelper:any=null;
-    searchterm:string="";
     displaysortpopup:boolean=false;
     nofhelpers = this.helperservice.noofhelpers;
     constructor(public helperservice:HelperServiceService,public router:Router){}
+
+    searchhelper=this.helperservice.searchhelpers;
+
     ngOnInit(): void {
       this.helperservice.getData();
-    
     }
     handleselect(helper: any) {
       this.selectedhelper = helper;
@@ -40,5 +41,10 @@
     }
     onsortbyname(){
       this.allhelper().sort((a,b)=> a.fullName.localeCompare(b.fullName));
+    }
+
+    onsearch(event : Event): void{
+      const searchterm=event.target as HTMLInputElement
+      this.helperservice.searchhelper(searchterm.value);
     }
   }
