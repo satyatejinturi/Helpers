@@ -1,0 +1,31 @@
+
+<h2 class="text-lg font-medium mb-4 text-gray-400 m-3">Filter by</h2>
+
+<app-checkbox-dropdown
+  [label]="'Type of Services'"
+  [options]="data.serviceTypes"
+  [selected]="selectedServiceTypes"
+  [displayLimit]="6"
+  [maxSelection]="data.serviceLimit"
+  (selectedChange)="selectedServiceTypes = $event"
+  class="m-2 p-2 ">
+</app-checkbox-dropdown>
+
+<app-checkbox-dropdown
+  [header]="'Organization'"
+  [label]="'Organization Names'"
+  [options]="data.organizations"
+  [selected]="selectedOrganizations"
+  [displayLimit]="6"
+  [maxSelection]="data.organizationLimit"
+  (selectedChange)="selectedOrganizations = $event"
+  class="m-2 p-2">
+</app-checkbox-dropdown>
+
+<div class="mt-6 flex justify-between gap-4">
+  <button mat-stroked-button color="warn" (click)="resetFilters()">Reset</button>
+  <div class="flex gap-4">
+    <button mat-button (click)="closeDialog()">Cancel</button>
+    <button mat-flat-button color="primary" (click)="applyFilters()">Apply</button>
+  </div>
+</div>

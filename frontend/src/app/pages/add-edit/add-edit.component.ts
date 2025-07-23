@@ -1,13 +1,14 @@
 import { Component, signal, ViewChild, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ProfilePhotoComponent } from '../../components/helper-components/profile-photo/profile-photo.component';
 import { FormsModule } from '@angular/forms';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { StepSliderComponent } from '../../components/aside-components/step-slider/step-slider.component';
 import { Helperform1Component } from '../../components/forms/helperform1/helperform1.component';
 import { Helperform2Component } from '../../components/forms/helperform2/helperform2.component';
 import { Helperform3Component } from '../../components/forms/helperform3/helperform3.component';
 import { RouterModule } from '@angular/router';
+import { HelperServiceService } from '../../shared/helper-service.service';
 
 @Component({
   selector: 'app-add-edit',
@@ -27,27 +28,26 @@ import { RouterModule } from '@angular/router';
 })
 export class AddEditComponent implements OnInit {
   presentstep = signal(1);
+  isEditMode = false;
+  selectedHelper: any = null;
 
   @ViewChild(Helperform1Component) form1Comp!: Helperform1Component;
   @ViewChild(Helperform2Component) form2Comp!: Helperform2Component;
   @ViewChild(Helperform3Component) form3Comp!: Helperform3Component;
 
-  mockHelper = {
-    name: 'John Doe',
-    role: 'Caretaker',
-    gender: 'Male',
-    languages: ['English', 'Hindi'],
-    phone: '9876543210',
-    email: 'john@example.com',
-    kycDocUrl: 'https://example.com/kyc.pdf',
-    serviceType: 'Home Care',
-    organization: 'HealthCare Inc.',
-    joinedOn: '2023-02-01'
-  };
-
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private helperService: HelperServiceService
+  ) {}
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      if (params['mode'] === 'edit') {
+        this.isEditMode = true;
+        this.selectedHelper = this.helperService.getSelectedHelper();
+      }
+    });
     console.log(this.presentstep());
   }
 
@@ -56,19 +56,23 @@ export class AddEditComponent implements OnInit {
   }
 
   goto(step: number) {
-    // Call save before navigating
     if (this.presentstep() === 1 && step > 1) {
-      this.form1Comp?.onSaveForm1();
-      console.log(this.form1Comp)
+      const formValid = this.form1Comp?.onSaveForm1();
+      if (!formValid) {
+        return; // Prevent navigation if form is invalid
+      }
     }
     if (this.presentstep() === 2 && step > 2) {
-      this.form2Comp?.onSaveForm2();
+      const formValid = this.form2Comp?.onSaveForm2();
+      if (!formValid) {
+        return;
+      }
     }
     this.presentstep.set(step);
   }
 
   submitHelper() {
-    console.log("submit triggered")
+    console.log("submit triggered");
     this.form3Comp?.submitHelper();
   }
 }

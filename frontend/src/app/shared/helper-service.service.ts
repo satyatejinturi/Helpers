@@ -1,51 +1,74 @@
-import { Injectable , signal, Signal} from '@angular/core';
-import { OnInit } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { computed } from '@angular/core';
+
 @Injectable({
   providedIn: 'root'
 })
 export class HelperServiceService {
-  allhelper:any[] = [];
-  private url="http://localhost:3000/api"
-  constructor(private http:HttpClient) { }
+  allhelper: any[] = [];
+  private url = "http://localhost:3000/api";
+  private selectedHelper = signal<any>(null);
 
+  constructor(private http: HttpClient) {}
 
-  private users=signal<any[]>([]);
-  readonly helper=computed(()=> this.users());
-  readonly noofhelpers = computed(() => this.users().length);
+  private users = signal<any[]>([]);
+  private filteredUsers = signal<any[]>([]);
+  private searchedUsers = signal<any[]>([]);
+  private currentSearchTerm = signal<string>('');
+  private searchTimeout: any = null;
+
+  readonly helper = computed(() => {
+    const term = this.currentSearchTerm().trim();
+    return term ? this.searchedUsers() : this.filteredUsers();
+  });
+
+  readonly noofhelpers = computed(() => this.helper().length);
 
   private form1Data = signal<any>(null);
   private form2Data = signal<any>(null);
 
-  private searchusers=signal<any[]>([]);
-  readonly searchhelpers=computed(()=>this.searchusers());
-  readonly searchlength=computed(()=>this.searchusers().length);
+  private lasthelper = signal<any>(null);
+  readonly getlasthelper = computed(() => this.lasthelper());
 
-  private lasthelper=signal<any>(null);
-  readonly getlasthelper=computed(()=>this.lasthelper());
-  private showmsg=signal<boolean>(false);
-  readonly showsucess=computed(()=>this.showmsg())
-  getData()
-  {
-    this.http.get<any[]>(`${this.url}/allhelpers`).subscribe(helper=>{
+  private showmsg = signal<boolean>(false);
+  readonly showsucess = computed(() => this.showmsg());
+
+  // Initial load
+  getData() {
+    this.http.get<any[]>(`${this.url}/allhelpers`).subscribe(helper => {
       this.users.set(helper);
+      this.filteredUsers.set(helper);
     });
+  }
 
-  }
-  deletehelper(id:number){
-    return this.http.delete(`${this.url}/delete?id=${id}`).subscribe(()=>{
-      const updatedhelper=this.users().filter(helper => helper.employeeid!==id);
-      this.users.set(updatedhelper)
+  deletehelper(id: number) {
+    return this.http.delete(`${this.url}/delete?id=${id}`).subscribe(() => {
+      const updatedFiltered = this.filteredUsers().filter(helper => helper.employeeid !== id);
+      this.filteredUsers.set(updatedFiltered);
+      const updatedSearched = this.searchedUsers().filter(helper => helper.employeeid !== id);
+      this.searchedUsers.set(updatedSearched);
     });
   }
-  searchhelper(searchterm:string){
-    this.http.get<any[]>(`${this.url}/search?query=${searchterm}`).subscribe(helper=>{
-      this.searchusers.set(helper)
-    })
+
+  searchhelper(searchterm: string) {
+    this.currentSearchTerm.set(searchterm);
+
+    if (this.searchTimeout) clearTimeout(this.searchTimeout);
+
+    this.searchTimeout = setTimeout(() => {
+      const trimmed = searchterm.trim();
+
+      if (!trimmed) {
+        this.searchedUsers.set([]);
+        return;
+      }
+
+      this.http.get<any[]>(`${this.url}/search?query=${trimmed}`).subscribe(helper => {
+        this.searchedUsers.set(helper);
+      });
+    }, 300); // debounce time in ms
   }
-    
+
   setForm1Data(data: any) {
     this.form1Data.set(data);
   }
@@ -62,14 +85,49 @@ export class HelperServiceService {
     return this.form2Data();
   }
 
-  postData(formdata:any){
-      this.http.post(`${this.url}/allHelpers`, formdata).subscribe(res => {
-        this.lasthelper.set(res);
-        this.showmsg.set(true);
-        console.log(res);
-        setTimeout(() => {
-          this.showmsg.set(false);
-        }, 2000);
-      });
+  postData(formdata: any) {
+    this.http.post(`${this.url}/allHelpers`, formdata).subscribe(res => {
+      this.lasthelper.set(res);
+      this.showmsg.set(true);
+      setTimeout(() => this.showmsg.set(false), 2000);
+    });
+  }
+
+  updateHelper(id: number, formdata: any) {
+    this.http.put(`${this.url}/allHelpers/${id}`, formdata).subscribe(res => {
+      this.lasthelper.set(res);
+      this.showmsg.set(true);
+      setTimeout(() => this.showmsg.set(false), 2000);
+    });
+  }
+
+  setSelectedHelper(helper: any) {
+    this.selectedHelper.set(helper);
+  }
+
+  getSelectedHelper(): any {
+    return this.selectedHelper();
+  }
+
+  getAllServiceTypes(): string[] {
+    return [...new Set(this.helper().map(h => h.typeOfService))];
+  }
+
+  getAllOrganizations(): string[] {
+    return [...new Set(this.helper().map(h => h.organizationName))];
+  }
+
+  filterByMultipleCriteria(services: string[], organizations: string[]) {
+    const filtered = this.users().filter(helper => {
+      const serviceMatch = services.length === 0 || services.includes(helper.typeOfService);
+      const orgMatch = organizations.length === 0 || organizations.includes(helper.organizationName);
+      return serviceMatch && orgMatch;
+    });
+
+    this.filteredUsers.set(filtered);
+  }
+
+  resetFilters() {
+    this.filteredUsers.set(this.users());
   }
 }

@@ -5,7 +5,7 @@
     *ngIf="profilephotourl; else initials"
     [src]="profilephotourl"
     alt="profile"
-    class="w-full h-full object-cover"
+    class="w-full h-full object-fit"
   />
   <ng-template #initials>
     <div class="flex items-center justify-center w-full h-full">

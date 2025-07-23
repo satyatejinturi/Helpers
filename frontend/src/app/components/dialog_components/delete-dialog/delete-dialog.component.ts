@@ -1,0 +1,26 @@
+import { CommonModule } from '@angular/common';
+import { Component,Inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
+
+@Component({
+  selector: 'app-delete-dialog',
+  standalone: true,
+  imports: [CommonModule,MatDialogModule,MatButtonModule],
+  templateUrl: './delete-dialog.component.html',
+  styleUrl: './delete-dialog.component.css'
+})
+export class DeleteDialogComponent {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
+
+  onConfirm(): void {
+    this.dialogRef.close(true);
+  }
+
+  onCancel(): void {
+    this.dialogRef.close(false);
+  }
+}

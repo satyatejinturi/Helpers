@@ -3,40 +3,68 @@
     <h1 class="text-2xl font-semibold mb-2">Helper Details</h1>
     <p class="text-sm text-gray-500 mb-8">Track, Add & Manage all your helpers at one place</p>
     <div class="flex mb-5">
-  <label class="cursor-pointer flex flex-col items-center justify-center w-36 h-36 border-2 border-dashed border-indigo-400 rounded-full text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition overflow-hidden">
-    <ng-container *ngIf="helper.profilePhotoPreview; else uploadIcon">
-      <img [src]="helper.profilePhotoPreview" alt="Profile Preview" class="w-full h-full object-cover rounded-full" />
-    </ng-container>
-    <ng-template #uploadIcon>
-      <div class="w-[35%] h-[35%]">
-        <i class="ph ph-cloud-arrow-up text-5xl"></i>
-      </div>
-      <span class="text-sm font-medium text-center">Upload<br><span class="ml-1">Photo</span></span>
-    </ng-template>
-    <input type="file" accept="image/*" class="hidden" (change)="onPhotoUpload($event)" />
-  </label>
-</div>
+      <label class="cursor-pointer flex flex-col items-center justify-center w-36 h-36 border-2 border-dashed border-indigo-400 rounded-full text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition overflow-hidden">
+        <ng-container *ngIf="helper.profilePhotoPreview; else uploadIcon">
+          <img [src]="helper.profilePhotoPreview" alt="Profile Preview" class="w-full h-full object-cover rounded-full" />
+        </ng-container>
+        <ng-template #uploadIcon>
+          <div class="w-[35%] h-[35%]">
+            <i class="ph ph-cloud-arrow-up text-5xl"></i>
+          </div>
+          <span class="text-sm font-medium text-center">Upload<br><span class="ml-1">Photo</span></span>
+        </ng-template>
+        <input type="file" accept="image/*" class="hidden" (change)="onPhotoUpload($event)" />
+      </label>
+    </div>
 
     <p class="text-xs text-gray-400 mb-10">Upload photo (.png, .jpeg) size 5 mb</p>
 
-    <form class="space-y-5 max-w-2xl" #helperForm="ngForm">
+    <form #helperForm="ngForm" (ngSubmit)="onSaveForm1()" class="space-y-5 max-w-2xl">
       <div>
         <label class="block text-sm font-medium mb-1">Type of Service<span class="text-red-500">*</span></label>
-        <select class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" name="typeOfService" [(ngModel)]="helper.typeOfService" required>
+        <select
+          name="typeOfService"
+          [(ngModel)]="helper.typeOfService"
+          required
+          #typeOfService="ngModel"
+          class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          [ngClass]="{'border-red-500': typeOfService.invalid && (typeOfService.dirty || typeOfService.touched)}"
+        >
           <option value="">select</option>
           <option value="asbl">asbl</option>
           <option value="spring">spring helpers</option>
         </select>
+        <p *ngIf="typeOfService.invalid && (typeOfService.dirty || typeOfService.touched)" class="text-red-500 text-xs mt-1">This field is necessary</p>
       </div>
 
       <div>
         <label class="block text-sm font-medium mb-1">Organization Name<span class="text-red-500">*</span></label>
-        <input type="text" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400" placeholder="Organization Name" name="organizationName" [(ngModel)]="helper.organizationName" required>
+        <input
+          type="text"
+          name="organizationName"
+          [(ngModel)]="helper.organizationName"
+          required
+          #organizationName="ngModel"
+          class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400"
+          placeholder="Organization Name"
+          [ngClass]="{'border-red-500': organizationName.invalid && (organizationName.dirty || organizationName.touched)}"
+        >
+        <p *ngIf="organizationName.invalid && (organizationName.dirty || organizationName.touched)" class="text-red-500 text-xs mt-1">This field is necessary</p>
       </div>
 
       <div>
         <label class="block text-sm font-medium mb-1">Full Name<span class="text-red-500">*</span></label>
-        <input type="text" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400" placeholder="Full Name" name="fullName" [(ngModel)]="helper.fullName" required>
+        <input
+          type="text"
+          name="fullName"
+          [(ngModel)]="helper.fullName"
+          required
+          #fullName="ngModel"
+          class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400"
+          placeholder="Full Name"
+          [ngClass]="{'border-red-500': fullName.invalid && (fullName.dirty || fullName.touched)}"
+        >
+        <p *ngIf="fullName.invalid && (fullName.dirty || fullName.touched)" class="text-red-500 text-xs mt-1">This field is necessary</p>
       </div>
 
       <div>
@@ -64,84 +92,155 @@
             </div>
           </div>
         </div>
+        <p *ngIf="selectedLanguages.length === 0 && helperForm.submitted" class="text-red-500 text-xs mt-1">This field is necessary</p>
       </div>
 
       <div>
         <label class="block text-sm font-medium mb-1">Gender<span class="text-red-500">*</span></label>
         <div class="flex space-x-6 mt-2">
           <label class="inline-flex items-center space-x-2">
-            <input type="radio" name="gender" value="Male" [(ngModel)]="helper.gender" class="text-indigo-600" required />
+            <input
+              type="radio"
+              name="gender"
+              value="Male"
+              [(ngModel)]="helper.gender"
+              required
+              #gender="ngModel"
+              class="text-indigo-600"
+              [ngClass]="{'border-red-500': gender.invalid && (gender.dirty || gender.touched)}"
+            />
             <span>Male</span>
           </label>
           <label class="inline-flex items-center space-x-2">
-            <input type="radio" name="gender" value="Female" [(ngModel)]="helper.gender" class="text-indigo-600" required />
+            <input
+              type="radio"
+              name="gender"
+              value="Female"
+              [(ngModel)]="helper.gender"
+              required
+              #gender="ngModel"
+              class="text-indigo-600"
+              [ngClass]="{'border-red-500': gender.invalid && (gender.dirty || gender.touched)}"
+            />
             <span>Female</span>
           </label>
           <label class="inline-flex items-center space-x-2">
-            <input type="radio" name="gender" value="Other" [(ngModel)]="helper.gender" class="text-indigo-600" required />
+            <input
+              type="radio"
+              name="gender"
+              value="Other"
+              [(ngModel)]="helper.gender"
+              required
+              #gender="ngModel"
+              class="text-indigo-600"
+              [ngClass]="{'border-red-500': gender.invalid && (gender.dirty || gender.touched)}"
+            />
             <span>Other</span>
           </label>
         </div>
+        <p *ngIf="gender.invalid && (gender.dirty || gender.touched)" class="text-red-500 text-xs mt-1">This field is necessary</p>
       </div>
 
       <div>
         <label class="block text-sm font-medium mb-1">Phone<span class="text-red-500">*</span></label>
         <div class="flex">
-          <select class="border border-gray-300 rounded-l-md px-3 py-2 bg-gray-100 text-sm" name="countryCode" [(ngModel)]="helper.countryCode" required>
+          <select
+            name="countryCode"
+            [(ngModel)]="helper.countryCode"
+            required
+            #countryCode="ngModel"
+            class="border border-gray-300 rounded-l-md px-3 py-2 bg-gray-100 text-sm"
+            [ngClass]="{'border-red-500': countryCode.invalid && (countryCode.dirty || countryCode.touched)}"
+          >
             <option value="+91">+91</option>
           </select>
-          <input type="text" class="flex-1 border border-gray-300 rounded-r-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Phone number" name="phno" [(ngModel)]="helper.phno" required>
+          <input
+            type="text"
+            name="phno"
+            [(ngModel)]="helper.phno"
+            required
+            pattern="[0-9]{10}"
+            #phno="ngModel"
+            class="flex-1 border border-gray-300 rounded-r-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Phone number"
+            [ngClass]="{'border-red-500': phno.invalid && (phno.dirty || phno.touched)}"
+          >
         </div>
+        <p *ngIf="countryCode.invalid && (countryCode.dirty || countryCode.touched)" class="text-red-500 text-xs mt-1">This field is necessary</p>
+        <p *ngIf="phno.invalid && (phno.dirty || phno.touched)" class="text-red-500 text-xs mt-1">This field is necessary</p>
       </div>
 
       <div>
         <label class="block text-sm font-medium mb-1">Email<span class="text-red-500">*</span></label>
-        <input type="email" class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400" placeholder="example@abc.com" name="email" [(ngModel)]="helper.email" required>
+        <input
+          type="email"
+          name="email"
+          [(ngModel)]="helper.email"
+          required
+          email
+          #email="ngModel"
+          class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400"
+          placeholder="example@abc.com"
+          [ngClass]="{'border-red-500': email.invalid && (email.dirty || email.touched)}"
+        >
+        <p *ngIf="email.invalid && (email.dirty || email.touched)" class="text-red-500 text-xs mt-1">This field is necessary</p>
       </div>
-<div>
-  <label class="block text-sm font-medium mb-1">Choose Vehicle Type<span class="text-red-500">*</span></label>
-  <select
-    name="vehicleType"
-    [(ngModel)]="helper.vehicleType"
-    class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-  >
-    <option value="none">None</option>
-    <option value="bike">Bike</option>
-    <option value="car">Car</option>
-    <option value="van">Van</option>
-  </select>
-</div>
 
-<div *ngIf="helper.vehicleType !== 'none'" class="mt-4">
-  <label class="block text-sm font-medium mb-1">Enter Vehicle Number<span class="text-red-500">*</span></label>
-  <input
-    type="text"
-    name="vehicleNumber"
-    [(ngModel)]="helper.vehicleNo"
-    placeholder="e.g., KA01AB1234"
-    class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400"
-  />
-</div>
-
-
-      <label class="block text-sm font-medium mb-2">KYC Document<span class="text-red-500">*</span></label>
-      <div class="flex mb-5">
-        <label class="cursor-pointer flex flex-col items-center justify-center w-25 h-25 border-2 border-dashed border-indigo-400 text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition">
-          <div class="w-[35%] h-[35%]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#3F51B5" viewBox="0 0 256 256">
-              <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
-            </svg>
-          </div>
-          <button mat-raised-button color="accent" (click)="onClick()" class="hidden"></button>
-        </label>
+      <div>
+        <label class="block text-sm font-medium mb-1">Choose Vehicle Type<span class="text-red-500">*</span></label>
+        <select
+          name="vehicleType"
+          [(ngModel)]="helper.vehicleType"
+          required
+          #vehicleType="ngModel"
+          class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          [ngClass]="{'border-red-500': vehicleType.invalid && (vehicleType.dirty || vehicleType.touched)}"
+        >
+          <option value="none">None</option>
+          <option value="bike">Bike</option>
+          <option value="car">Car</option>
+          <option value="van">Van</option>
+        </select>
+        <p *ngIf="vehicleType.invalid && (vehicleType.dirty || vehicleType.touched)" class="text-red-500 text-xs mt-1">This field is necessary</p>
       </div>
-      <p class="text-xs text-gray-400 mb-10">Upload photo (.png, .jpeg) size 5 mb</p>
+
+      <div *ngIf="helper.vehicleType !== 'none'" class="mt-4">
+        <label class="block text-sm font-medium mb-1">Enter Vehicle Number<span class="text-red-500">*</span></label>
+        <input
+          type="text"
+          name="vehicleNo"
+          [(ngModel)]="helper.vehicleNo"
+          required
+          #vehicleNo="ngModel"
+          placeholder="e.g., KA01AB1234"
+          class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400"
+          [ngClass]="{'border-red-500': vehicleNo.invalid && (vehicleNo.dirty || vehicleNo.touched)}"
+        />
+        <p *ngIf="vehicleNo.invalid && (vehicleNo.dirty || vehicleNo.touched)" class="text-red-500 text-xs mt-1">This field is necessary</p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-2">KYC Document<span class="text-red-500">*</span></label>
+        <div class="flex mb-5">
+          <label class="cursor-pointer flex flex-col items-center justify-center w-25 h-25 border-2 border-dashed border-indigo-400 text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition">
+            <div class="w-[35%] h-[35%]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#3F51B5" viewBox="0 0 256 256">
+                <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+              </svg>
+            </div>
+            <button type="button" (click)="onKycUpload()" class="hidden"></button>
+          </label>
+        </div>
+        <p class="text-xs text-gray-400 mb-10">Upload photo (.png, .jpeg) size 5 mb</p>
+        <p *ngIf="!helper.Kyc && helperForm.submitted" class="text-red-500 text-xs mt-1">This field is necessary</p>
+      </div>
 
       <div *ngIf="helper.kycDocType || helper.Kyc" class="mt-4 text-sm">
-  <p><strong>Document Type:</strong> {{ helper.kycDocType }}</p>
-  <p *ngIf="helper.Kyc"><strong>File Name:</strong> {{ helper.Kyc.name }}</p>
-</div>
+        <p><strong>Document Type:</strong> {{ helper.kycDocType }}</p>
+        <p *ngIf="helper.Kyc"><strong>File Name:</strong> {{ helper.Kyc.name }}</p>
+      </div>
 
+      <button type="submit" class="hidden"></button>
     </form>
   </main>
 </div>
