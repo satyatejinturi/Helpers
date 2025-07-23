@@ -60,25 +60,61 @@
     goback() {
       this.router.navigate(['/']);
     }
-
-    goto(step: number) {
-      if (this.presentstep() === 1 && step > 1) {
-        const formValid = this.form1Comp?.onSaveForm1();
-        if (!formValid) {
-          return;
-        }
+goto(step: number) {
+  if (this.isEditMode) {
+    if (this.presentstep() === 1 && step > 1) {
+      const formValid = this.form1Comp?.onSaveForm1(); // Save + patch logic inside form1
+      if (formValid) {
+        this.router.navigate(['/']); // Redirect after saving
       }
-      if (this.presentstep() === 2 && step > 2) {
-        const formValid = this.form2Comp?.onSaveForm2();
-        if (!formValid) {
-          return;
-        }
-      }
-      this.presentstep.set(step);
+      return;
     }
+
+    if (this.presentstep() === 2 && step > 2) {
+      const formValid = this.form2Comp?.onSaveForm2(); // Save + patch logic inside form2
+      if (formValid) {
+        this.router.navigate(['/']);
+      }
+      return;
+    }
+
+    this.presentstep.set(step); // Allow navigation
+    return;
+  }
+
+  // Add mode sequential validation
+  if (this.presentstep() === 1 && step > 1) {
+    const formValid = this.form1Comp?.onSaveForm1();
+    if (!formValid) return;
+  }
+
+  if (this.presentstep() === 2 && step > 2) {
+    const formValid = this.form2Comp?.onSaveForm2();
+    if (!formValid) return;
+  }
+
+  this.presentstep.set(step);
+}
+
 
     submitHelper() {
       console.log("submit triggered");
       this.form3Comp?.submitHelper();
     }
+
+    // In AddEditComponent
+    saveAndExit() {
+      if (this.presentstep() === 1) {
+        const success = this.form1Comp?.onSaveForm1();
+        if (success) {
+          this.router.navigate(['/']);
+        }
+      } else if (this.presentstep() === 2) {
+        const success = this.form2Comp?.onSaveForm2();
+        if (success) {
+          this.router.navigate(['/']);
+        }
+      }
+    }
+
   }

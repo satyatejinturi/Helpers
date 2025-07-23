@@ -7,8 +7,15 @@ import helperRoute from "./routes/helperRoute"
 import modifyRoute from "./routes/modifyRoute"
 import cors from "cors"
 
+app.use(cors({
+  origin: 'http://localhost:4200',
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type'], // optional
+}));
+
+
 app.use(express.json());
-app.use(cors())
+
 app.get("/",(req:Request,res:Response)=>{
     res.send("Server connected")
 })
