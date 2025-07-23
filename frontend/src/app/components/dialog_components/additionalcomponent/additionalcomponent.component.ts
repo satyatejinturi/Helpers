@@ -30,7 +30,7 @@ export class AdditionalcomponentComponent {
   constructor(private dialogRef: MatDialogRef<AdditionalcomponentComponent>) {}
 
   submit() {
-    // handle validation or emit data if needed
+    
     this.dialogRef.close();
   }
 

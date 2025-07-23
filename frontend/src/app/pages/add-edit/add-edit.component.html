@@ -12,7 +12,8 @@
   </app-step-slider>
 
   <div class="flex-1 p-6">
-    <app-helperform1 *ngIf="presentstep() === 1" [helperData]="selectedHelper"></app-helperform1>
+    <app-helperform1 *ngIf="presentstep() === 1 " [helperData]="selectedHelper"></app-helperform1>
+
     <app-helperform2 *ngIf="presentstep() === 2"></app-helperform2>
     <app-helperform3 *ngIf="presentstep() === 3" [isEditMode]="isEditMode" [employeeId]="selectedHelper?.employeeid"></app-helperform3>
 

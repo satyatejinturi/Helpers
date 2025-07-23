@@ -6,12 +6,16 @@
 
 <div class="relative ">
   <button (click)="toggleDropdown()" class="border px-4 py-2 rounded-md w-full text-left text-gray-400 flex ">
-    {{ label }}
+    {{ getSelectedLabel() }}
     <span class="ml-auto"><i class="ph ph-caret-down"></i></span>
   </button>
 
-  <div *ngIf="isOpen" class="absolute mt-2 bg-white border shadow-md rounded-md w-full z-10 p-2 max-h-60 overflow-auto">
-    
+  <div
+  *ngIf="isOpen"
+  class="absolute mt-2 bg-white border shadow-md rounded-md w-full z-10 p-2"
+  style="max-height: 130px; overflow-y: auto;"
+>
+
     <div class="flex items-center gap-2 p-1 hover:bg-gray-100 rounded font-medium text-sm">
       
       <input 
@@ -22,9 +26,10 @@
       />
       
       <label for="selectAll">Select All (Max: {{ maxSelection }})</label>
+      <div class="border-b border-gray-200"></div>
     </div>
 
-    <hr class="my-2" />
+    
 
     <div *ngFor="let option of visibleOptions" 
          class="flex items-center gap-2 p-1 hover:bg-gray-100 rounded text-sm"

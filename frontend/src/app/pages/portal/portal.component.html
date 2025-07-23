@@ -63,9 +63,15 @@
     />
   </div>
 
-  <div class=" text-sm text-gray-500">
-    {{ nofhelpers() }} helpers
+  <div *ngIf="showfilter && nofhelpers() !== totalno(); else totalCount" class=" text-sm text-gray-500">
+    {{ nofhelpers() }} of {{totalno()}} results
   </div>  
+  <ng-template #totalCount>
+    <div class="text-sm text-gray-500">
+      {{ totalno() }} helpers
+    </div>
+  </ng-template>
+
 
   <div class=" flex ml-auto gap-4">
   <button class="border border-gray-300 rounded-md p-2  w-10 h-10">

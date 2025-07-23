@@ -6,7 +6,7 @@ import { HelperServiceService } from '../../../shared/helper-service.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { HelperCardComponent } from '../../helper-components/helper-card/helper-card.component';
-
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-helperform3',
   standalone: true,

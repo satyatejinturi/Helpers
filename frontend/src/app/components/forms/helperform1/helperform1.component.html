@@ -171,7 +171,7 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium mb-1">Email<span class="text-red-500">*</span></label>
+        <label class="block text-sm font-medium mb-1">Email</label>
         <input
           type="email"
           name="email"
@@ -181,13 +181,13 @@
           #email="ngModel"
           class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400"
           placeholder="example@abc.com"
-          [ngClass]="{'border-red-500': email.invalid && (email.dirty || email.touched)}"
+          
         >
-        <p *ngIf="email.invalid && (email.dirty || email.touched)" class="text-red-500 text-xs mt-1">This field is necessary</p>
+        
       </div>
 
       <div>
-        <label class="block text-sm font-medium mb-1">Choose Vehicle Type<span class="text-red-500">*</span></label>
+        <label class="block text-sm font-medium mb-1">Choose Vehicle Type</label>
         <select
           name="vehicleType"
           [(ngModel)]="helper.vehicleType"
@@ -205,7 +205,7 @@
       </div>
 
       <div *ngIf="helper.vehicleType !== 'none'" class="mt-4">
-        <label class="block text-sm font-medium mb-1">Enter Vehicle Number<span class="text-red-500">*</span></label>
+        <label class="block text-sm font-medium mb-1">Enter Vehicle Number</label>
         <input
           type="text"
           name="vehicleNo"
@@ -216,7 +216,7 @@
           class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400"
           [ngClass]="{'border-red-500': vehicleNo.invalid && (vehicleNo.dirty || vehicleNo.touched)}"
         />
-        <p *ngIf="vehicleNo.invalid && (vehicleNo.dirty || vehicleNo.touched)" class="text-red-500 text-xs mt-1">This field is necessary</p>
+        
       </div>
 
       <div>

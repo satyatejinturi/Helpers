@@ -21,6 +21,8 @@ export class PortalComponent implements OnInit {
   allhelper = this.helperservice.helper;
   selectedhelper: any = null;
   nofhelpers = this.helperservice.noofhelpers;
+  totalno=this.helperservice.totalnoofuser;
+  showfilter=false;
   constructor(public helperservice: HelperServiceService,
      public router: Router,
     public dialog: MatDialog,) {}
@@ -88,18 +90,18 @@ export class PortalComponent implements OnInit {
   const rect = triggerElement?.getBoundingClientRect();
 
   const dialogRef = this.dialog.open(FilterDialogComponent, {
-    width: '400px',
+    width: '300px',
     data: {
-  serviceTypes: this.helperservice.getAllServiceTypes(),
-  organizations: this.helperservice.getAllOrganizations(),
-  serviceLimit: 3,
-  organizationLimit: 3,
-  initialServices: this.selectedServiceTypes,
-  initialOrganizations: this.selectedOrganizations
-},
+      serviceTypes: this.helperservice.getAllServiceTypes(),
+      organizations: this.helperservice.getAllOrganizations(),
+      serviceLimit: 3,
+      organizationLimit: 3,
+      initialServices: this.selectedServiceTypes,
+      initialOrganizations: this.selectedOrganizations
+    },
     position: {
-      top: `${rect?.bottom + 5}px`,
-      left: `${rect?.left}px`
+      top: `140px`,
+      left: `80px`
     },
     hasBackdrop: true,
     panelClass: 'custom-filter-dialog'
@@ -109,6 +111,7 @@ export class PortalComponent implements OnInit {
     if (result?.reset) {
       this.selectedServiceTypes = [];
       this.selectedOrganizations = [];
+      this.showfilter=false;
       this.helperservice.resetFilters();
       return;
     }
@@ -117,6 +120,7 @@ export class PortalComponent implements OnInit {
       const { services, organizations } = result;
       this.selectedServiceTypes = services;
       this.selectedOrganizations = organizations;
+      this.showfilter=true;
       this.helperservice.filterByMultipleCriteria(services, organizations);
     }
   });

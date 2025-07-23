@@ -1,6 +1,48 @@
-<h3>Employee Card</h3>
-<hr>
+<div class="bg-white border rounded-xl shadow-md p-4 w-full max-w-xl">
+  <div class="flex items-center space-x-4">
+    <div class="w-20 h-20 rounded-full overflow-hidden border">
+      <img
+        *ngIf="helper?.profilePhotoPreview"
+        [src]="helper.profilePhotoPreview"
+        alt="Profile Photo"
+        class="w-full h-full object-cover"
+      />
+      <div *ngIf="!helper?.profilePhotoPreview" class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
+        <i class="ph ph-user text-3xl"></i>
+      </div>
+    </div>
 
-<div class="flex">
-    <h2>{{helper.fullName}}</h2>
+    <div class="flex-1">
+      <h2 class="text-xl font-semibold text-gray-800">{{ helper.fullName }}</h2>
+      <p class="text-sm text-gray-500">{{ helper.typeOfService }}</p>
+      <p class="text-sm text-gray-500">{{ helper.organizationName }}</p>
+    </div>
+  </div>
+
+  <div class="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-700">
+    <div>
+      <strong>Gender:</strong>
+      <span>{{ helper.gender || '-' }}</span>
+    </div>
+    <div>
+      <strong>Languages:</strong>
+      <span>{{ helper.languages?.join(', ') || '-' }}</span>
+    </div>
+    <div>
+      <strong>Phone:</strong>
+      <span>{{ helper.countryCode }} {{ helper.phno }}</span>
+    </div>
+    <div>
+      <strong>Email:</strong>
+      <span>{{ helper.email || '-' }}</span>
+    </div>
+    <div *ngIf="helper.vehicleType !== 'none'">
+      <strong>Vehicle:</strong>
+      <span>{{ helper.vehicleType }} - {{ helper.vehicleNo }}</span>
+    </div>
+    <div *ngIf="helper.kycDocType">
+      <strong>KYC Type:</strong>
+      <span>{{ helper.kycDocType }}</span>
+    </div>
+  </div>
 </div>

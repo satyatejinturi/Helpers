@@ -12,11 +12,16 @@ export class HelperServiceService {
   constructor(private http: HttpClient) {}
 
   private users = signal<any[]>([]);
+
   private filteredUsers = signal<any[]>([]);
   private searchedUsers = signal<any[]>([]);
-  private currentSearchTerm = signal<string>('');
-  private searchTimeout: any = null;
 
+  private currentSearchTerm = signal<string>('');
+
+  private totalUsers = signal<number>(0);
+  readonly totalnoofuser = computed(() => this.totalUsers());
+  
+  private searchTimeout: any = null;
   readonly helper = computed(() => {
     const term = this.currentSearchTerm().trim();
     return term ? this.searchedUsers() : this.filteredUsers();
@@ -33,11 +38,13 @@ export class HelperServiceService {
   private showmsg = signal<boolean>(false);
   readonly showsucess = computed(() => this.showmsg());
 
-  // Initial load
   getData() {
     this.http.get<any[]>(`${this.url}/allhelpers`).subscribe(helper => {
       this.users.set(helper);
       this.filteredUsers.set(helper);
+      if (!this.totalUsers()) {
+        this.totalUsers.set(helper.length);
+      }
     });
   }
 
@@ -66,7 +73,7 @@ export class HelperServiceService {
       this.http.get<any[]>(`${this.url}/search?query=${trimmed}`).subscribe(helper => {
         this.searchedUsers.set(helper);
       });
-    }, 300); // debounce time in ms
+    }, 300); 
   }
 
   setForm1Data(data: any) {
@@ -94,9 +101,10 @@ export class HelperServiceService {
   }
 
   updateHelper(id: number, formdata: any) {
-    this.http.put(`${this.url}/allHelpers/${id}`, formdata).subscribe(res => {
+    this.http.patch(`${this.url}/editHelper?id=${id}`, formdata).subscribe(res => {
       this.lasthelper.set(res);
       this.showmsg.set(true);
+      console.log(res);
       setTimeout(() => this.showmsg.set(false), 2000);
     });
   }

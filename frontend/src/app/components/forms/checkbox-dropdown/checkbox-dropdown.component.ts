@@ -87,4 +87,22 @@
       this.updateVisibleOptions();
     }
 
+    getSelectedLabel(): string {
+      if (!this.selected || this.selected.length === 0) {
+        return this.label; 
+      }
+
+      const displayLimit = 2;
+      const selectedCount = this.selected.length;
+
+      if (selectedCount <= displayLimit) {
+        return this.selected.join(', ');
+      }
+
+      const shown = this.selected.slice(0, displayLimit).join(', ');
+      const remaining = selectedCount - displayLimit;
+      return `${shown} +${remaining} more`;
+    }
+
+
   }

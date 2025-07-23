@@ -1,19 +1,19 @@
-<div class="wrapper ">
-  <div *ngFor="let item of allhelper; let i = index"
-       (click)="selectuser(item, i)"
-       [class.selected]="i === curind"
-       class="helper-item border-b border-gray-100">
-       
-    <app-profile-photo 
-      [userName]="item.fullName"
-      [profilephotourl]="item.profilePhotourl"
+  <div class="wrapper ">
+    <div *ngFor="let item of allhelper; let i = index"
+        (click)="selectuser(item, i)"
+        [class.selected]="i === curind"
+        class="helper-item border-b border-gray-100">
+        
+      <app-profile-photo 
+        [userName]="item.fullName"
+        [profilephotourl]="item.profilePhotourl"
+        
+        class="profile-photo w-12 h-12">
+      </app-profile-photo>
       
-      class="profile-photo">
-    </app-profile-photo>
-    
-    <div>
-      <h3 class="name">{{ item.fullName }}</h3>
-      <p class="service">{{ item.typeOfService }}</p>
+      <div>
+        <h3 class="name">{{ item.fullName }}</h3>
+        <p class="service">{{ item.typeOfService }}</p>
+      </div>
     </div>
   </div>
-</div>
