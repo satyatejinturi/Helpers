@@ -9,7 +9,8 @@ import { Input } from '@angular/core';
 import { Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { CommonModule } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
 @Component({
   selector: 'app-kycdocument',
   standalone: true,
@@ -20,7 +21,9 @@ import { MatDividerModule } from '@angular/material/divider';
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
-    FormsModule
+    FormsModule,
+    CommonModule,
+    MatSelectModule
   ],
   templateUrl: './kycdocument.component.html',
   styleUrl: './kycdocument.component.css'
@@ -29,6 +32,8 @@ export class KycdocumentComponent {
   name:string=""
   Kycdoctype=new EventEmitter<any>();
   Kycdoc=new EventEmitter<any>();
+  documentTypes: string[] = ['Aadhar', 'PAN', 'Driving License', 'Passport', 'Voter ID'];
+
   constructor(private dialogRef: MatDialogRef<KycdocumentComponent>) {}
   submit() {
     if (this.uploadedFile && this.name.trim()) {

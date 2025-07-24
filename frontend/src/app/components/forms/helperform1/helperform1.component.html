@@ -31,24 +31,28 @@
           [ngClass]="{'border-red-500': typeOfService.invalid && (typeOfService.dirty || typeOfService.touched)}"
         >
           <option value="">select</option>
-          <option value="asbl">asbl</option>
-          <option value="spring">spring helpers</option>
+          <option value="Cook">Cook</option>
+          <option value="Maid">Maid</option>
+          <option value="Cleaner">Cleaner</option>
+          <option value="Driver">Driver</option>
         </select>
         <p *ngIf="typeOfService.invalid && (typeOfService.dirty || typeOfService.touched)" class="text-red-500 text-xs mt-1">This field is necessary</p>
       </div>
 
       <div>
         <label class="block text-sm font-medium mb-1">Organization Name<span class="text-red-500">*</span></label>
-        <input
-          type="text"
+        <select
           name="organizationName"
           [(ngModel)]="helper.organizationName"
           required
           #organizationName="ngModel"
-          class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400"
-          placeholder="Organization Name"
+          class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           [ngClass]="{'border-red-500': organizationName.invalid && (organizationName.dirty || organizationName.touched)}"
         >
+          <option value="">Select Organization</option>
+          <option *ngFor="let org of organizationOptions" [value]="org">{{ org }}</option>
+        </select>
+
         <p *ngIf="organizationName.invalid && (organizationName.dirty || organizationName.touched)" class="text-red-500 text-xs mt-1">This field is necessary</p>
       </div>
 
@@ -68,8 +72,9 @@
       </div>
 
       <div class="mb-4">
-        <label class="block text-gray-700 font-medium mb-2">Languages Known</label>
+        
         <app-checkbox-dropdown
+          [header]="'Languages'"
           [label]="'Languages'"
           [options]="languages"
           [selected]="selectedLanguages"

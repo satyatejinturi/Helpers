@@ -27,7 +27,7 @@ import { CheckboxDropdownComponent } from '../checkbox-dropdown/checkbox-dropdow
       vehicleType: 'none',
       vehicleNo: '',
       profile: null as File | null,
-      
+      profilePhotoPreview:'',
       Kyc: null as File | null,
       kycDocType: ''
     };
@@ -40,6 +40,7 @@ import { CheckboxDropdownComponent } from '../checkbox-dropdown/checkbox-dropdow
     kycUrl = ''; 
     existingKycUrl: string | null = null;
 
+    organizationOptions: string[] = ['ASBL', 'Spring Helpers'];
 
     constructor(private dialog: MatDialog, private helperService: HelperServiceService) {}
 
@@ -63,14 +64,14 @@ import { CheckboxDropdownComponent } from '../checkbox-dropdown/checkbox-dropdow
           vehicleType: this.helperData.vehicleType || 'none',
           vehicleNo: this.helperData.vehicleNo || '',
           profile: null,
-          
+          profilePhotoPreview: this.helperData.profilePhotoUrl,
           Kyc: null,
           kycDocType: this.helperData.kycDocType || ''
         };
         this.existingKycUrl = this.helperData.kycDocUrl ?? null;
         if (this.helperData && this.helperData?.languages) {
           if (this.helperData?.languages?.length) {
-            const raw = this.helperData.languages[0]; // single string
+            const raw = this.helperData.languages[0]; 
             this.selectedLanguages = raw.split(',').map((lang:string) => lang.trim());
           }
 

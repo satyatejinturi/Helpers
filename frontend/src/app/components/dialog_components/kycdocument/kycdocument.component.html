@@ -12,9 +12,12 @@
     <div>
       <label class="block text-sm font-medium mb-1">Select Document Type</label>
       <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Document Type</mat-label>
-        <input matInput [(ngModel)]="name" placeholder="e.g., Aadhar, PAN" />
+        <mat-label>Select Document Type</mat-label>
+        <mat-select [(ngModel)]="name">
+          <mat-option *ngFor="let type of documentTypes" [value]="type">{{ type }}</mat-option>
+        </mat-select>
       </mat-form-field>
+
     </div>
 
     <p class="text-sm text-gray-600">Please ensure both sides of the document are uploaded.</p>
