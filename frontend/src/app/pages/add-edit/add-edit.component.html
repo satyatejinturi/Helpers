@@ -7,15 +7,18 @@
   </button>
 </div>
 
-<div class="flex min-h-screen">
-  <app-step-slider
+<div class="flex ">
+  <div class=" w-60  bg-gray-100  ">
+    <app-step-slider
   
   [currentStep]="presentstep()"
   [isEditMode]="isEditMode"
   (editStepSelected)="goto($event)"
-  class="w-64 bg-gray-100 p-4">
+  class="w-64 bg-gray-100   ">
 </app-step-slider>
-  <div class="flex-1 p-6">
+</div>
+  
+  <div class="flex-1 p-6 ">
     <app-helperform1 *ngIf="presentstep() === 1 " [helperData]="selectedHelper"></app-helperform1>
 
     <app-helperform2 *ngIf="presentstep() === 2"></app-helperform2>

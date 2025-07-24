@@ -1,5 +1,5 @@
 <!-- Show Stepper if not in edit mode -->
-<div *ngIf="!isEditMode" class="flex flex-col w-[200px] relative">
+<div *ngIf="!isEditMode" class="flex flex-col w-[200px] relative bg-white p-10 ml-7 mr-5 mt-6 h-335">
   <ng-container *ngFor="let step of steps; let i = index">
     <div class="relative z-10 flex items-center space-x-2">
       <div
@@ -11,7 +11,7 @@
       >
         {{ i + 1 }}
       </div>
-      <span class="text-xs" *ngIf="stepLabels[i]">
+      <span class="text-xs" *ngIf="stepLabels[i]"> 
         {{ stepLabels[i] }}
       </span>
     </div>
@@ -28,14 +28,14 @@
 </div>
 
 <!-- Show Edit Buttons if in edit mode -->
-<div *ngIf="isEditMode" class="flex flex-col w-[200px] gap-4">
+<div *ngIf="isEditMode" class="flex flex-col w-[200px] gap-4 bg-white p-10 ml-7 mr-5 mt-6 h-345">
   <button
-    class="bg-blue-600 text-white px-4 py-2 rounded"
+    class="bg-indigo-600 text-white px-4 py-2 rounded text-xs"
     (click)="editStepSelected.emit(1)">
     Edit Documents & Details
   </button>
   <button
-    class="bg-blue-600 text-white px-4 py-2 rounded"
+    class="bg-indigo-600 text-white px-4 py-2 rounded text-xs"
     (click)="editStepSelected.emit(2)">
     Edit Additional Docs
   </button>
