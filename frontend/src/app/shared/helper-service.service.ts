@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -92,15 +92,10 @@ export class HelperServiceService {
     return this.form2Data();
   }
   postResult = signal<any | null>(null);
- postData(formdata: any) {
-    this.http.post(`${this.url}/allHelpers`, formdata).subscribe(res => {
-      this.lasthelper.set(res);
-      this.postResult.set(res); // ✅ Emit for consumer
-      this.showmsg.set(true);
-      console.log(res);
-      setTimeout(() => this.showmsg.set(false), 2000);
-    });
-  }
+  postData(formData: FormData): Observable<any> {
+  return this.http.post('http://localhost:3000/api/allhelpers', formData);
+}
+
 
   updateHelper(id: number, formdata: any) {
     this.http.patch(`${this.url}/editHelper?id=${id}`, formdata).subscribe(res => {

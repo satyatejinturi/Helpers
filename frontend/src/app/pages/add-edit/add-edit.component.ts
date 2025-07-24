@@ -9,6 +9,7 @@
   import { Helperform3Component } from '../../components/forms/helperform3/helperform3.component';
   import { RouterModule } from '@angular/router';
   import { HelperServiceService } from '../../shared/helper-service.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
   @Component({
     selector: 'app-add-edit',
@@ -21,7 +22,8 @@
       Helperform2Component,
       Helperform3Component,
       StepSliderComponent,
-      RouterModule
+      RouterModule,
+      MatProgressBarModule
     ],
     templateUrl: './add-edit.component.html',
     styleUrls: ['./add-edit.component.css']
@@ -30,7 +32,7 @@
     presentstep = signal(1);
     isEditMode = false;
     selectedHelper: any = null;
-
+    loading=false;
     @ViewChild(Helperform1Component) form1Comp!: Helperform1Component;
     @ViewChild(Helperform2Component) form2Comp!: Helperform2Component;
     @ViewChild(Helperform3Component) form3Comp!: Helperform3Component;
@@ -60,6 +62,10 @@
     goback() {
       this.router.navigate(['/']);
     }
+    onLoadingChange(value: boolean) {
+  this.loading = value;
+}
+
   goto(step: number) {
     if (this.isEditMode) {
       if (this.presentstep() === 1 && step > 1) {

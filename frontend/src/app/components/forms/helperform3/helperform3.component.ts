@@ -1,4 +1,4 @@
-import { Input } from '@angular/core';
+import { Input ,effect,Output,EventEmitter } from '@angular/core';
 import { ProfilePhotoComponent } from '../../helper-components/profile-photo/profile-photo.component';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
@@ -7,22 +7,28 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { HelperCardComponent } from '../../helper-components/helper-card/helper-card.component';
 import { MatDialog } from '@angular/material/dialog';
+import { HelperDialogComponent } from '../../dialog_components/helper-dialog/helper-dialog.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 @Component({
   selector: 'app-helperform3',
   standalone: true,
-  imports: [ProfilePhotoComponent, CommonModule, HelperCardComponent],
+  imports: [ProfilePhotoComponent, CommonModule, HelperCardComponent,HelperDialogComponent,MatProgressBarModule],
   templateUrl: './helperform3.component.html',
   styleUrl: './helperform3.component.css'
 })
 export class Helperform3Component implements OnInit {
   @Input() isEditMode: boolean = false;
   @Input() employeeId: number | null = null;
+  @Output() loadingChange = new EventEmitter<boolean>(); 
   helper: any;
+  loading = false;
 
   constructor(
     private helperService: HelperServiceService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private dialog:MatDialog
   ) {}
 
   showcard: boolean = false;
@@ -57,13 +63,14 @@ this.helper = {
   console.log('helper:', this.helper);
 }
 
-
-  submitHelper() {
-  const data1 = this.helperService.getForm1Data(); // now a plain object
+submitHelper() {
+  const data1 = this.helperService.getForm1Data();
   const data2 = this.helperService.getForm2Data();
-
   const formData = new FormData();
-  
+
+  this.loading = true;
+  this.loadingChange.emit(true);
+
   for (const key in data1) {
     if (key === 'languages' && Array.isArray(data1.languages)) {
       data1.languages.forEach((lang: string) => {
@@ -80,19 +87,34 @@ this.helper = {
     });
   }
 
-  formData.forEach((v, k) => console.log(k, v)); // ✅ You'll now see real values
-
+  formData.forEach((v, k) => console.log(k, v));
   if (this.isEditMode && this.employeeId) {
     this.helperService.updateHelper(this.employeeId, formData);
   } else {
-    this.helperService.postData(formData);
-  }
+    this.helperService.postData(formData).subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.loadingChange.emit(false);
 
-  setTimeout(() => {
-    this.helper = this.helperService.getlasthelper;
-    this.showcard = true;
-  }, 2500);
+        const dialogRef = this.dialog.open(HelperDialogComponent, {
+          width: '700px',
+          height:'600px',
+          data: res,
+          panelClass: 'custom-dialog-container'
+        });
+
+        dialogRef.afterClosed().subscribe(() => {
+          this.router.navigate(['/']);
+        });
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error('Post failed:', err);
+      }
+    });
+  }
 }
+
 
   closepopup() {
     this.showcard = false;
