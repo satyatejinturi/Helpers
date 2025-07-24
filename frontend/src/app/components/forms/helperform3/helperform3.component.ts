@@ -32,43 +32,67 @@ export class Helperform3Component implements OnInit {
   }
 
   ngOnInit() {
-    const data1 = this.helperService.getForm1Data();
-    const data2 = this.helperService.getForm2Data();
-    this.helper = {
-      ...data1,
-      ...data2
-    };
-    console.log(this.helper);
+  const data1 = this.helperService.getForm1Data(); 
+  const data2 = this.helperService.getForm2Data(); 
+  const plainData1: any = {};
+    console.log('data1 is:', data1);
+console.log('Type:', typeof data1);
+
+for (const [key, value] of Object.entries(data1))  {
+  if (key === 'languages[]' || key === 'languages') {
+    if (!plainData1.languages) plainData1.languages = [];
+    plainData1.languages.push(value);
+  } else {
+    plainData1[key] = value;
   }
+}
+
+this.helper = {
+  ...plainData1,
+  ...data2
+};
+
+  console.log('data1:', plainData1);
+  console.log('data2:', data2);
+  console.log('helper:', this.helper);
+}
+
 
   submitHelper() {
-    const data1 = this.helperService.getForm1Data();
-    const data2 = this.helperService.getForm2Data();
-    const formData = new FormData();
-    for (const key in data1) {
+  const data1 = this.helperService.getForm1Data(); // now a plain object
+  const data2 = this.helperService.getForm2Data();
+
+  const formData = new FormData();
+  
+  for (const key in data1) {
+    if (key === 'languages' && Array.isArray(data1.languages)) {
+      data1.languages.forEach((lang: string) => {
+        formData.append('languages[]', lang);
+      });
+    } else {
       formData.append(key, data1[key]);
     }
-    data1.languages.forEach((lang: string) => {
-      formData.append('languages[]', lang);
-    });
-
-    if (data2?.files) {
-      data2.files.forEach((file: File) => {
-        formData.append('additionalDocs', file);
-      });
-    }
-
-    if (this.isEditMode && this.employeeId) {
-      this.helperService.updateHelper(this.employeeId, formData);
-    } else {
-      this.helperService.postData(formData);
-    }
-
-    setTimeout(() => {
-      this.helper = this.helperService.getlasthelper;
-      this.showcard = true;
-    }, 2500);
   }
+
+  if (data2?.files) {
+    data2.files.forEach((file: File) => {
+      formData.append('additionalDocs', file);
+    });
+  }
+
+  formData.forEach((v, k) => console.log(k, v)); // ✅ You'll now see real values
+
+  if (this.isEditMode && this.employeeId) {
+    this.helperService.updateHelper(this.employeeId, formData);
+  } else {
+    this.helperService.postData(formData);
+  }
+
+  setTimeout(() => {
+    this.helper = this.helperService.getlasthelper;
+    this.showcard = true;
+  }, 2500);
+}
 
   closepopup() {
     this.showcard = false;

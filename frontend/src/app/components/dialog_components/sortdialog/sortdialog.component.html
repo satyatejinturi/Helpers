@@ -1,0 +1,19 @@
+<div class="w-64 bg-white rounded-xl shadow-lg p-4">
+  <h2 class="text-base font-semibold text-gray-500 mb-1">Sort By</h2>
+  <div class="border-b border-gray-300 mb-3"></div>
+  <div class="space-y-2">
+    <button
+      *ngFor="let option of sortOptions"
+      (click)="onSelect(option.value)"
+      [ngClass]="{
+        'bg-indigo-400 text-white': data.currentSort === option.value,
+        'hover:bg-gray-100': data.currentSort !== option.value
+      }"
+      class="block w-full text-left px-4 py-2 rounded-md text-sm font-medium transition"
+    >
+      {{ option.label }}
+      <i *ngIf="data.currentSort === option.value" class="ph ph-check text-white  ml-20"></i>
+    </button>
+  </div>
+
+</div>

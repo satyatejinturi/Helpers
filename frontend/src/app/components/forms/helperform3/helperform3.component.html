@@ -32,13 +32,13 @@
       <div>{{ helper.gender }}</div>
 
       <div class="font-medium">Languages</div>
-      <div>{{ helper.languages.join(' , ')  || ' '}}</div>
+      <div>{{ helper.languages || ' '}}</div>
 
       <div class="font-medium">Mobile No.</div>
-      <div>{{ helper.phone }}</div>
+      <div>{{ helper.phno }}</div>
 
       <div class="font-medium">Email ID</div>
-      <div>{{ helper.email }}</div>
+      <div>{{ helper.email || '-' }}</div>
 
       <div class="font-medium">KYC Document</div>
       <div>
@@ -57,7 +57,7 @@
     <h3 class="text-sm font-bold text-gray-600 mb-2">SERVICE DETAILS</h3>
     <div class="grid grid-cols-2 gap-y-2 text-sm text-gray-700">
       <div class="font-medium">Type</div>
-      <div>{{ helper.serviceType }}</div>
+      <div>{{ helper.typeOfService }}</div>
 
       <div class="font-medium">Organization</div>
       <div>{{ helper.organizationName }}</div>

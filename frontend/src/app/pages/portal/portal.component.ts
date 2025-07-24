@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,HostListener,ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { HelperDataComponent } from '../../components/helper-data/helper-data.component';
 import { SidebarComponent } from '../../components/aside-components/sidebar/sidebar.component';
@@ -8,11 +8,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { FilterDialogComponent } from '../../components/dialog_components/filter-dialog/filter-dialog.component';
+import { SortDialogComponent } from '../../components/dialog_components/sortdialog/sortdialog.component';
+
 @Component({
   selector: 'app-portal',
   standalone: true,
   imports: [SidebarComponent, HelperCardComponent, HelperDataComponent, CommonModule, FormsModule,
-    MatDialogModule,FilterDialogComponent
+    MatDialogModule, FilterDialogComponent
   ],
   templateUrl: './portal.component.html',
   styleUrl: './portal.component.css'
@@ -21,11 +23,11 @@ export class PortalComponent implements OnInit {
   allhelper = this.helperservice.helper;
   selectedhelper: any = null;
   nofhelpers = this.helperservice.noofhelpers;
-  totalno=this.helperservice.totalnoofuser;
-  showfilter=false;
+  totalno = this.helperservice.totalnoofuser;
+  showfilter = false;
   constructor(public helperservice: HelperServiceService,
-     public router: Router,
-    public dialog: MatDialog,) {}
+    public router: Router,
+    public dialog: MatDialog,) { }
 
   selectedServiceTypes: string[] = [];
   selectedOrganizations: string[] = [];
@@ -45,40 +47,21 @@ export class PortalComponent implements OnInit {
     console.log("Add button clicked");
   }
 
-  sortpopup() {
-    this.displaysortpopup = !this.displaysortpopup;
-  }
-
   onsearch(event: Event): void {
     const searchterm = event.target as HTMLInputElement;
     this.helperservice.searchhelper(searchterm.value);
   }
   displaysortpopup = false;
 
-  @ViewChild('sortPopup') sortPopupRef!: ElementRef;
 
-  toggleSortPopup(event: MouseEvent) {
-    event.stopPropagation(); 
-    this.displaysortpopup = !this.displaysortpopup;
-  }
 
-  @HostListener('document:click', ['$event.target'])
-  onDocumentClick(target: HTMLElement) {
-    if (this.displaysortpopup && this.sortPopupRef) {
-      const clickedInside = this.sortPopupRef.nativeElement.contains(target);
-      if (!clickedInside) {
-        this.displaysortpopup = false;
-      }
-    }
-  }
+  selectedSort: 'employeeid' | 'fullName' | null = null;
 
-  selectedSort: 'id' | 'name' | null = null;
-
-  selectSort(type: 'id' | 'name') {
+  selectSort(type: 'employeeid' | 'fullName') {
     this.selectedSort = type;
-    if (type === 'id') {
+    if (type === 'employeeid') {
       this.allhelper().sort((a, b) => a.employeeid - b.employeeid);
-    } else if (type === 'name') {
+    } else if (type === 'fullName') {
       this.allhelper().sort((a, b) => a.fullName.localeCompare(b.fullName));
     }
   }
@@ -86,45 +69,64 @@ export class PortalComponent implements OnInit {
   allDepartments = ['asbl']
 
   openFilterDialog(event?: MouseEvent) {
-  const triggerElement = event?.target as HTMLElement;
-  const rect = triggerElement?.getBoundingClientRect();
+    const triggerElement = event?.target as HTMLElement;
+    const rect = triggerElement?.getBoundingClientRect();
 
-  const dialogRef = this.dialog.open(FilterDialogComponent, {
-    width: '300px',
-    data: {
-      serviceTypes: this.helperservice.getAllServiceTypes(),
-      organizations: this.helperservice.getAllOrganizations(),
-      serviceLimit: 3,
-      organizationLimit: 3,
-      initialServices: this.selectedServiceTypes,
-      initialOrganizations: this.selectedOrganizations
-    },
+    const dialogRef = this.dialog.open(FilterDialogComponent, {
+      width: '300px',
+      data: {
+        serviceTypes: this.helperservice.getAllServiceTypes(),
+        organizations: this.helperservice.getAllOrganizations(),
+        serviceLimit: 3,
+        organizationLimit: 3,
+        initialServices: this.selectedServiceTypes,
+        initialOrganizations: this.selectedOrganizations
+      },
+      position: {
+        top: `140px`,
+        left: `80px`
+      },
+      hasBackdrop: true,
+      panelClass: 'custom-filter-dialog'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.reset) {
+        this.selectedServiceTypes = [];
+        this.selectedOrganizations = [];
+        this.showfilter = false;
+        this.helperservice.resetFilters();
+        return;
+      }
+
+      if (result) {
+        const { services, organizations } = result;
+        this.selectedServiceTypes = services;
+        this.selectedOrganizations = organizations;
+        this.showfilter = true;
+        this.helperservice.filterByMultipleCriteria(services, organizations);
+      }
+    });
+  }
+
+  openSortDialog(event: MouseEvent) {
+  const dialogRef = this.dialog.open(SortDialogComponent, {
+    data: { currentSort: this.selectedSort },
     position: {
-      top: `140px`,
-      left: `80px`
+      top: '140px',
+      left: '60px'
     },
+    panelClass: 'custom-filter-dialog',
     hasBackdrop: true,
-    panelClass: 'custom-filter-dialog'
   });
 
-  dialogRef.afterClosed().subscribe(result => {
-    if (result?.reset) {
-      this.selectedServiceTypes = [];
-      this.selectedOrganizations = [];
-      this.showfilter=false;
-      this.helperservice.resetFilters();
-      return;
-    }
-
+  dialogRef.afterClosed().subscribe((result: 'employeeid' | 'fullName' | null) => {
+    console.log(result);
     if (result) {
-      const { services, organizations } = result;
-      this.selectedServiceTypes = services;
-      this.selectedOrganizations = organizations;
-      this.showfilter=true;
-      this.helperservice.filterByMultipleCriteria(services, organizations);
+      this.selectSort(result);
     }
   });
 }
 
-
+  
 }

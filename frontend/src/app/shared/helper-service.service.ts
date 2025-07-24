@@ -91,11 +91,13 @@ export class HelperServiceService {
   getForm2Data(): any {
     return this.form2Data();
   }
-
-  postData(formdata: any) {
+  postResult = signal<any | null>(null);
+ postData(formdata: any) {
     this.http.post(`${this.url}/allHelpers`, formdata).subscribe(res => {
       this.lasthelper.set(res);
+      this.postResult.set(res); // ✅ Emit for consumer
       this.showmsg.set(true);
+      console.log(res);
       setTimeout(() => this.showmsg.set(false), 2000);
     });
   }

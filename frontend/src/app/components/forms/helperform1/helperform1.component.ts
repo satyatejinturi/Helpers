@@ -4,13 +4,13 @@
   import { KycdocumentComponent } from '../../dialog_components/kycdocument/kycdocument.component';
   import { MatDialog } from '@angular/material/dialog';
   import { HelperServiceService } from '../../../shared/helper-service.service';
-
+import { CheckboxDropdownComponent } from '../checkbox-dropdown/checkbox-dropdown.component';
   @Component({
     selector: 'app-helperform1',
     standalone: true,
     templateUrl: './helperform1.component.html',
     styleUrl: './helperform1.component.css',
-    imports: [CommonModule, FormsModule, KycdocumentComponent]
+    imports: [CommonModule, FormsModule, KycdocumentComponent,CheckboxDropdownComponent]
   })
   export class Helperform1Component implements OnInit {
     @Input() helperData: any = null;
@@ -44,72 +44,47 @@
     constructor(private dialog: MatDialog, private helperService: HelperServiceService) {}
 
    ngOnInit() {
-  this.languages.forEach(lang => (this.languageSelection[lang] = false));
-  this.languageSelection['English'] = true;
-  this.updateSelectedLanguages();
-
-  if (this.helperData) {
-    this.isEditMode = true;
-    this.kycUrl = this.helperData.kycURL || '';
-
-    this.helper = {
-      typeOfService: this.helperData.typeOfService || '',
-      organizationName: this.helperData.organizationName || '',
-      fullName: this.helperData.fullName || '',
-      gender: this.helperData.gender || '',
-      countryCode: this.helperData.countryCode || '+91',
-      phno: this.helperData.phno || '',
-      email: this.helperData.email || '',
-      vehicleType: this.helperData.vehicleType || 'none',
-      vehicleNo: this.helperData.vehicleNo || '',
-      profile: null,
+      this.languages.forEach(lang => (this.languageSelection[lang] = false));
+      this.languageSelection['English'] = true;
       
-      Kyc: null,
-      kycDocType: this.helperData.kycDocType || ''
-    };
-    this.existingKycUrl = this.helperData.kycDocUrl ?? null;
-    if (this.helperData.languages && Array.isArray(this.helperData.languages)) {
-      this.selectedLanguages = [...this.helperData.languages];
-      for (const lang of this.languages) {
-        this.languageSelection[lang] = this.selectedLanguages.includes(lang);
+
+      if (this.helperData) {
+        this.isEditMode = true;
+        this.kycUrl = this.helperData.kycURL || '';
+
+        this.helper = {
+          typeOfService: this.helperData.typeOfService || '',
+          organizationName: this.helperData.organizationName || '',
+          fullName: this.helperData.fullName || '',
+          gender: this.helperData.gender || '',
+          countryCode: this.helperData.countryCode || '+91',
+          phno: this.helperData.phno || '',
+          email: this.helperData.email || '',
+          vehicleType: this.helperData.vehicleType || 'none',
+          vehicleNo: this.helperData.vehicleNo || '',
+          profile: null,
+          
+          Kyc: null,
+          kycDocType: this.helperData.kycDocType || ''
+        };
+        this.existingKycUrl = this.helperData.kycDocUrl ?? null;
+        if (this.helperData && this.helperData?.languages) {
+          if (this.helperData?.languages?.length) {
+            const raw = this.helperData.languages[0]; // single string
+            this.selectedLanguages = raw.split(',').map((lang:string) => lang.trim());
+          }
+
+        }
+
+        if (this.helperData.profilePhoto) {
+          this.profilePhotoPreview = this.helperData.profilePhoto;
+        }
       }
     }
 
-    if (this.helperData.profilePhoto) {
-      this.profilePhotoPreview = this.helperData.profilePhoto;
-    }
-  }
-}
 
-
-    toggleDropdown() {
-      this.isDropdownOpen = !this.isDropdownOpen;
-    }
-
-    onLanguageChange() {
-      const selected = Object.keys(this.languageSelection).filter(lang => this.languageSelection[lang]);
-      if (selected.length > 3) {
-        alert('You can select a maximum of 3 languages.');
-        const lastSelected = selected[selected.length - 1];
-        this.languageSelection[lastSelected] = false;
-      }
-      if (selected.length === 0) {
-        this.languageSelection['English'] = true;
-      }
-      this.updateSelectedLanguages();
-    }
-
-    removeLanguage(lang: string) {
-      this.languageSelection[lang] = false;
-      this.updateSelectedLanguages();
-    }
-
-    updateSelectedLanguages() {
-      this.selectedLanguages = Object.keys(this.languageSelection).filter(lang => this.languageSelection[lang]);
-      if (this.selectedLanguages.length === 0) {
-        this.languageSelection['English'] = true;
-        this.selectedLanguages = ['English'];
-      }
+    onLanguagesChange(selected: string[]) {
+      this.selectedLanguages = selected;
     }
 
     onPhotoUpload(event: Event) {
@@ -143,31 +118,43 @@
         alert('Please upload KYC document and select type.');
         return false;
       }
+    const formData = new FormData();
 
-      const formData = {
-        typeOfService: this.helper.typeOfService,
-        organizationName: this.helper.organizationName,
-        fullName: this.helper.fullName,
-        gender: this.helper.gender,
-        countryCode: this.helper.countryCode,
-        phno: this.helper.phno,
-        email: this.helper.email,
-        vehicleType: this.helper.vehicleType,
-        vehicleNo: this.helper.vehicleNo,
-        profile: this.helper.profile,
-        Kyc: this.helper.Kyc,
-        kycDocType: this.helper.kycDocType,
-        kycURL: this.kycUrl || '',
-        languages: this.selectedLanguages,
+      formData.append('typeOfService', this.helper.typeOfService);
+      formData.append('organizationName', this.helper.organizationName);
+      formData.append('fullName', this.helper.fullName);
+      formData.append('gender', this.helper.gender);
+      formData.append('countryCode', this.helper.countryCode);
+      formData.append('phno', this.helper.phno);
+      formData.append('email', this.helper.email);
+      formData.append('vehicleType', this.helper.vehicleType);
+      formData.append('vehicleNo', this.helper.vehicleNo);
+      formData.append('kycDocType', this.helper.kycDocType);
+
+      formData.append('languages', this.selectedLanguages.join(','));
+
+      if (this.helper.profile instanceof File) {
+        formData.append('profile', this.helper.profile, this.helper.profile.name);
+      }
+
+      if (this.helper.Kyc instanceof File) {
+        formData.append('Kyc', this.helper.Kyc, this.helper.Kyc.name);
+      }
+      console.log(this.helper);
+      console.log(formData);
+      formData.forEach((v, k) => console.log(k, v));
+
+      const plainData = {
+        ...this.helper,
+        languages: this.selectedLanguages
       };
 
-      console.log(formData);
       if (this.isEditMode) {
         const empId = this.helperService.getSelectedHelper()?.employeeid;
         this.helperService.updateHelper(empId, formData);
-      } else {
-        this.helperService.setForm1Data(formData);
-      }
+      } 
+      this.helperService.setForm1Data(plainData);
+      
 
       return true;
     }

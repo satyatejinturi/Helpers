@@ -6,6 +6,7 @@ import { RouterModule, Router } from '@angular/router';
 import { ProfilePhotoComponent } from '../helper-components/profile-photo/profile-photo.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../dialog_components/delete-dialog/delete-dialog.component'; 
+import { HelperDialogComponent } from '../dialog_components/helper-dialog/helper-dialog.component';
 
 @Component({
   selector: 'app-helper-data',
@@ -16,7 +17,8 @@ import { DeleteDialogComponent } from '../dialog_components/delete-dialog/delete
     RouterModule,
     ProfilePhotoComponent,
     MatDialogModule,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    HelperDialogComponent
   ],
   templateUrl: './helper-data.component.html',
   styleUrls: ['./helper-data.component.css']
@@ -51,5 +53,13 @@ export class HelperDataComponent {
   onEditHelper() {
     this.service4all.setSelectedHelper(this.helper);
     this.router.navigate(['/add-edit-helper', 'edit']);
+  }
+  openHelperCardDialog(helper: any) {
+    this.dialog.open(HelperDialogComponent, {
+      data: helper,
+      width: '700px',
+      height:'600px',
+      panelClass: 'custom-helper-dialog'
+    });
   }
 }

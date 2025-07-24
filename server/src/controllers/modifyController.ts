@@ -140,7 +140,6 @@ export const edithelper = async (req: Request, res: Response) => {
     if (kycD !== "") updateHelper.kycDocUrl = kycD;
     if (addit !== "") updateHelper.additionalDocUrl = addit;
 
-    // Delete temp files
     for (const key in files) {
       const file = files[key][0];
       fs.unlink(file.path, (error) => {

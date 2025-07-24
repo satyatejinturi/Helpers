@@ -7,11 +7,12 @@
 
 <div class="flex min-h-screen">
   <app-step-slider
-    *ngIf="isEditMode"
-    [currentStep]="presentstep()"
-    class="w-64 bg-gray-100 p-4">
-  </app-step-slider>
-
+  
+  [currentStep]="presentstep()"
+  [isEditMode]="isEditMode"
+  (editStepSelected)="goto($event)"
+  class="w-64 bg-gray-100 p-4">
+</app-step-slider>
   <div class="flex-1 p-6">
     <app-helperform1 *ngIf="presentstep() === 1 " [helperData]="selectedHelper"></app-helperform1>
 
@@ -44,7 +45,6 @@
     Add Helper
   </button>
 
-  <!-- Edit mode: Save & Exit for Form 1 or 2 -->
   <button
     *ngIf="isEditMode && presentstep() <= 2"
     (click)="saveAndExit()"

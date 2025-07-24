@@ -60,29 +60,28 @@
     goback() {
       this.router.navigate(['/']);
     }
-goto(step: number) {
-  if (this.isEditMode) {
-    if (this.presentstep() === 1 && step > 1) {
-      const formValid = this.form1Comp?.onSaveForm1(); // Save + patch logic inside form1
-      if (formValid) {
-        this.router.navigate(['/']); // Redirect after saving
+  goto(step: number) {
+    if (this.isEditMode) {
+      if (this.presentstep() === 1 && step > 1) {
+        const formValid = this.form1Comp?.onSaveForm1(); 
+        if (formValid) {
+          this.router.navigate(['/']); 
+        }
+        return;
       }
-      return;
-    }
 
     if (this.presentstep() === 2 && step > 2) {
-      const formValid = this.form2Comp?.onSaveForm2(); // Save + patch logic inside form2
+      const formValid = this.form2Comp?.onSaveForm2(); 
       if (formValid) {
         this.router.navigate(['/']);
       }
       return;
     }
 
-    this.presentstep.set(step); // Allow navigation
+    this.presentstep.set(step);
     return;
   }
 
-  // Add mode sequential validation
   if (this.presentstep() === 1 && step > 1) {
     const formValid = this.form1Comp?.onSaveForm1();
     if (!formValid) return;
