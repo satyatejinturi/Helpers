@@ -109,6 +109,7 @@ import { ElementRef, HostListener } from '@angular/core';
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.helper.Kyc = result.kyc;
+          this.showlabel=true
           this.helper.kycDocType = result.kycDocType;
           this.existingKycUrl = null; 
           console.log('KYC data received:', result);
@@ -174,6 +175,14 @@ import { ElementRef, HostListener } from '@angular/core';
 
       return true;
     }
+    showlabel:boolean=false
+    removeKyc() {
+      this.helper.Kyc = null;
+      this.helper.kycDocType = '';
+      this.kycUrl = '';
+      this.showlabel=false
+    }
+
     
     visibleOptions: string[] = [];
     isLangDropdownOpen = false;

@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SearchhelperPipe implements PipeTransform {
 
-  transform(helpers: any[], searchTerm: string,feildnames: string[]=['fullName']): any[] {
+  transform(helpers: any[], searchTerm: string,feildnames: string[]=[]): any[] {
     if (!helpers || !searchTerm) {
       return helpers;
     }
