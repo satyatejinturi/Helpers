@@ -10,7 +10,7 @@ import cors from "cors"
 app.use(cors({
   origin: 'http://localhost:4200',
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-  allowedHeaders: ['Content-Type'], // optional
+  allowedHeaders: ['Content-Type']
 }));
 
 

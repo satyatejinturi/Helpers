@@ -41,11 +41,7 @@ import { AdditionalcomponentComponent } from '../../dialog_components/additional
     }
 
     onSaveForm2(): boolean {
-      // if (this.additionalDocs.length === 0) {
-      //   this.helperForm2.control.markAllAsTouched();
-      //   return false;
-      // }
-      // this.helperService.setForm2Data({ additionalDocs: this.additionalDocs });
+      
       return true;
     }
   }

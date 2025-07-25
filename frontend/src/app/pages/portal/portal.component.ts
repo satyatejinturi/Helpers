@@ -9,12 +9,15 @@ import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { FilterDialogComponent } from '../../components/dialog_components/filter-dialog/filter-dialog.component';
 import { SortDialogComponent } from '../../components/dialog_components/sortdialog/sortdialog.component';
+import { SearchhelperPipe } from '../../shared/searchhelper.pipe';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-portal',
   standalone: true,
   imports: [SidebarComponent, HelperCardComponent, HelperDataComponent, CommonModule, FormsModule,
-    MatDialogModule, FilterDialogComponent
+    MatDialogModule, FilterDialogComponent,SearchhelperPipe,MatMenuModule,MatButtonModule
   ],
   templateUrl: './portal.component.html',
   styleUrl: './portal.component.css'
@@ -32,6 +35,13 @@ export class PortalComponent implements OnInit {
   selectedServiceTypes: string[] = [];
   selectedOrganizations: string[] = [];
 
+  searchText = '';
+
+    sortOptions: { label: string; value: 'employeeid' | 'fullName' }[] = [
+  { label: 'Employee ID', value: 'employeeid' },
+  { label: 'Helper Name', value: 'fullName' }
+];
+
 
   ngOnInit(): void {
     this.helperservice.getData();
@@ -48,9 +58,10 @@ export class PortalComponent implements OnInit {
   }
 
   onsearch(event: Event): void {
-    const searchterm = event.target as HTMLInputElement;
-    this.helperservice.searchhelper(searchterm.value);
-  }
+  const input = event.target as HTMLInputElement;
+  this.searchText = input.value;
+}
+
   displaysortpopup = false;
 
 
@@ -114,7 +125,7 @@ export class PortalComponent implements OnInit {
     data: { currentSort: this.selectedSort },
     position: {
       top: '140px',
-      left: '60px'
+      left: '28px'
     },
     panelClass: 'custom-filter-dialog',
     hasBackdrop: true,

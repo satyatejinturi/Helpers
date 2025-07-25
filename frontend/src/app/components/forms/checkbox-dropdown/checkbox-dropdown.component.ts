@@ -63,10 +63,10 @@
       const alreadySelected = this.selected.filter(opt => allToSelect.includes(opt));
 
       if (alreadySelected.length === allToSelect.length) {
-        // Deselect all visible options
+        
         this.selected = this.selected.filter(opt => !allToSelect.includes(opt));
       } else {
-        // Select as many as possible from visible options
+        
         const remaining = this.maxSelection - this.selected.length;
         const toAdd = allToSelect.filter(opt => !this.selected.includes(opt)).slice(0, remaining);
         this.selected = [...this.selected, ...toAdd];
@@ -92,7 +92,7 @@
         return this.label; 
       }
 
-      const displayLimit = 2;
+      const displayLimit = 1;
       const selectedCount = this.selected.length;
 
       if (selectedCount <= displayLimit) {

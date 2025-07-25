@@ -16,15 +16,13 @@ export class HelperServiceService {
   private filteredUsers = signal<any[]>([]);
   private searchedUsers = signal<any[]>([]);
 
-  private currentSearchTerm = signal<string>('');
-
   private totalUsers = signal<number>(0);
   readonly totalnoofuser = computed(() => this.totalUsers());
   
   private searchTimeout: any = null;
   readonly helper = computed(() => {
-    const term = this.currentSearchTerm().trim();
-    return term ? this.searchedUsers() : this.filteredUsers();
+    
+    return  this.filteredUsers();
   });
 
   readonly noofhelpers = computed(() => this.helper().length);
@@ -57,25 +55,7 @@ export class HelperServiceService {
     });
   }
 
-  searchhelper(searchterm: string) {
-    this.currentSearchTerm.set(searchterm);
-
-    if (this.searchTimeout) clearTimeout(this.searchTimeout);
-
-    this.searchTimeout = setTimeout(() => {
-      const trimmed = searchterm.trim();
-
-      if (!trimmed) {
-        this.searchedUsers.set([]);
-        return;
-      }
-
-      this.http.get<any[]>(`${this.url}/search?query=${trimmed}`).subscribe(helper => {
-        this.searchedUsers.set(helper);
-      });
-    }, 300); 
-  }
-
+  
   setForm1Data(data: any) {
     this.form1Data.set(data);
   }

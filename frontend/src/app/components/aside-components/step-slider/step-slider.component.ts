@@ -13,7 +13,7 @@ export class StepSliderComponent {
   @Input() steps = [1, 2, 3];
   @Input() stepLabels: string[] = ['Documents & Details', 'Additional Docs', 'Review'];
 
-  // NEW
+ 
   @Input() isEditMode: boolean = false;
   @Output() editStepSelected = new EventEmitter<number>(); // emits step number (1 or 2)
 }
