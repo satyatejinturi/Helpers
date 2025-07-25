@@ -114,6 +114,7 @@ import { CheckboxDropdownComponent } from '../checkbox-dropdown/checkbox-dropdow
     }
 
     onSaveForm1(): boolean {
+      this.helperForm.form.markAllAsTouched(); 
       if (!this.helperForm.valid) return false;
       if (!this.existingKycUrl && (!this.helper.Kyc || !this.helper.kycDocType)) {
         alert('Please upload KYC document and select type.');
