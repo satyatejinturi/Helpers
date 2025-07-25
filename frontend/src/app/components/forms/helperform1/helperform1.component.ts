@@ -5,6 +5,8 @@
   import { MatDialog } from '@angular/material/dialog';
   import { HelperServiceService } from '../../../shared/helper-service.service';
 import { CheckboxDropdownComponent } from '../checkbox-dropdown/checkbox-dropdown.component';
+import { ElementRef, HostListener } from '@angular/core';
+
   @Component({
     selector: 'app-helperform1',
     standalone: true,
@@ -15,6 +17,7 @@ import { CheckboxDropdownComponent } from '../checkbox-dropdown/checkbox-dropdow
   export class Helperform1Component implements OnInit {
     @Input() helperData: any = null;
     @ViewChild('helperForm') helperForm!: NgForm;
+    @ViewChild('languageDropdownWrapper') languageDropdownWrapper!: ElementRef;
 
     helper = {
       typeOfService: '',
@@ -115,7 +118,18 @@ import { CheckboxDropdownComponent } from '../checkbox-dropdown/checkbox-dropdow
 
     onSaveForm1(): boolean {
       this.helperForm.form.markAllAsTouched(); 
-      if (!this.helperForm.valid) return false;
+      this.languageTouched = true;
+      console.log(this.selectedLanguages)
+      if (this.helperForm.invalid) {
+        
+
+        return false;
+      }
+      if (this.selectedLanguages.length === 0) {
+        return false;
+      }
+
+
       if (!this.existingKycUrl && (!this.helper.Kyc || !this.helper.kycDocType)) {
         alert('Please upload KYC document and select type.');
         return false;
@@ -160,6 +174,84 @@ import { CheckboxDropdownComponent } from '../checkbox-dropdown/checkbox-dropdow
 
       return true;
     }
+    
+    visibleOptions: string[] = [];
+    isLangDropdownOpen = false;
+    maxLanguageSelection = 3;
+    languageDisplayLimit = 5;
+    languageTouched = false;
 
 
+    toggleLangDropdown() {
+      this.isLangDropdownOpen = !this.isLangDropdownOpen;
+      if (this.isLangDropdownOpen) this.updateVisibleLanguages();
+    }
+
+    toggleLanguage(lang: string) {
+      const index = this.selectedLanguages.indexOf(lang);
+      if (index >= 0) {
+        this.selectedLanguages.splice(index, 1);
+      } else if (this.selectedLanguages.length < this.maxLanguageSelection) {
+        this.selectedLanguages.push(lang);
+      }
+      this.updateVisibleLanguages();
+    }
+
+    updateVisibleLanguages() {
+      const all = [...this.selectedLanguages, ...this.languages];
+      const deduped = Array.from(new Set(all));
+      const selectedSet = new Set(this.selectedLanguages);
+      const unselected = deduped.filter(lang => !selectedSet.has(lang));
+      const result = [...this.selectedLanguages, ...unselected.slice(0, Math.max(0, this.languageDisplayLimit - this.selectedLanguages.length))];
+      this.visibleOptions = result;
+    }
+
+    isLangChecked(lang: string): boolean {
+      return this.selectedLanguages.includes(lang);
+    }
+
+    isLangDisabled(lang: string): boolean {
+      return !this.isLangChecked(lang) && this.selectedLanguages.length >= this.maxLanguageSelection;
+    }
+
+    toggleSelectAllLanguages() {
+      const allToSelect = this.visibleOptions.slice(0, this.maxLanguageSelection);
+      const alreadySelected = this.selectedLanguages.filter(lang => allToSelect.includes(lang));
+
+      if (alreadySelected.length === allToSelect.length) {
+        this.selectedLanguages = this.selectedLanguages.filter(lang => !allToSelect.includes(lang));
+      } else {
+        const remaining = this.maxLanguageSelection - this.selectedLanguages.length;
+        const toAdd = allToSelect.filter(lang => !this.selectedLanguages.includes(lang)).slice(0, remaining);
+        this.selectedLanguages = [...this.selectedLanguages, ...toAdd];
+      }
+      this.updateVisibleLanguages();
+    }
+
+    isAllVisibleLanguagesSelected(): boolean {
+      return this.visibleOptions.filter(lang => this.selectedLanguages.includes(lang)).length === Math.min(this.visibleOptions.length, this.maxLanguageSelection);
+    }
+
+    resetLanguages() {
+      this.selectedLanguages = [];
+      this.updateVisibleLanguages();
+    }
+
+    getLanguagesLabel(): string {
+      if (!this.selectedLanguages.length) return 'Languages';
+      if (this.selectedLanguages.length === 1) return this.selectedLanguages[0];
+      return `${this.selectedLanguages[0]} +${this.selectedLanguages.length - 1} more`;
+    }
+
+    @HostListener('document:click', ['$event'])
+    handleOutsideClick(event: MouseEvent) {
+      if (
+        this.isLangDropdownOpen &&
+        this.languageDropdownWrapper &&
+        !this.languageDropdownWrapper.nativeElement.contains(event.target)
+      ) {
+        this.isLangDropdownOpen = false;
+        this.languageTouched=true
+      }
+    }
   }

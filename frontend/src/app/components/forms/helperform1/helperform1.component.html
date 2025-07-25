@@ -72,19 +72,45 @@
       </div>
 
       <div class="mb-4">
-        
-        <app-checkbox-dropdown
-          [header]="'Languages'"
-          [label]="'Languages'"
-          [options]="languages"
-          [selected]="selectedLanguages"
-          (selectedChange)="onLanguagesChange($event)">
-        </app-checkbox-dropdown>
-        <small class="text-gray-500">Select all applicable languages.</small>
+  <div class="flex mb-1">
+    <h2 class="text-sm font-medium">Languages<span class="text-red-500">*</span></h2>
+    <button class="ml-auto text-xs text-indigo-500" (click)="resetLanguages()" type="button">Reset</button>
+  </div>
+
+  <div class="relative" #languageDropdownWrapper>
+    <button type="button" (click)="toggleLangDropdown()" class="border px-4 py-2 rounded-md w-full text-left text-gray-800 flex items-center">
+      {{ getLanguagesLabel() }}
+      <span class="ml-auto"><i class="ph ph-caret-down"></i></span>
+    </button>
+
+    <div *ngIf="isLangDropdownOpen"
+      class="absolute mt-2 bg-white border shadow-md rounded-md w-full z-10 p-2"
+      style="max-height: 130px; overflow-y: auto;"
+    >
+      <div class="flex items-center gap-2 p-1 hover:bg-gray-100 rounded font-medium text-sm">
+        <input type="checkbox" [checked]="isAllVisibleLanguagesSelected()" (change)="toggleSelectAllLanguages()" id="selectAllLangs"/>
+        <label for="selectAllLangs">Select All (Max: {{ maxLanguageSelection }})</label>
       </div>
 
-      <p *ngIf="selectedLanguages.length === 0 && helperForm.submitted" class="text-red-500 text-xs mt-1">This field is necessary</p>
-      
+      <div *ngFor="let lang of visibleOptions" class="flex items-center gap-2 p-1 hover:bg-gray-100 rounded text-sm" [class.text-gray-400]="isLangDisabled(lang)">
+        <input
+          type="checkbox"
+          [checked]="isLangChecked(lang)"
+          (change)="toggleLanguage(lang)"
+          [disabled]="isLangDisabled(lang)"
+          [id]="lang"
+        />
+        <label [for]="lang" class="cursor-pointer w-full flex justify-between items-center">
+          {{ lang }}
+          <i *ngIf="isLangChecked(lang)" class="ph ph-check text-indigo-600"></i>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <small class="text-gray-500">Select all applicable languages.</small>
+  <p *ngIf="selectedLanguages.length === 0  && languageTouched" class="text-red-500 text-xs mt-1">This field is necessary</p>
+</div>
 
       <div>
         <label class="block text-sm font-medium mb-1">Gender<span class="text-red-500">*</span></label>
