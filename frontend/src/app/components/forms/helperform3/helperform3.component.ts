@@ -12,8 +12,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-helperform3',
-  standalone: true,
-  imports: [ProfilePhotoComponent, CommonModule, HelperCardComponent,HelperDialogComponent,MatProgressBarModule],
+  
   templateUrl: './helperform3.component.html',
   styleUrl: './helperform3.component.css'
 })

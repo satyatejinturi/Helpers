@@ -3,8 +3,7 @@
 
   @Component({
     selector: 'app-checkbox-dropdown',
-    standalone:true,
-    imports:[CommonModule],
+    
     templateUrl: './checkbox-dropdown.component.html',
     styleUrls: ['./checkbox-dropdown.component.scss']
   })

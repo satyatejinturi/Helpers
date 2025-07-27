@@ -5,8 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angu
 
 @Component({
   selector: 'app-delete-dialog',
-  standalone: true,
-  imports: [CommonModule,MatDialogModule,MatButtonModule],
+  
   templateUrl: './delete-dialog.component.html',
   styleUrl: './delete-dialog.component.css'
 })

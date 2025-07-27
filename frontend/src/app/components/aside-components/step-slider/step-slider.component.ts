@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-step-slider',
-  standalone: true,
-  imports: [CommonModule],
+  
   templateUrl: './step-slider.component.html',
   styleUrl: './step-slider.component.css'
 })

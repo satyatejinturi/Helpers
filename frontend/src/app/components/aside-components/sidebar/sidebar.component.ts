@@ -4,8 +4,7 @@ import { HelperCardComponent } from '../../helper-components/helper-card/helper-
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 @Component({
   selector: 'app-sidebar',
-  standalone: true,
-  imports: [CommonModule, ProfilePhotoComponent, HelperCardComponent],
+  
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })

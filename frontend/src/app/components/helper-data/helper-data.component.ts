@@ -10,16 +10,7 @@ import { HelperDialogComponent } from '../dialog_components/helper-dialog/helper
 
 @Component({
   selector: 'app-helper-data',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    ProfilePhotoComponent,
-    MatDialogModule,
-    DeleteDialogComponent,
-    HelperDialogComponent
-  ],
+  
   templateUrl: './helper-data.component.html',
   styleUrls: ['./helper-data.component.css']
 })

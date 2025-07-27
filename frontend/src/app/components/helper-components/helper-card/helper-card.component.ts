@@ -4,8 +4,7 @@ import { ProfilePhotoComponent } from '../profile-photo/profile-photo.component'
 
 @Component({
   selector: 'app-helper-card',
-  standalone: true,
-  imports: [CommonModule,ProfilePhotoComponent],
+  
   templateUrl: './helper-card.component.html',
   styleUrl: './helper-card.component.css'
 })

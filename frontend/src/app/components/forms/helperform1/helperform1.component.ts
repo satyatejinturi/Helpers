@@ -9,10 +9,10 @@ import { ElementRef, HostListener } from '@angular/core';
 
   @Component({
     selector: 'app-helperform1',
-    standalone: true,
+    
     templateUrl: './helperform1.component.html',
     styleUrl: './helperform1.component.css',
-    imports: [CommonModule, FormsModule, KycdocumentComponent,CheckboxDropdownComponent]
+    
   })
   export class Helperform1Component implements OnInit {
     @Input() helperData: any = null;

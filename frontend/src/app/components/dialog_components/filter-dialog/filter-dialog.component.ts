@@ -3,8 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CheckboxDropdownComponent } from '../../forms/checkbox-dropdown/checkbox-dropdown.component';
 @Component({
   selector: 'app-filter-dialog',
-  standalone: true,
-  imports:[CheckboxDropdownComponent],
+  
   templateUrl: './filter-dialog.component.html',
   styleUrls: ['./filter-dialog.component.scss'],
 })

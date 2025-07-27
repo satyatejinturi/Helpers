@@ -13,18 +13,7 @@ import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 @Component({
   selector: 'app-kycdocument',
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDividerModule,
-    FormsModule,
-    CommonModule,
-    MatSelectModule
-  ],
+  
   templateUrl: './kycdocument.component.html',
   styleUrl: './kycdocument.component.css'
 })

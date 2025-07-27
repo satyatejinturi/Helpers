@@ -5,8 +5,7 @@ import { ProfilePhotoComponent } from '../../helper-components/profile-photo/pro
 
 @Component({
   selector: 'app-helper-dialog',
-  standalone: true,
-  imports: [CommonModule,ProfilePhotoComponent],
+  
   templateUrl: './helper-dialog.component.html',
   styleUrl: './helper-dialog.component.css'
 })

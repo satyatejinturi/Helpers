@@ -10,16 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-additionalcomponent',
-  standalone: true,
-  imports: [
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDividerModule,
-    FormsModule
-  ],
+  
   templateUrl: './additionalcomponent.component.html',
   styleUrl: './additionalcomponent.component.css'
 })

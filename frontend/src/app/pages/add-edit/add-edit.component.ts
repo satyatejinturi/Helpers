@@ -13,18 +13,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 
   @Component({
     selector: 'app-add-edit',
-    standalone: true,
-    imports: [
-      ProfilePhotoComponent,
-      FormsModule,
-      CommonModule,
-      Helperform1Component,
-      Helperform2Component,
-      Helperform3Component,
-      StepSliderComponent,
-      RouterModule,
-      MatProgressBarModule
-    ],
+    
     templateUrl: './add-edit.component.html',
     styleUrls: ['./add-edit.component.css']
   })
@@ -45,10 +34,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 
     ngOnInit(): void {
       this.route.params.subscribe(params => {
+       
         if (params['mode'] === 'edit') {
           this.isEditMode = true;
           this.selectedHelper = this.helperService.getSelectedHelper();
-                    
+          console.log(this.selectedHelper)         
             if (!this.selectedHelper) {
               alert('No helper data found. Redirecting...');
               this.router.navigate(['/']);

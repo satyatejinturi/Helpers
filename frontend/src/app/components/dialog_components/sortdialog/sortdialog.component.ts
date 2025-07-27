@@ -7,8 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-sort-dialog',
   templateUrl: './sortdialog.component.html',
   styleUrls: ['./sortdialog.component.css'],
-  standalone: true,
-  imports: [CommonModule,MatMenuModule,MatButtonModule],
+  
 })
 export class SortDialogComponent {
   constructor(

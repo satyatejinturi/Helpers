@@ -7,10 +7,10 @@
 import { AdditionalcomponentComponent } from '../../dialog_components/additionalcomponent/additionalcomponent.component';
   @Component({
     selector: 'app-helperform2',
-    standalone: true,
+    
     templateUrl: './helperform2.component.html',
     styleUrl: './helperform2.component.css',
-    imports: [CommonModule, FormsModule]
+    
   })
   export class Helperform2Component implements OnInit {
     @ViewChild('helperForm2') helperForm2!: NgForm;

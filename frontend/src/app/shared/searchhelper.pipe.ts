@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'searchhelper',
-  standalone: true
+  
 })
 export class SearchhelperPipe implements PipeTransform {
 

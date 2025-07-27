@@ -15,10 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-portal',
-  standalone: true,
-  imports: [SidebarComponent, HelperCardComponent, HelperDataComponent, CommonModule, FormsModule,
-    MatDialogModule, FilterDialogComponent,SearchhelperPipe,MatMenuModule,MatButtonModule
-  ],
+  
   templateUrl: './portal.component.html',
   styleUrl: './portal.component.css'
 })
