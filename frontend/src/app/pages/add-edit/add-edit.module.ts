@@ -7,9 +7,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../shared/material.module';
 
 const routes: Routes = [
-  { path: '', component: AddEditComponent }
+  { path: '', component: AddEditComponent },
+  { path: ':mode', component: AddEditComponent }
 ];
-
 @NgModule({
   declarations: [AddEditComponent],
   imports: [

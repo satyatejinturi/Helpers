@@ -14,7 +14,7 @@ export const routes: Routes = [
   },
   {
     path: 'add-edit-helper',
-    component: AddEditComponent
-  },
-  { path: 'add-edit-helper/:mode', component: AddEditComponent },
+    loadChildren: () =>
+      import('./pages/add-edit/add-edit.module').then((m) => m.AddEditModule)
+  }
 ];
