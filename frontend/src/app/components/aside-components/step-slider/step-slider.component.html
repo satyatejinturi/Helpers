@@ -1,5 +1,8 @@
-
-<div *ngIf="!isEditMode" class="flex flex-col w-[200px] relative bg-white p-10 ml-7 mr-5 mt-6 h-200">
+<!-- VIEW MODE -->
+<div
+  *ngIf="!isEditMode"
+  class="flex flex-col w-full md:w-[200px] relative bg-white p-6 md:p-10 ml-2 md:ml-7 mr-2 md:mr-5 mt-4 md:mt-6 h-auto md:h-[200px]"
+>
   <ng-container *ngFor="let step of steps; let i = index">
     <div class="relative z-10 flex items-center space-x-2">
       <div
@@ -11,13 +14,13 @@
       >
         {{ i + 1 }}
       </div>
-      <span class="text-xs" *ngIf="stepLabels[i]"> 
+      <span class="text-xs truncate max-w-[100px]" *ngIf="stepLabels[i]"> 
         {{ stepLabels[i] }}
       </span>
     </div>
 
     <div
-      *ngIf="i < steps.length -1"
+      *ngIf="i < steps.length - 1"
       class="w-1 ml-3 h-10 transition-colors duration-300"
       [ngClass]="{
         'bg-blue-600': currentStep > i,
@@ -27,14 +30,18 @@
   </ng-container>
 </div>
 
-<div *ngIf="isEditMode" class="flex flex-col w-[200px] gap-4 bg-white p-10 ml-7 mr-5 mt-6 h-345">
+<!-- EDIT MODE -->
+<div
+  *ngIf="isEditMode"
+  class="flex flex-col w-full md:w-[200px] gap-3 bg-white p-6 md:p-10 ml-2 md:ml-7 mr-2 md:mr-5 mt-4 md:mt-6 h-auto md:h-[345px]"
+>
   <button
-    class="bg-indigo-600 text-white px-4 py-2 rounded text-xs"
+    class="bg-indigo-600 text-white px-4 py-2 rounded text-xs w-full"
     (click)="editStepSelected.emit(1)">
     Edit Documents & Details
   </button>
   <button
-    class="bg-indigo-600 text-white px-4 py-2 rounded text-xs"
+    class="bg-indigo-600 text-white px-4 py-2 rounded text-xs w-full"
     (click)="editStepSelected.emit(2)">
     Edit Additional Docs
   </button>
