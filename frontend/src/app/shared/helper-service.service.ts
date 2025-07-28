@@ -79,7 +79,7 @@ export class HelperServiceService {
   }
   postResult = signal<any | null>(null);
   postData(formData: FormData): Observable<any> {
-    return this.http.post('http://localhost:3000/api/allhelpers', formData);
+    return this.http.post(`${this.url}/allhelpers`, formData);
   }
 
 
