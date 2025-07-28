@@ -16,7 +16,7 @@ export class FilterDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.selectedServiceTypes = [...data.initialServices || []];
-  this.selectedOrganizations = [...data.initialOrganizations || []];
+    this.selectedOrganizations = [...data.initialOrganizations || []];
   }
 
   applyFilters() {

@@ -21,7 +21,9 @@ export class SidebarComponent implements OnChanges {
       if (this.sortedHelpers.length > 0) {
         this.selectedhelper.emit(this.sortedHelpers[0]);
       }
-      
+      if(this.sortedHelpers.length===0){
+        this.selectedhelper.emit(null);
+      }
     }
   }
   selectuser(user: any, ind: number) {

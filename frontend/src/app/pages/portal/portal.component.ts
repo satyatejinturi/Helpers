@@ -52,9 +52,6 @@ export class PortalComponent implements OnInit {
 }
 
   displaysortpopup = false;
-
-
-
   selectedSort: 'employeeid' | 'fullName' | null = null;
 
   selectSort(type: 'employeeid' | 'fullName') {

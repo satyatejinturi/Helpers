@@ -101,11 +101,11 @@ export class HelperServiceService {
   }
 
   getAllServiceTypes(): string[] {
-    return [...new Set(this.helper().map(h => h.typeOfService))];
+    return ["Cook","Maid","Cleaner","Driver"]
   }
 
   getAllOrganizations(): string[] {
-    return [...new Set(this.helper().map(h => h.organizationName))];
+    return ["ASBL","Spring Helpers"]
   }
 
   filterByMultipleCriteria(services: string[], organizations: string[]) {
