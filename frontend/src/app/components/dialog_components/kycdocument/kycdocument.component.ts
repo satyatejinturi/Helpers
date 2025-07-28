@@ -22,7 +22,7 @@ export class KycdocumentComponent {
   Kycdoctype=new EventEmitter<any>();
   Kycdoc=new EventEmitter<any>();
   documentTypes: string[] = ['Aadhar', 'PAN', 'Driving License', 'Passport', 'Voter ID'];
-
+  isupload:boolean=false;
   constructor(private dialogRef: MatDialogRef<KycdocumentComponent>) {}
   submit() {
     if (this.uploadedFile && this.name.trim()) {
@@ -36,14 +36,23 @@ export class KycdocumentComponent {
   }
   cancel(){
     this.dialogRef.close();
+
   }
   uploadedFile: File | null = null;
+  removekyc(){
+    this.uploadedFile=null;
+    this.isupload=false
+  }
 
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
+      this.isupload=true;
       this.uploadedFile = input.files[0];
       console.log('Selected file:', this.uploadedFile);
+    }
+    else{
+      this.isupload=false;
     }
   }
 

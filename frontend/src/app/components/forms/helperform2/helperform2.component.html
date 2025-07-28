@@ -4,7 +4,7 @@
     <p class="text-sm text-gray-500 mb-8">Upload additional documents for the helper</p>
 
     <form #helperForm2="ngForm" class="space-y-5 max-w-2xl">
-      <div>
+      <div *ngIf="additionalDoc===null ">
         <label class="block text-sm font-medium mb-2">Additional Documents</label>
         <div class="flex mb-5">
           <label class="cursor-pointer flex flex-col items-center justify-center w-25 h-25 border-2 border-dashed border-indigo-400 text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition">
@@ -17,16 +17,23 @@
           </label>
         </div>
         <p class="text-xs text-gray-400 mb-10">Upload photo (.png, .jpeg) size 5 mb</p>
-        <p *ngIf="additionalDocs.length === 0 && helperForm2.submitted" class="text-red-500 text-xs mt-1">This field is necessary</p>
+        
+      </div>
+      <div *ngIf="additionalDoc">
+        <i class="fa-solid fa-file-pdf text-5xl text-red-500" ></i>
+          <span  class="truncate max-w-[150px]">{{ additionalDoc.file.name }}</span>
+          <button
+            type="button"
+            (click)="removeDoc()"
+            class="text-red-500 hover:text-red-700 text-xs ml-2 underline"
+          >
+            Remove
+          </button>
       </div>
 
-      <div *ngIf="additionalDocs.length > 0" class="mt-4 text-sm">
-        <div *ngFor="let doc of additionalDocs; let i = index" class="flex justify-between items-center mb-2">
-          <p><strong>Document Type:</strong> {{ doc.docType }} | <strong>File Name:</strong> {{ doc.file.name }}</p>
-          <button type="button" (click)="removeDoc(i)" class="text-red-500 hover:text-red-700">Remove</button>
-        </div>
-      </div>
 
+
+      
       <button type="submit" class="hidden"></button>
     </form>
   </main>

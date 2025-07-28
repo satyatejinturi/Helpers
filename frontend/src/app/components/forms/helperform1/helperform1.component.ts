@@ -171,7 +171,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
       if (this.isEditMode) {
         const empId = this.helperService.getSelectedHelper()?.employeeid;
         this.helperService.updateHelper(empId, formData);
-        this.snackBar.open('Helper deleted successfully!', 'Close', {
+        this.snackBar.open('Helper edited successfully!', 'Close', {
           duration: 3000,
           panelClass: ['success-snackbar'],
           verticalPosition: 'top',
