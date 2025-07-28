@@ -23,3 +23,15 @@ body {
 ::ng-deep .custom-dialog-panel {
   z-index: 2002 !important;
 }
+
+.success-snackbar {
+  background-color: #4caf50;
+  color: white;
+  font-weight: 500;
+}
+
+.error-snackbar {
+  background-color: #f44336;
+  color: white;
+  font-weight: 500;
+}

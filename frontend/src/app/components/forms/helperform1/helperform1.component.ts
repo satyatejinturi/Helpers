@@ -6,7 +6,7 @@
   import { HelperServiceService } from '../../../shared/helper-service.service';
 import { CheckboxDropdownComponent } from '../checkbox-dropdown/checkbox-dropdown.component';
 import { ElementRef, HostListener } from '@angular/core';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
   @Component({
     selector: 'app-helperform1',
     
@@ -45,7 +45,9 @@ import { ElementRef, HostListener } from '@angular/core';
 
     organizationOptions: string[] = ['ASBL', 'Spring Helpers'];
 
-    constructor(private dialog: MatDialog, private helperService: HelperServiceService) {}
+    constructor(private dialog: MatDialog, private helperService: HelperServiceService,
+      private snackBar:MatSnackBar
+    ) {}
 
    ngOnInit() {
       this.languages.forEach(lang => (this.languageSelection[lang] = false));
@@ -169,6 +171,12 @@ import { ElementRef, HostListener } from '@angular/core';
       if (this.isEditMode) {
         const empId = this.helperService.getSelectedHelper()?.employeeid;
         this.helperService.updateHelper(empId, formData);
+        this.snackBar.open('Helper deleted successfully!', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+          verticalPosition: 'top',
+          horizontalPosition:'right'
+        });
       } 
       this.helperService.setForm1Data(plainData);
       

@@ -79,6 +79,7 @@
     <app-sidebar
       [allhelper]="allhelper() | searchhelper:searchText:['fullName','phno','employeeid']"
       (selectedhelper)="handleselect($event)"
+      [sortType]="selectedSort"
       class="h-full"
     ></app-sidebar>
   </div>

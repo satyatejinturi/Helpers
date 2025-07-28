@@ -14,7 +14,7 @@ const routes: Routes = [
   declarations: [PortalComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes), // ✅ Fix here
+    RouterModule.forChild(routes), 
     ComponentsModule,
     MaterialModule,
     SharedModule

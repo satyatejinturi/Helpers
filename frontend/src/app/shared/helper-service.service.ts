@@ -1,15 +1,21 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class HelperServiceService {
+
   allhelper: any[] = [];
   private url = "http://localhost:3000/api";
   private selectedHelper = signal<any>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private snackBar: MatSnackBar
+  ) { }
 
   private users = signal<any[]>([]);
 
@@ -18,11 +24,11 @@ export class HelperServiceService {
 
   private totalUsers = signal<number>(0);
   readonly totalnoofuser = computed(() => this.totalUsers());
-  
+
   private searchTimeout: any = null;
   readonly helper = computed(() => {
-    
-    return  this.filteredUsers();
+
+    return this.filteredUsers();
   });
 
   readonly noofhelpers = computed(() => this.helper().length);
@@ -55,7 +61,7 @@ export class HelperServiceService {
     });
   }
 
-  
+
   setForm1Data(data: any) {
     this.form1Data.set(data);
   }
@@ -73,8 +79,8 @@ export class HelperServiceService {
   }
   postResult = signal<any | null>(null);
   postData(formData: FormData): Observable<any> {
-  return this.http.post('http://localhost:3000/api/allhelpers', formData);
-}
+    return this.http.post('http://localhost:3000/api/allhelpers', formData);
+  }
 
 
   updateHelper(id: number, formdata: any) {

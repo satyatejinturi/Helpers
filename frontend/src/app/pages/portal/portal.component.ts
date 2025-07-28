@@ -1,17 +1,9 @@
-import { Component, OnInit, ViewChild, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HelperDataComponent } from '../../components/helper-data/helper-data.component';
-import { SidebarComponent } from '../../components/aside-components/sidebar/sidebar.component';
-import { HelperCardComponent } from '../../components/helper-components/helper-card/helper-card.component';
 import { HelperServiceService } from '../../shared/helper-service.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import {  MatDialog } from '@angular/material/dialog';
 import { FilterDialogComponent } from '../../components/dialog_components/filter-dialog/filter-dialog.component';
 import { SortDialogComponent } from '../../components/dialog_components/sortdialog/sortdialog.component';
-import { SearchhelperPipe } from '../../shared/searchhelper.pipe';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-portal',
@@ -67,11 +59,7 @@ export class PortalComponent implements OnInit {
 
   selectSort(type: 'employeeid' | 'fullName') {
     this.selectedSort = type;
-    if (type === 'employeeid') {
-      this.allhelper().sort((a, b) => a.employeeid - b.employeeid);
-    } else if (type === 'fullName') {
-      this.allhelper().sort((a, b) => a.fullName.localeCompare(b.fullName));
-    }
+    
   }
   selectedFilters: string[] = [];
   allDepartments = ['asbl']

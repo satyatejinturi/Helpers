@@ -9,6 +9,7 @@ import { HelperCardComponent } from '../../helper-components/helper-card/helper-
 import { MatDialog } from '@angular/material/dialog';
 import { HelperDialogComponent } from '../../dialog_components/helper-dialog/helper-dialog.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-helperform3',
@@ -24,6 +25,7 @@ export class Helperform3Component implements OnInit {
   loading = false;
 
   constructor(
+     private snackBar: MatSnackBar,
     private helperService: HelperServiceService,
     private http: HttpClient,
     private router: Router,
@@ -89,9 +91,21 @@ submitHelper() {
   formData.forEach((v, k) => console.log(k, v));
   if (this.isEditMode && this.employeeId) {
     this.helperService.updateHelper(this.employeeId, formData);
+    this.snackBar.open('Helper updated successfully!', 'Close', {
+      duration: 3000,
+      panelClass: ['success-snackbar']
+    });
+
+    this.loading = false;
+    this.loadingChange.emit(false);
+    this.router.navigate(['/']);
   } else {
     this.helperService.postData(formData).subscribe({
       next: (res) => {
+        this.snackBar.open('Helper added successfully!', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
         this.loading = false;
         this.loadingChange.emit(false);
 
@@ -109,6 +123,10 @@ submitHelper() {
       error: (err) => {
         this.loading = false;
         console.error('Post failed:', err);
+        this.snackBar.open('Failed to add helper.', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
       }
     });
   }

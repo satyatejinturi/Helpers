@@ -7,7 +7,7 @@ import { ProfilePhotoComponent } from '../helper-components/profile-photo/profil
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../dialog_components/delete-dialog/delete-dialog.component'; 
 import { HelperDialogComponent } from '../dialog_components/helper-dialog/helper-dialog.component';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-helper-data',
   
@@ -18,6 +18,7 @@ export class HelperDataComponent {
   @Input() helper: any;
 
   constructor(
+    private snackBar: MatSnackBar,
   public service4all: HelperServiceService,
   private router: Router,
   private dialog: MatDialog
@@ -37,6 +38,10 @@ export class HelperDataComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.service4all.deletehelper(id);
+        this.snackBar.open('Helper deleted successfully!', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
       }
     });
   }

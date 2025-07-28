@@ -11,14 +11,35 @@ import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from
 export class SidebarComponent implements OnChanges {
   @Input() allhelper: any[] = [];
   @Output() selectedhelper = new EventEmitter<any>();
+  @Input() sortType: 'employeeid' | 'fullName' | null = null;
   curind = 0;
+  sortedHelpers: any[] = [];
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['allhelper'] && this.allhelper.length > 0) {
-      this.selectedhelper.emit(this.allhelper[0]);
+    if (changes['allhelper']  || changes['sortType'] ) {
+      this.applySort();
+      
+      if (this.sortedHelpers.length > 0) {
+        this.selectedhelper.emit(this.sortedHelpers[0]);
+      }
+      
     }
   }
   selectuser(user: any, ind: number) {
     this.curind = ind;
     this.selectedhelper.emit(user);
   }
+  applySort() {
+    if (!this.allhelper) return;
+
+    this.sortedHelpers = [...this.allhelper]; 
+
+    if (this.sortType === 'employeeid') {
+      this.sortedHelpers.sort((a, b) => a.employeeid - b.employeeid);
+    } else if (this.sortType === 'fullName') {
+      this.sortedHelpers.sort((a, b) =>
+        a.fullName.localeCompare(b.fullName)
+      );
+    }
+  }
+
 }

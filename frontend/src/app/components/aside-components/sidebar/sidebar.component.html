@@ -1,5 +1,5 @@
   <div class="wrapper ">
-    <div *ngFor="let item of allhelper; let i = index"
+    <div *ngFor="let item of sortedHelpers; let i = index"
         (click)="selectuser(item, i)"
         [class.selected]="i === curind"
         class="helper-item border-b border-gray-100">
