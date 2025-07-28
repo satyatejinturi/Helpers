@@ -1,34 +1,47 @@
 <!-- VIEW MODE -->
 <div
   *ngIf="!isEditMode"
-  class="flex flex-col w-full md:w-[200px] relative bg-white p-6 md:p-10 ml-2 md:ml-7 mr-2 md:mr-5 mt-4 md:mt-6 h-auto md:h-[200px]"
+  class="flex flex-col w-full md:w-[250px] relative bg-white p-6 md:p-8 ml-2 md:ml-6 mr-2 md:mr-5 mt-4 md:mt-6 rounded-2xl shadow-sm"
 >
   <ng-container *ngFor="let step of steps; let i = index">
-    <div class="relative z-10 flex items-center space-x-2">
-      <div
-        class="w-6 h-6 rounded-full border-2 flex items-center justify-center text-sm font-bold transition-colors duration-300"
-        [ngClass]="{
-          'bg-blue-600 border-blue-600 text-white': currentStep > i,
-          'bg-white border-gray-400 text-gray-400': currentStep <= i
-        }"
-      >
-        {{ i + 1 }}
-      </div>
-      <span class="text-xs truncate max-w-[100px]" *ngIf="stepLabels[i]"> 
-        {{ stepLabels[i] }}
-      </span>
-    </div>
+    <!-- Dot + Line Container -->
+    <div class="relative flex items-start">
+      <!-- Left Column: Dot + Line -->
+      <div class="flex flex-col items-center">
+        <!-- Dot -->
+        <div
+          class="w-5 h-5 rounded-full border-2 z-10"
+          [ngClass]="{
+            'bg-blue-600 border-blue-600': currentStep > i,
+            'bg-gray-200 border-gray-400': currentStep <= i
+          }"
+        ></div>
 
-    <div
-      *ngIf="i < steps.length - 1"
-      class="w-1 ml-3 h-10 transition-colors duration-300"
-      [ngClass]="{
-        'bg-blue-600': currentStep > i,
-        'bg-gray-300': currentStep <= i + 1
-      }"
-    ></div>
+        <!-- Vertical line (only if not last step) -->
+        <div
+          *ngIf="i < steps.length - 1"
+          class="w-[2px] h-20 mt-0.5"
+          [ngClass]="{
+            'bg-blue-600': currentStep > i + 1,
+            'bg-gray-300': currentStep <= i + 1
+          }"
+        ></div>
+      </div>
+
+      <!-- Right Column: Step label -->
+      <div class="ml-4 -mt-[2px] mb-6">
+        <span
+          class="text-sm font-medium text-gray-700 leading-5"
+          [ngClass]="{ 'text-blue-600': currentStep > i }"
+          *ngIf="stepLabels[i]"
+        >
+          {{ stepLabels[i] }}
+        </span>
+      </div>
+    </div>
   </ng-container>
 </div>
+
 
 <!-- EDIT MODE -->
 <div
