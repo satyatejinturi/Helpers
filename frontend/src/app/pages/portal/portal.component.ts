@@ -53,7 +53,7 @@ toggleOption(option: string, type: 'services' | 'organizations') {
 
   if (index >= 0) {
     targetArray.splice(index, 1);
-  } else if (targetArray.length < 3) {
+  } else  {
     targetArray.push(option);
   }
 
@@ -62,32 +62,27 @@ toggleOption(option: string, type: 'services' | 'organizations') {
   this.selectedOrganizations = [...this.selectedOrganizations];
 }
 
-isDisabled(option: string, selected: string[]): boolean {
-  return !selected.includes(option) && selected.length >= 3;
-}
-
 toggleSelectAll(type: 'services' | 'organizations') {
   const options = type === 'services' ? this.allServiceTypes : this.allOrganizations;
   const selected = type === 'services' ? this.selectedServiceTypes : this.selectedOrganizations;
-  const allToSelect = options.slice(0, 3);
-  const alreadySelected = selected.filter(opt => allToSelect.includes(opt));
 
-  if (alreadySelected.length === allToSelect.length) {
-    if (type === 'services') this.selectedServiceTypes = selected.filter(opt => !allToSelect.includes(opt));
-    else this.selectedOrganizations = selected.filter(opt => !allToSelect.includes(opt));
+  const allSelected = options.every(opt => selected.includes(opt));
+
+  if (allSelected) {
+    if (type === 'services') this.selectedServiceTypes = [];
+    else this.selectedOrganizations = [];
   } else {
-    const remaining = 3 - selected.length;
-    const toAdd = allToSelect.filter(opt => !selected.includes(opt)).slice(0, remaining);
-    if (type === 'services') this.selectedServiceTypes = [...selected, ...toAdd];
-    else this.selectedOrganizations = [...selected, ...toAdd];
+    if (type === 'services') this.selectedServiceTypes = [...options];
+    else this.selectedOrganizations = [...options];
   }
 }
 
 areAllSelected(type: 'services' | 'organizations'): boolean {
   const selected = type === 'services' ? this.selectedServiceTypes : this.selectedOrganizations;
   const options = type === 'services' ? this.allServiceTypes : this.allOrganizations;
-  return selected.filter(opt => options.slice(0, 3).includes(opt)).length === Math.min(3, options.length);
+  return options.length > 0 && options.every(opt => selected.includes(opt));
 }
+
 
 getSelectedLabel(selected: string[], label: string): string {
   if (!selected || selected.length === 0) return label;
