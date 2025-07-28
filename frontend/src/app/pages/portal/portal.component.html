@@ -27,11 +27,94 @@
   </button>
 </mat-menu>
 
-
-  <button class="border border-gray-300 rounded-md p-2  w-10 h-10"
-  (click)="openFilterDialog()">
-      <i class="ph ph-funnel"></i>
+<!-- Filter Icon Button -->
+<div class="border border-gray-300 rounded-md w-10 h-10 flex items-center justify-center">
+  <button mat-icon-button [matMenuTriggerFor]="filterMenu" #filterMenuTrigger="matMenuTrigger" class="w-full h-full flex items-center justify-center">
+    <i class="ph ph-funnel text-lg text-gray-700"></i>
   </button>
+</div>
+
+<!-- FILTER MENU -->
+<mat-menu #filterMenu="matMenu" class="px-2 py-2 w-[320px]" [overlapTrigger]="false">
+  <div matMenuContent (click)="$event.stopPropagation()">
+    <h2 class="text-base font-semibold text-gray-600 m-2">Filter by</h2>
+
+    <!-- === Services === -->
+    <div class="p-2">
+      <div class="flex justify-between items-center">
+        <h3 class="text-sm font-medium">Type of Services</h3>
+        <button class="text-xs text-indigo-500" (click)="selectedServiceTypes = []">Reset</button>
+      </div>
+      <div class="relative">
+        <div class="border px-3 py-2 rounded-md w-full text-left text-gray-800 flex items-center justify-between cursor-pointer bg-white mt-1"
+             (click)="toggleDropdown('services')">
+          {{ getSelectedLabel(selectedServiceTypes, 'Type of Services') }}
+          <i class="ph ph-caret-down ml-auto"></i>
+        </div>
+        <div *ngIf="dropdownOpen === 'services'" class="absolute z-10 w-full bg-white border shadow-md mt-1 rounded-md p-2 max-h-[130px] overflow-y-auto">
+          <div class="flex items-center gap-2 text-sm font-medium hover:bg-gray-100 p-1 rounded">
+            <input type="checkbox" [checked]="areAllSelected('services')" (change)="toggleSelectAll('services')" id="selectAllServices" />
+            <label for="selectAllServices">Select All (Max: 3)</label>
+          </div>
+          <div *ngFor="let option of allServiceTypes"
+               class="flex items-center gap-2 text-sm hover:bg-gray-100 p-1 rounded"
+               [class.text-gray-400]="isDisabled(option, selectedServiceTypes)">
+            <input type="checkbox"
+                   [checked]="selectedServiceTypes.includes(option)"
+                   (change)="toggleOption(option, 'services')"
+                   [disabled]="isDisabled(option, selectedServiceTypes)"
+                   [id]="'service_' + option" />
+            <label [for]="'service_' + option" class="w-full flex justify-between items-center">
+              {{ option }}
+              <i *ngIf="selectedServiceTypes.includes(option)" class="ph ph-check text-indigo-600"></i>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- === Organizations === -->
+    <div class="p-2">
+      <div class="flex justify-between items-center">
+        <h3 class="text-sm font-medium">Organization Names</h3>
+        <button class="text-xs text-indigo-500" (click)="selectedOrganizations = []">Reset</button>
+      </div>
+      <div class="relative">
+        <div class="border px-3 py-2 rounded-md w-full text-left text-gray-800 flex items-center justify-between cursor-pointer bg-white mt-1"
+             (click)="toggleDropdown('organizations')">
+          {{ getSelectedLabel(selectedOrganizations, 'Organization Names') }}
+          <i class="ph ph-caret-down ml-auto"></i>
+        </div>
+        <div *ngIf="dropdownOpen === 'organizations'" class="absolute z-10 w-full bg-white border shadow-md mt-1 rounded-md p-2 max-h-[130px] overflow-y-auto">
+          <div class="flex items-center gap-2 text-sm font-medium hover:bg-gray-100 p-1 rounded">
+            <input type="checkbox" [checked]="areAllSelected('organizations')" (change)="toggleSelectAll('organizations')" id="selectAllOrgs" />
+            <label for="selectAllOrgs">Select All (Max: 3)</label>
+          </div>
+          <div *ngFor="let option of allOrganizations"
+               class="flex items-center gap-2 text-sm hover:bg-gray-100 p-1 rounded"
+               [class.text-gray-400]="isDisabled(option, selectedOrganizations)">
+            <input type="checkbox"
+                   [checked]="selectedOrganizations.includes(option)"
+                   (change)="toggleOption(option, 'organizations')"
+                   [disabled]="isDisabled(option, selectedOrganizations)"
+                   [id]="'org_' + option" />
+            <label [for]="'org_' + option" class="w-full flex justify-between items-center">
+              {{ option }}
+              <i *ngIf="selectedOrganizations.includes(option)" class="ph ph-check text-indigo-600"></i>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-300 mt-2 mb-2"></div>
+    <div class="flex justify-between px-3 py-1">
+      <button mat-stroked-button color="warn" (click)="resetFilters(); filterMenuTrigger.closeMenu()" class="text-xs">Reset</button>
+      <button mat-flat-button color="primary" (click)="applyFilters(); filterMenuTrigger.closeMenu()" class="text-xs text-white bg-indigo-500 px-3 py-1 rounded">Apply</button>
+    </div>
+  </div>
+</mat-menu>
+
     
   <button class="border border-gray-300 rounded-md p-2  w-10 h-10"
   >

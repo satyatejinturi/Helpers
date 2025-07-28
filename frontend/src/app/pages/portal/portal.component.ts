@@ -32,9 +32,69 @@ export class PortalComponent implements OnInit {
 ];
 
 
-  ngOnInit(): void {
-    this.helperservice.getData();
+  dropdownOpen: 'services' | 'organizations' | null = null;
+
+allServiceTypes: string[] = [];
+allOrganizations: string[] = [];
+
+ngOnInit(): void {
+  this.helperservice.getData();
+  this.allServiceTypes = this.helperservice.getAllServiceTypes();
+  this.allOrganizations = this.helperservice.getAllOrganizations();
+}
+
+toggleDropdown(type: 'services' | 'organizations') {
+  this.dropdownOpen = this.dropdownOpen === type ? null : type;
+}
+
+toggleOption(option: string, type: 'services' | 'organizations') {
+  const targetArray = type === 'services' ? this.selectedServiceTypes : this.selectedOrganizations;
+  const index = targetArray.indexOf(option);
+
+  if (index >= 0) {
+    targetArray.splice(index, 1);
+  } else if (targetArray.length < 3) {
+    targetArray.push(option);
   }
+
+  // force reactivity
+  this.selectedServiceTypes = [...this.selectedServiceTypes];
+  this.selectedOrganizations = [...this.selectedOrganizations];
+}
+
+isDisabled(option: string, selected: string[]): boolean {
+  return !selected.includes(option) && selected.length >= 3;
+}
+
+toggleSelectAll(type: 'services' | 'organizations') {
+  const options = type === 'services' ? this.allServiceTypes : this.allOrganizations;
+  const selected = type === 'services' ? this.selectedServiceTypes : this.selectedOrganizations;
+  const allToSelect = options.slice(0, 3);
+  const alreadySelected = selected.filter(opt => allToSelect.includes(opt));
+
+  if (alreadySelected.length === allToSelect.length) {
+    if (type === 'services') this.selectedServiceTypes = selected.filter(opt => !allToSelect.includes(opt));
+    else this.selectedOrganizations = selected.filter(opt => !allToSelect.includes(opt));
+  } else {
+    const remaining = 3 - selected.length;
+    const toAdd = allToSelect.filter(opt => !selected.includes(opt)).slice(0, remaining);
+    if (type === 'services') this.selectedServiceTypes = [...selected, ...toAdd];
+    else this.selectedOrganizations = [...selected, ...toAdd];
+  }
+}
+
+areAllSelected(type: 'services' | 'organizations'): boolean {
+  const selected = type === 'services' ? this.selectedServiceTypes : this.selectedOrganizations;
+  const options = type === 'services' ? this.allServiceTypes : this.allOrganizations;
+  return selected.filter(opt => options.slice(0, 3).includes(opt)).length === Math.min(3, options.length);
+}
+
+getSelectedLabel(selected: string[], label: string): string {
+  if (!selected || selected.length === 0) return label;
+  if (selected.length === 1) return selected[0];
+  return `${selected[0]} +${selected.length - 1} more`;
+}
+
   updateLength(len: number) {
     this.nofhelpers = len;
   }
@@ -64,46 +124,18 @@ export class PortalComponent implements OnInit {
   selectedFilters: string[] = [];
   allDepartments = ['asbl']
 
-  openFilterDialog(event?: MouseEvent) {
-    const triggerElement = event?.target as HTMLElement;
-    const rect = triggerElement?.getBoundingClientRect();
+  applyFilters() {
+  this.helperservice.filterByMultipleCriteria(this.selectedServiceTypes, this.selectedOrganizations);
+  this.showfilter = this.selectedServiceTypes.length > 0 || this.selectedOrganizations.length > 0;
+}
 
-    const dialogRef = this.dialog.open(FilterDialogComponent, {
-      width: '300px',
-      data: {
-        serviceTypes: this.helperservice.getAllServiceTypes(),
-        organizations: this.helperservice.getAllOrganizations(),
-        serviceLimit: 3,
-        organizationLimit: 3,
-        initialServices: this.selectedServiceTypes,
-        initialOrganizations: this.selectedOrganizations
-      },
-      position: {
-        top: `140px`,
-        left: `80px`
-      },
-      hasBackdrop: true,
-      panelClass: 'custom-filter-dialog'
-    });
+resetFilters() {
+  this.selectedServiceTypes = [];
+  this.selectedOrganizations = [];
+  this.helperservice.resetFilters();
+  this.showfilter = false;
+}
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result?.reset) {
-        this.selectedServiceTypes = [];
-        this.selectedOrganizations = [];
-        this.showfilter = false;
-        this.helperservice.resetFilters();
-        return;
-      }
-
-      if (result) {
-        const { services, organizations } = result;
-        this.selectedServiceTypes = services;
-        this.selectedOrganizations = organizations;
-        this.showfilter = true;
-        this.helperservice.filterByMultipleCriteria(services, organizations);
-      }
-    });
-  }
 
   openSortDialog(event: MouseEvent) {
   const dialogRef = this.dialog.open(SortDialogComponent, {
