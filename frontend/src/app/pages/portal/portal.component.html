@@ -51,8 +51,8 @@
     />
   </div>
 
-  <div *ngIf="showfilter && nofhelpers() !== totalno(); else totalCount" class=" text-sm text-gray-500">
-    {{ nofhelpers() }} of {{totalno()}} results
+  <div *ngIf="showfilter && nofhelpers !== totalno(); else totalCount" class=" text-sm text-gray-500">
+    {{ nofhelpers }} of {{totalno()}} results
   </div>  
   <ng-template #totalCount>
     <div class="text-sm text-gray-500">
@@ -80,6 +80,7 @@
       [allhelper]="allhelper() | searchhelper:searchText:['fullName','phno','employeeid']"
       (selectedhelper)="handleselect($event)"
       [sortType]="selectedSort"
+      (lengthEmitted)="updateLength($event)"
       class="h-full"
     ></app-sidebar>
   </div>

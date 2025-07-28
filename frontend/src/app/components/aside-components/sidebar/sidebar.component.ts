@@ -12,12 +12,13 @@ export class SidebarComponent implements OnChanges {
   @Input() allhelper: any[] = [];
   @Output() selectedhelper = new EventEmitter<any>();
   @Input() sortType: 'employeeid' | 'fullName' | null = null;
+    @Output() lengthEmitted = new EventEmitter<number>();
   curind = 0;
   sortedHelpers: any[] = [];
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['allhelper']  || changes['sortType'] ) {
       this.applySort();
-      
+      this.lengthEmitted.emit(this.allhelper.length);
       if (this.sortedHelpers.length > 0) {
         this.selectedhelper.emit(this.sortedHelpers[0]);
       }

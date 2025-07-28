@@ -14,7 +14,7 @@ import { SortDialogComponent } from '../../components/dialog_components/sortdial
 export class PortalComponent implements OnInit {
   allhelper = this.helperservice.helper;
   selectedhelper: any = null;
-  nofhelpers = this.helperservice.noofhelpers;
+  nofhelpers = 0;
   totalno = this.helperservice.totalnoofuser;
   showfilter = false;
   constructor(public helperservice: HelperServiceService,
@@ -34,6 +34,9 @@ export class PortalComponent implements OnInit {
 
   ngOnInit(): void {
     this.helperservice.getData();
+  }
+  updateLength(len: number) {
+    this.nofhelpers = len;
   }
 
   handleselect(helper: any) {
