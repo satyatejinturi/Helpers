@@ -144,7 +144,7 @@
 
 
 </div>
-<div class="flex min-h-[calc(100vh-72px)] bg-white">
+<div class="flex  bg-white">
  
   <div class="w-100 border border-gray-200 rounded-3xl bg-white ml-5">
     <app-sidebar
@@ -152,10 +152,10 @@
       (selectedhelper)="handleselect($event)"
       [sortType]="selectedSort"
       (lengthEmitted)="updateLength($event)"
-      class="h-full"
+      
     ></app-sidebar>
   </div>
-  <main class="flex-grow p-6 bg-white">
+  <main class="flex-grow  bg-white">
     <div>
     <ng-container *ngIf="selectedhelper">
       <app-helper-data [helper]="selectedhelper"></app-helper-data>

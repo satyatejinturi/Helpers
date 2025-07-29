@@ -103,6 +103,8 @@ submitHelper() {
     this.helperService.postData(formData).subscribe({
       next: (res) => {
         this.snackBar.open('Helper added successfully!', 'Close', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
           duration: 3000,
           panelClass: ['success-snackbar']
         });
@@ -124,6 +126,9 @@ submitHelper() {
         this.loading = false;
         console.error('Post failed:', err);
         this.snackBar.open('Failed to add helper.', 'Close', {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          
           duration: 3000,
           panelClass: ['error-snackbar']
         });

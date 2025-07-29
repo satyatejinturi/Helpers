@@ -5,6 +5,7 @@
   import { HelperServiceService } from '../../../shared/helper-service.service';
   import { KycdocumentComponent } from '../../dialog_components/kycdocument/kycdocument.component';
 import { AdditionalcomponentComponent } from '../../dialog_components/additionalcomponent/additionalcomponent.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
   @Component({
     selector: 'app-helperform2',
     
@@ -18,7 +19,7 @@ import { AdditionalcomponentComponent } from '../../dialog_components/additional
     additionalDoc: { file: File, docType: string } | null = null;
 
     isfileupload:boolean=false;
-    constructor(private dialog: MatDialog, private helperService: HelperServiceService) {}
+    constructor(private dialog: MatDialog, private helperService: HelperServiceService, private snackBar: MatSnackBar) {}
 
     ngOnInit() {
       const form2Data = this.helperService.getForm2Data();
@@ -61,6 +62,12 @@ import { AdditionalcomponentComponent } from '../../dialog_components/additional
 
       this.isfileupload = !!this.additionalDoc;
       this.helperService.setForm2Data({ additionalDoc: this.additionalDoc });
+      this.snackBar.open('Additional document updated successfully!', 'Close', {
+              horizontalPosition: 'right',
+              verticalPosition: 'top',
+              duration: 3000,
+              panelClass: ['bg-green-500', 'text-white']
+            });
 
       return true;
     }
