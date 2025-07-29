@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile-photo',
-  
+
   templateUrl: './profile-photo.component.html',
   styleUrl: './profile-photo.component.css'
 })

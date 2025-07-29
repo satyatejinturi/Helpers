@@ -1,13 +1,10 @@
 <div class="bg-white border rounded-xl shadow-md p-4 w-full max-w-xl">
   <div class="flex items-center space-x-4">
     <div class="w-20 h-20 rounded-full overflow-hidden border">
-      <img
-        *ngIf="helper?.profilePhotoPreview"
-        [src]="helper.profilePhotoPreview"
-        alt="Profile Photo"
-        class="w-full h-full object-cover"
-      />
-      <div *ngIf="!helper?.profilePhotoPreview" class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
+      <img *ngIf="helper?.profilePhotoPreview" [src]="helper.profilePhotoPreview" alt="Profile Photo"
+        class="w-full h-full object-cover" />
+      <div *ngIf="!helper?.profilePhotoPreview"
+        class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
         <i class="ph ph-user text-3xl"></i>
       </div>
     </div>

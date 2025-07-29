@@ -5,12 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { ProfilePhotoComponent } from '../helper-components/profile-photo/profile-photo.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { DeleteDialogComponent } from '../dialog_components/delete-dialog/delete-dialog.component'; 
+import { DeleteDialogComponent } from '../dialog_components/delete-dialog/delete-dialog.component';
 import { HelperDialogComponent } from '../dialog_components/helper-dialog/helper-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-helper-data',
-  
+
   templateUrl: './helper-data.component.html',
   styleUrls: ['./helper-data.component.css']
 })
@@ -19,19 +19,19 @@ export class HelperDataComponent {
 
   constructor(
     private snackBar: MatSnackBar,
-  public service4all: HelperServiceService,
-  private router: Router,
-  private dialog: MatDialog
-) {}
+    public service4all: HelperServiceService,
+    private router: Router,
+    private dialog: MatDialog
+  ) { }
 
 
   ondeletehelper(id: number) {
-    
+
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       width: '500px',
       data: {
         fullName: this.helper.fullName,
-        typeOfService:this.helper.typeOfService
+        typeOfService: this.helper.typeOfService
       }
     });
 
@@ -54,7 +54,7 @@ export class HelperDataComponent {
     this.dialog.open(HelperDialogComponent, {
       data: helper,
       width: '700px',
-      height:'600px',
+      height: '600px',
       panelClass: 'custom-helper-dialog'
     });
   }

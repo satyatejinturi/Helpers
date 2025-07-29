@@ -7,4 +7,4 @@ import { SearchhelperPipe } from './searchhelper.pipe'; // adjust path
   exports: [SearchhelperPipe],
   imports: [CommonModule]
 })
-export class SharedModule {}
+export class SharedModule { }

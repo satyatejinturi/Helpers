@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-step-slider',
-  
+
   templateUrl: './step-slider.component.html',
   styleUrl: './step-slider.component.css'
 })
@@ -12,7 +12,7 @@ export class StepSliderComponent {
   @Input() steps = [1, 2, 3];
   @Input() stepLabels: string[] = ['Documents & Details', 'Additional Docs', 'Review'];
 
- 
+
   @Input() isEditMode: boolean = false;
-  @Output() editStepSelected = new EventEmitter<number>(); // emits step number (1 or 2)
+  @Output() editStepSelected = new EventEmitter<number>(); 
 }

@@ -101,11 +101,11 @@ export class HelperServiceService {
   }
 
   getAllServiceTypes(): string[] {
-    return ["Cook","Maid","Cleaner","Driver"]
+    return ["Cook", "Maid", "Cleaner", "Driver"]
   }
 
   getAllOrganizations(): string[] {
-    return ["ASBL","Spring Helpers"]
+    return ["ASBL", "Spring Helpers"]
   }
 
   filterByMultipleCriteria(services: string[], organizations: string[]) {
