@@ -74,6 +74,9 @@ export class Helperform1Component implements OnInit {
         kycDocType: this.helperData.kycDocType || ''
       };
       this.existingKycUrl = this.helperData.kycDocUrl ?? null;
+      if (this.existingKycUrl && this.helper.kycDocType) {
+        this.showlabel = true;
+      }
       if (this.helperData && this.helperData?.languages) {
         if (this.helperData?.languages?.length) {
           const raw = this.helperData.languages[0];
@@ -188,6 +191,7 @@ export class Helperform1Component implements OnInit {
     this.helper.Kyc = null;
     this.helper.kycDocType = '';
     this.kycUrl = '';
+    this.existingKycUrl = null;
     this.showlabel = false
   }
 
@@ -198,6 +202,11 @@ export class Helperform1Component implements OnInit {
   languageDisplayLimit = 5;
   languageTouched = false;
 
+  openKycLink() {
+    if (this.existingKycUrl) {
+      window.open(this.existingKycUrl, '_blank');
+    }
+  }
 
   toggleLangDropdown() {
     this.isLangDropdownOpen = !this.isLangDropdownOpen;

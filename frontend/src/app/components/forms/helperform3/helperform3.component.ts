@@ -100,6 +100,7 @@ export class Helperform3Component implements OnInit {
       this.loadingChange.emit(false);
       this.router.navigate(['/']);
     } else {
+      console.log('Submitting new helper data:', formData);
       this.helperService.postData(formData).subscribe({
         next: (res) => {
           this.snackBar.open('Helper added successfully!', 'Close', {
