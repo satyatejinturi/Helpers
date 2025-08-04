@@ -82,6 +82,12 @@ export class HelperServiceService {
     return this.http.post(`${this.url}/allhelpers`, formData);
   }
 
+  clearFormSignals() {
+    this.form1Data.set(null);
+    this.form2Data.set(null);
+    this.postResult.set(null);
+  }
+
 
   updateHelper(id: number, formdata: any) {
     this.http.patch(`${this.url}/editHelper?id=${id}`, formdata).subscribe(res => {

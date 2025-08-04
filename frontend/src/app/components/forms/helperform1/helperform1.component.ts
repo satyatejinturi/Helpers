@@ -44,6 +44,20 @@ export class Helperform1Component implements OnInit {
   ngOnInit() {
     this.languages.forEach(lang => (this.languageSelection[lang] = false));
     this.languageSelection['English'] = true;
+    const savedFormData = this.helperService.getForm1Data();
+    if (savedFormData && !this.helperData) {
+      this.helper = { ...this.helper, ...savedFormData };
+      console.log(this.helper)
+      console.log(savedFormData)
+      this.selectedLanguages = savedFormData.languages || [];
+      if (savedFormData.profilePhotoPreview) {
+        this.profilePhotoPreview = savedFormData.profilePhotoPreview;
+      }
+      if (savedFormData.kycDocType) {
+        this.helper.kycDocType = savedFormData.kycDocType;
+        this.showlabel = true;
+      }
+    }
     if (this.helperData) {
       this.isEditMode = true;
       this.kycUrl = this.helperData.kycURL || '';

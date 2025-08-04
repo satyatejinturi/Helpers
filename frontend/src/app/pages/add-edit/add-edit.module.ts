@@ -18,7 +18,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     ComponentsModule,
     MaterialModule,
-    RouterModule.forChild(routes) // ✅ Fix here
+    RouterModule.forChild(routes) 
   ]
 })
 export class AddEditModule {}
