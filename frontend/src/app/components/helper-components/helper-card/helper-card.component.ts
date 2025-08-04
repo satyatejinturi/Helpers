@@ -1,7 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ProfilePhotoComponent } from '../profile-photo/profile-photo.component';
-
 @Component({
   selector: 'app-helper-card',
 

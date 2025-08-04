@@ -1,6 +1,3 @@
-import { CommonModule } from '@angular/common';
-import { ProfilePhotoComponent } from '../../helper-components/profile-photo/profile-photo.component';
-import { HelperCardComponent } from '../../helper-components/helper-card/helper-card.component';
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 @Component({
   selector: 'app-sidebar',

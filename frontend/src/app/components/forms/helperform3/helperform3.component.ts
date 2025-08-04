@@ -1,19 +1,14 @@
-import { Input, effect, Output, EventEmitter } from '@angular/core';
-import { ProfilePhotoComponent } from '../../helper-components/profile-photo/profile-photo.component';
-import { CommonModule } from '@angular/common';
+import { Input, Output, EventEmitter } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { HelperServiceService } from '../../../shared/helper-service.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { HelperCardComponent } from '../../helper-components/helper-card/helper-card.component';
 import { MatDialog } from '@angular/material/dialog';
 import { HelperDialogComponent } from '../../dialog_components/helper-dialog/helper-dialog.component';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-helperform3',
-
   templateUrl: './helperform3.component.html',
   styleUrl: './helperform3.component.css'
 })
@@ -23,11 +18,9 @@ export class Helperform3Component implements OnInit {
   @Output() loadingChange = new EventEmitter<boolean>();
   helper: any;
   loading = false;
-
   constructor(
     private snackBar: MatSnackBar,
     private helperService: HelperServiceService,
-    private http: HttpClient,
     private router: Router,
     private dialog: MatDialog
   ) { }

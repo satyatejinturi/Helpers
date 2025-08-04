@@ -1,9 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
 @Component({
   selector: 'app-step-slider',
-
   templateUrl: './step-slider.component.html',
   styleUrl: './step-slider.component.css'
 })

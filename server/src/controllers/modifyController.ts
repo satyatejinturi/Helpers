@@ -25,6 +25,7 @@ async function getfileurl(localpath:string , folder:string
     try{
         const result=await cloudinary.uploader
                 .upload(localpath,{folder})
+        console.log(result);
 
         return result.secure_url;
     }catch(error){

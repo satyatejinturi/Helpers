@@ -65,11 +65,9 @@ export class Helperform2Component implements OnInit {
   }
 
   onSaveForm2(): boolean {
-
     if (!this.additionalDoc) {
       return true;
     }
-
     const formData = new FormData();
     formData.append('additionalDoc', this.additionalDoc.file);
     formData.append('additionalDocType', this.additionalDoc.docType);
