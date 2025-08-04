@@ -22,7 +22,7 @@ export class PortalComponent implements OnInit {
   searchText = '';
   sortOptions: { label: string; value: 'employeeid' | 'fullName' }[] = [
     { label: 'Employee ID', value: 'employeeid' },
-    { label: 'Helper Name', value: 'fullName' }
+    { label: 'Helper Name  (A-Z)', value: 'fullName' }
   ];
   dropdownOpen: 'services' | 'organizations' | null = null;
   allServiceTypes: string[] = [];
