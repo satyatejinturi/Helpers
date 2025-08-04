@@ -1,6 +1,6 @@
 <mat-progress-bar *ngIf="loading" mode="indeterminate" color="primary"></mat-progress-bar>
 
-<div class="flex items-center gap-3 px-6 pt-6 pb-4 bg-white min-w-screen">
+<div class="flex items-center gap-3 px-6 pt-6 pb-4 bg-gray-100 min-w-screen">
   <button (click)="goback()" class="flex items-center p-1 gap-1 cursor-pointer">
     <i class="ph ph-caret-left"></i>
     <span>{{ isEditMode ? 'Edit Helper' : 'Add Helper' }}</span>
@@ -8,19 +8,19 @@
 </div>
 
 <div class="flex ">
-  <div class=" w-70  bg-gray-100  ">
+  <div class=" w-70  bg-gray-100 rounded-2xl ">
     <app-step-slider [currentStep]="presentstep()" [isEditMode]="isEditMode" (editStepSelected)="goto($event)"
       class="w-64 bg-gray-100   ">
     </app-step-slider>
   </div>
 
-  <div class="flex-1 p-6 ">
+  <div class="flex-1 p-6 bg-gray-100">
     <app-helperform1 *ngIf="presentstep() === 1 " [helperData]="selectedHelper"></app-helperform1>
 
     <app-helperform2 *ngIf="presentstep() === 2" [isEditMode]="isEditMode" [helperData]="selectedHelper"
       [employeeId]="selectedHelper?.employeeid">
     </app-helperform2>
-    <app-helperform3 *ngIf="presentstep() === 3" [isEditMode]="isEditMode" [employeeId]="selectedHelper?.employeeid"
+    <app-helperform3 *ngIf="presentstep() === 3" 
       (loadingChange)="onLoadingChange($event)"></app-helperform3>
 
 

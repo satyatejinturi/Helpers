@@ -1,5 +1,5 @@
 <div *ngIf="!isEditMode"
-  class="flex flex-col w-full md:w-[250px] relative bg-white p-6 md:p-8 ml-2 md:ml-6 mr-2 md:mr-5 mt-4 md:mt-6 rounded-2xl shadow-sm">
+  class="flex flex-col w-full border border-gray-300 md:w-[250px] relative bg-white p-6 md:p-8 ml-2 md:ml-6 mr-2 md:mr-5 mt-4 md:mt-6 rounded-2xl shadow-sm">
   <ng-container *ngFor="let step of steps; let i = index">
 
     <div class="relative flex items-start">
@@ -32,7 +32,7 @@
 
 
 <div *ngIf="isEditMode"
-  class="flex flex-col w-full md:w-[200px] gap-3 bg-white p-6 md:p-10 ml-2 md:ml-7 mr-2 md:mr-5 mt-4 md:mt-6 h-auto md:h-[345px]">
+  class="flex flex-col w-full border border-gray-300 rounded-2xl md:w-[200px] gap-3 bg-white p-6 md:p-10 ml-2 md:ml-7 mr-2 md:mr-5 mt-4 md:mt-6 h-auto md:h-[345px]">
   <button class="bg-indigo-600 text-white px-4 py-2 rounded text-xs w-full" (click)="editStepSelected.emit(1)">
     Edit Documents & Details
   </button>

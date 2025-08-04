@@ -1,19 +1,12 @@
 import { Component, signal, ViewChild, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ProfilePhotoComponent } from '../../components/helper-components/profile-photo/profile-photo.component';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { StepSliderComponent } from '../../components/aside-components/step-slider/step-slider.component';
 import { Helperform1Component } from '../../components/forms/helperform1/helperform1.component';
 import { Helperform2Component } from '../../components/forms/helperform2/helperform2.component';
 import { Helperform3Component } from '../../components/forms/helperform3/helperform3.component';
-import { RouterModule } from '@angular/router';
 import { HelperServiceService } from '../../shared/helper-service.service';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-add-edit',
-
   templateUrl: './add-edit.component.html',
   styleUrls: ['./add-edit.component.css']
 })
@@ -34,7 +27,6 @@ export class AddEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-
       if (params['mode'] === 'edit') {
         this.isEditMode = true;
         this.selectedHelper = this.helperService.getSelectedHelper();
@@ -43,7 +35,6 @@ export class AddEditComponent implements OnInit {
           alert('No helper data found. Redirecting...');
           this.router.navigate(['/']);
         }
-
       }
     });
     console.log(this.presentstep());
@@ -61,17 +52,14 @@ export class AddEditComponent implements OnInit {
       this.presentstep.set(step);
       return;
     }
-
     if (this.presentstep() === 1 && step > 1) {
       const formValid = this.form1Comp?.onSaveForm1();
       if (!formValid) return;
     }
-
     if (this.presentstep() === 2 && step > 2) {
       const formValid = this.form2Comp?.onSaveForm2();
       if (!formValid) return;
     }
-
     this.presentstep.set(step);
   }
 
@@ -80,8 +68,6 @@ export class AddEditComponent implements OnInit {
     console.log("submit triggered");
     this.form3Comp?.submitHelper();
   }
-
-  // In AddEditComponent
   saveAndExit() {
     if (this.presentstep() === 1) {
       const success = this.form1Comp?.onSaveForm1();

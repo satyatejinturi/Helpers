@@ -13,8 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './helperform3.component.css'
 })
 export class Helperform3Component implements OnInit {
-  @Input() isEditMode: boolean = false;
-  @Input() employeeId: number | null = null;
+  
   @Output() loadingChange = new EventEmitter<boolean>();
   helper: any;
   loading = false;
@@ -82,17 +81,7 @@ export class Helperform3Component implements OnInit {
     }
 
     formData.forEach((v, k) => console.log(k, v));
-    if (this.isEditMode && this.employeeId) {
-      this.helperService.updateHelper(this.employeeId, formData);
-      this.snackBar.open('Helper updated successfully!', 'Close', {
-        duration: 3000,
-        panelClass: ['success-snackbar']
-      });
-
-      this.loading = false;
-      this.loadingChange.emit(false);
-      this.router.navigate(['/']);
-    } else {
+    
       console.log('Submitting new helper data:', formData);
       this.helperService.postData(formData).subscribe({
         next: (res) => {
@@ -128,7 +117,7 @@ export class Helperform3Component implements OnInit {
           });
         }
       });
-    }
+    
   }
 
 

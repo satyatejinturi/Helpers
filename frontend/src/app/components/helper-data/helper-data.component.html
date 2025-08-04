@@ -1,4 +1,4 @@
-<div class="w-full max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8 space-y-8">
+<div class="w-full max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8 space-y-8 border border-gray-300">
   <div class="flex items-start justify-between">
     <div class="flex items-center space-x-6">
       <app-profile-photo [userName]="helper.fullName" [profilephotourl]="helper.profilePhotourl" [width]="'16'"
@@ -26,7 +26,7 @@
       <div>
         <div class="flex items-center mb-2">
           <h3 class="font-semibold text-gray-600 mr-4 whitespace-nowrap">EMPLOYEE ID</h3>
-          <div class="flex-grow border-t border-gray-200 min-w-lvh"></div>
+          <div class="flex-grow border-t border-gray-300 min-w-lvh"></div>
         </div>
 
         <div class="space-y-3">
@@ -48,7 +48,7 @@
       <div>
         <div class="flex items-center mb-2">
           <h3 class="font-semibold text-gray-600 mr-4 whitespace-nowrap">PERSONAL DETAILS</h3>
-          <div class="flex-grow border-t border-gray-200 min-w-177"></div>
+          <div class="flex-grow border-t border-gray-300 min-w-177"></div>
         </div>
 
         <div class="space-y-3 text-gray-500">
@@ -59,7 +59,7 @@
           <div class="flex items-center"><span class="w-32 mr-20">Mobile No.:</span><span class="text-gray-700">{{
               helper.phno }}</span></div>
           <div class="flex items-center"><span class="w-32 mr-20">Email ID:</span><span class="text-gray-700">{{
-              helper.email }}</span></div>
+              helper.email || '-'}}</span></div>
           <div class="flex items-center">
             <span class="w-32 mr-20">KYC Document:</span>
             <a [href]="helper.kycDocUrl" target="_blank"
@@ -73,7 +73,7 @@
       <div>
         <div class="flex items-center mb-2">
           <h3 class="font-semibold text-gray-600 mr-4 whitespace-nowrap">SERVICE DETAILS</h3>
-          <div class="flex-grow border-t border-gray-200 min-w-181"></div>
+          <div class="flex-grow border-t border-gray-300 min-w-181"></div>
         </div>
 
         <div class="space-y-3 text-gray-500">
