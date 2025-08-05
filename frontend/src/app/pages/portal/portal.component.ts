@@ -100,4 +100,5 @@ export class PortalComponent implements OnInit {
     this.helperservice.resetFilters();
     this.showfilter = false;
   }
+  
 }
