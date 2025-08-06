@@ -155,7 +155,8 @@
   <div class="w-100 border-l border-gray-300 rounded-3xl bg-white ml-5 pl-4">
     <app-sidebar [allhelper]="allhelper() | searchhelper:searchText:['fullName','phno','employeeid']"
       (selectedhelper)="handleselect($event)" [sortType]="selectedSort"
-      (lengthEmitted)="updateLength($event)"></app-sidebar>
+      (lengthEmitted)="updateLength($event)">
+    </app-sidebar>
   </div>
 
   <main class="flex-grow bg-white">

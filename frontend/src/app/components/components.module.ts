@@ -18,6 +18,7 @@ import { HelperCardComponent } from './helper-components/helper-card/helper-card
 import { ProfilePhotoComponent } from './helper-components/profile-photo/profile-photo.component';
 import { HelperDataComponent } from './helper-data/helper-data.component';
 import { MaterialModule } from '../shared/material.module';
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     SidebarComponent,
@@ -43,7 +44,8 @@ import { MaterialModule } from '../shared/material.module';
     MatDialogModule,
     MatMenuModule,
     MatButtonModule,
-    MaterialModule
+    MaterialModule,
+    DatePipe
   ],
   exports: [
     SidebarComponent,

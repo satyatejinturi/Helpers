@@ -43,7 +43,7 @@
       </div>
       <div class="mb-5">
         <strong>Joined Date: </strong>
-        <span>{{ data.createdAt.slice(0,10) }} </span>
+        <span>{{ data.createdAt | date:'dd-MM-YYYY' }} </span>
       </div>
       <div class="w-20 h-20">
         <img [src]="data.qrcodeUrl" alt="qr" class="w-full h-full object-cover">
