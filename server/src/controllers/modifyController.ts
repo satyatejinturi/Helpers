@@ -47,7 +47,9 @@ export const postHelper = async (req:Request,res:Response)=>{
         vehicleType,
         vehicleNo,
         kycDocType,
-        additionalDocType
+        kycDocName,
+        additionalDocType,
+        additionalDocName
     }=req.body;
     console.log(req.body)
     const qrcode=await generateQr(fullName,employeeid);
@@ -86,6 +88,8 @@ export const postHelper = async (req:Request,res:Response)=>{
             vehicleNo,
             kycDocType,
             kycDocUrl,
+            kycDocName,
+            additionalDocName,
             additionalDocType,
             additionalDocUrl,
             qrcodeUrl 
@@ -119,6 +123,8 @@ export const edithelper = async (req: Request, res: Response) => {
       'vehicleType',
       'vehicleNo',
       'kycDocType',
+      'kycDocName',
+      'additionalDocName',
       'additionalDocType',
     ];
 

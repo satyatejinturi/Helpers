@@ -14,6 +14,8 @@ export interface IUser extends Document{
     vechicleNo?:string,
     kycDocType:string,
     kycDocUrl:string,
+    kycDocName:string,
+    additionalDocName?:string,
     additionalDocType?:string,
     additionalDocUrl?:string,
     qrcodeUrl:string
@@ -34,6 +36,8 @@ const UserSchema=new mongoose.Schema({
     vehicleNo:{type:String},
     kycDocType:{type : String , required: true},
     kycDocUrl:{type : String , required: true},
+    kycDocName:{type : String , required: true},
+    additionalDocName:{type : String },
     additionalDocType:{type : String },
     additionalDocUrl:{type : String },
     qrcodeUrl:{type: String,required:true}
