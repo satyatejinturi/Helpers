@@ -19,17 +19,28 @@ import { ProfilePhotoComponent } from './helper-components/profile-photo/profile
 import { HelperDataComponent } from './helper-data/helper-data.component';
 import { MaterialModule } from '../shared/material.module';
 import { DatePipe } from '@angular/common';
+import { AdditionalDetailsComponent } from './forms/additional-details/additional-details.component';
+import { ReviewDetailsComponent } from './forms/review-details/review-details.component';
+import { DocumentDetailsComponent } from './forms/document-details/document-details.component';
+import { InputComponent } from './forms/input/input.component';
+import { SelectDropdownComponent } from './forms/select-dropdown/select-dropdown.component';
+import { CheckboxDropdownComponent } from './forms/checkbox-dropdown/checkbox-dropdown.component';
 @NgModule({
+
   declarations: [
     SidebarComponent,
     StepSliderComponent,
-    
+    AdditionalDetailsComponent,
+    ReviewDetailsComponent,
+    DocumentDetailsComponent,
     Helperform1Component,
     Helperform2Component,
     Helperform3Component,
     AdditionalcomponentComponent,
     DeleteDialogComponent,
-    
+    InputComponent,
+    SelectDropdownComponent,
+    CheckboxDropdownComponent,
     HelperDialogComponent,
     KycdocumentComponent,
     
@@ -50,13 +61,17 @@ import { DatePipe } from '@angular/common';
   exports: [
     SidebarComponent,
     StepSliderComponent,
-    
+    AdditionalDetailsComponent,
+    ReviewDetailsComponent,
+    DocumentDetailsComponent,
     Helperform1Component,
     Helperform2Component,
     Helperform3Component,
     AdditionalcomponentComponent,
     DeleteDialogComponent,
-    
+    InputComponent,
+    SelectDropdownComponent,
+    CheckboxDropdownComponent,
     HelperDialogComponent,
     KycdocumentComponent,
     

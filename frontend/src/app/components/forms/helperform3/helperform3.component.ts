@@ -26,10 +26,6 @@ export class Helperform3Component implements OnInit {
 
   showcard: boolean = false;
 
-  get showpopup(): boolean {
-    return this.helperService.showsucess();
-  }
-
   ngOnInit() {
     const data1 = this.helperService.getForm1Data();
     const data2 = this.helperService.getForm2Data();

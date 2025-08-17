@@ -1,0 +1,184 @@
+<div class="flex min-h-screen bg-gray-100 text-gray-800 border border-gray-300 rounded-2xl">
+  <main class="flex-1 ml-5px px-12 py-10 w-[1100px]">
+    <h1 class="text-2xl font-semibold mb-2">Helper Details</h1>
+    <p class="text-sm text-gray-500 mb-8">Track, Add & Manage all your helpers at one place</p>
+    <div class="flex mb-5">
+      <label
+        class="cursor-pointer flex flex-col items-center justify-center w-36 h-36 border-2 border-dashed border-indigo-400 rounded-full text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition overflow-hidden">
+        <ng-container *ngIf="profilePhotoPreview; else uploadIcon">
+          <img [src]="profilePhotoPreview" alt="Profile Preview" class="w-full h-full object-cover rounded-full" />
+        </ng-container>
+        <ng-template #uploadIcon>
+          <div class="w-[35%] h-[35%]">
+            <i class="ph ph-cloud-arrow-up text-5xl"></i>
+          </div>
+          <span class="text-sm font-medium text-center">Upload<br><span class="ml-1">Photo</span></span>
+        </ng-template>
+        <input type="file" accept="image/*" class="hidden" (change)="onPhotoUpload($event)" />
+      </label>
+    </div>
+
+    <p class="text-xs text-gray-400 mb-10">Upload photo (.png, .jpeg) size 5 mb</p>
+
+    <form [formGroup]="detailsform" (ngSubmit)="onSaveForm1()" class="space-y-5 max-w-2xl">
+      <app-select-dropdown
+        [formGroup]="detailsform"
+        controlName="typeofservice"
+        label="Type of Service"
+        [options]="typeOfServiceOptions"
+        placeholder="select"
+        [required]="true"
+      ></app-select-dropdown>
+
+      <app-select-dropdown
+        [formGroup]="detailsform"
+        controlName="organizationname"
+        label="Organization Name"
+        [options]="organizationOptions"
+        placeholder="Select Organization"
+        [required]="true"
+      ></app-select-dropdown>
+
+      <app-input
+        [formGroup]="detailsform"
+        controlName="fullname"
+        label="Full Name"
+        placeholder="Full Name"
+        [required]="true"
+      ></app-input>
+
+      <app-checkbox-dropdown
+        [formGroup]="detailsform"
+        controlName="languages"
+        label="Languages"
+        [options]="languageOptions"
+        [required]="true"
+        [maxSelection]="3"
+        [displayLimit]="5"
+        maxHeight="130px"
+        hint="Select all applicable languages."
+      ></app-checkbox-dropdown>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Gender<span class="text-red-500">*</span></label>
+        <div class="flex space-x-6 mt-2">
+          <label class="inline-flex items-center space-x-2" *ngFor="let option of genderOptions">
+            <input
+              type="radio"
+              [formControlName]="'gender'"
+              [value]="option.value"
+              class="text-indigo-600"
+              [ngClass]="{'border-red-500': detailsform.get('gender')?.invalid && (detailsform.get('gender')?.dirty || detailsform.get('gender')?.touched)}"
+            />
+            <span>{{ option.label }}</span>
+          </label>
+        </div>
+        <p *ngIf="detailsform.get('gender')?.invalid && (detailsform.get('gender')?.dirty || detailsform.get('gender')?.touched)"
+          class="text-red-500 text-xs mt-1">This field is necessary</p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Phone<span class="text-red-500">*</span></label>
+        <div class="flex items-center gap-0">
+          <div class="w-16">
+            <select
+              formControlName="countryCode"
+              class="border border-gray-300 rounded-l-md px-2 py-2 bg-gray-100 text-sm w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              [ngClass]="{'border-red-500': detailsform.get('countryCode')?.invalid && (detailsform.get('countryCode')?.dirty || detailsform.get('countryCode')?.touched)}"
+            >
+              <option value="+91">+91</option>
+            </select>
+          </div>
+          <input
+            type="text"
+            formControlName="phno"
+            placeholder="Phone number"
+            class="flex-1 border border-gray-300 border-l-0 rounded-r-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-gray-400"
+            [ngClass]="{'border-red-500': detailsform.get('phno')?.invalid && (detailsform.get('phno')?.dirty || detailsform.get('phno')?.touched)}"
+          >
+        </div>
+        <p *ngIf="detailsform.get('countryCode')?.invalid && (detailsform.get('countryCode')?.dirty || detailsform.get('countryCode')?.touched)"
+           class="text-red-500 text-xs mt-1">This field is necessary</p>
+        <p *ngIf="detailsform.get('phno')?.invalid && (detailsform.get('phno')?.dirty || detailsform.get('phno')?.touched)"
+           class="text-red-500 text-xs mt-1">Please enter a valid 10-digit phone number</p>
+      </div>
+
+      <app-input
+        [formGroup]="detailsform"
+        controlName="email"
+        label="Email"
+        type="email"
+        placeholder="example@abc.com"
+        errorMessage="Invalid email format"
+      ></app-input>
+
+      <app-select-dropdown
+        [formGroup]="detailsform"
+        controlName="vehicletype"
+        label="Choose Vehicle Type"
+        [options]="vehicleTypeOptions"
+        [required]="true"
+        (onChange)="updateVehicleNoValidator()"
+      ></app-select-dropdown>
+
+      <div *ngIf="detailsform.get('vehicletype')?.value !== 'none'" class="mt-4">
+        <app-input
+          [formGroup]="detailsform"
+          controlName="vehicleno"
+          label="Enter Vehicle Number"
+          placeholder="e.g., KA01AB1234"
+          [required]="true"
+        ></app-input>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-2">KYC Document<span class="text-red-500">*</span></label>
+        <div class="flex mb-5">
+          <label *ngIf="!showlabel"
+            class="cursor-pointer flex flex-col items-center justify-center w-25 h-25 border-2 border-dashed border-indigo-400 text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition">
+            <div class="w-[35%] h-[35%]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#3F51B5" viewBox="0 0 256 256">
+                <path
+                  d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
+                </path>
+              </svg>
+            </div>
+            <button type="button" (click)="onKycUpload()" class="hidden"></button>
+          </label>
+
+          <div *ngIf="detailsform.get('kycdoc')?.value" class="flex flex-col text-sm text-gray-700 mt-2">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-file-pdf text-5xl text-red-500"></i>
+              <span class="truncate max-w-[150px]">{{ detailsform.get('kycdoc')?.value?.name }}</span>
+              <button type="button" (click)="removeKyc()"
+                class="text-red-500 hover:text-red-700 text-xs ml-2 underline">
+                Remove
+              </button>
+            </div>
+            <span class="text-gray-500 text-xs mt-1">Type: {{ detailsform.get('kycdoctype')?.value }}</span>
+          </div>
+
+          <div *ngIf="showlabel && existingKycUrl && !detailsform.get('kycdoc')?.value" class="flex flex-col text-sm text-gray-700 mt-2">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-file-pdf text-5xl text-red-500"></i>
+              <button type="button" (click)="openKycLink()"
+                class="truncate max-w-[150px] text-left text-blue-600 hover:underline">
+                Existing Document
+              </button>
+              <button type="button" (click)="removeKyc()"
+                class="text-red-500 hover:text-red-700 text-xs ml-2 underline">
+                Remove
+              </button>
+            </div>
+            <span class="text-gray-500 text-xs mt-1">Type: {{ detailsform.get('kycdoctype')?.value }}</span>
+          </div>
+        </div>
+        <p class="text-xs text-gray-400 mb-10">Upload photo (.png, .jpeg) size 5 mb</p>
+        <p *ngIf="(!detailsform.get('kycdoc')?.value && !kycUrl && detailsform.touched)" class="text-red-500 text-xs mt-1">This field is
+          necessary</p>
+      </div>
+
+      <button type="submit"></button>
+    </form>
+  </main>
+</div>

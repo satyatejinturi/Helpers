@@ -1,85 +1,185 @@
-import { Component, signal, ViewChild, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Helperform1Component } from '../../components/forms/helperform1/helperform1.component';
-import { Helperform2Component } from '../../components/forms/helperform2/helperform2.component';
-import { Helperform3Component } from '../../components/forms/helperform3/helperform3.component';
-import { HelperServiceService } from '../../shared/helper-service.service';
+// import { Component, signal, ViewChild, OnInit } from '@angular/core';
+// import { Router, ActivatedRoute } from '@angular/router';
+// import { Helperform1Component } from '../../components/forms/helperform1/helperform1.component';
+// import { Helperform2Component } from '../../components/forms/helperform2/helperform2.component';
+// import { Helperform3Component } from '../../components/forms/helperform3/helperform3.component';
+// import { HelperServiceService } from '../../shared/helper-service.service';
 
+// @Component({
+//   selector: 'app-add-edit',
+//   templateUrl: './add-edit.component.html',
+//   styleUrls: ['./add-edit.component.css']
+// })
+// export class AddEditComponent implements OnInit {
+//   presentstep = signal(1);
+//   isEditMode = false;
+//   selectedHelper: any = null;
+//   loading = false;
+//   @ViewChild(Helperform1Component) form1Comp!: Helperform1Component;
+//   @ViewChild(Helperform2Component) form2Comp!: Helperform2Component;
+//   @ViewChild(Helperform3Component) form3Comp!: Helperform3Component;
+
+//   constructor(
+//     private router: Router,
+//     private route: ActivatedRoute,
+//     private helperService: HelperServiceService
+//   ) { }
+
+//   ngOnInit(): void {
+//     this.route.params.subscribe(params => {
+//       if (params['mode'] === 'edit') {
+//         this.isEditMode = true;
+//         this.selectedHelper = this.helperService.getSelectedHelper();
+//         console.log(this.selectedHelper)
+//         if (!this.selectedHelper) {
+//           alert('No helper data found. Redirecting...');
+//           this.router.navigate(['/']);
+//         }
+//       }
+//     });
+//     console.log(this.presentstep());
+//   }
+
+//   goback() {
+//     this.router.navigate(['/']);
+//   }
+//   onLoadingChange(value: boolean) {
+//     this.loading = value;
+//   }
+
+//   goto(step: number) {
+//     if (this.isEditMode) {
+//       this.presentstep.set(step);
+//       return;
+//     }
+//     if (this.presentstep() === 1 && step > 1) {
+//       const formValid = this.form1Comp?.onSaveForm1();
+//       if (!formValid) return;
+//     }
+//     if (this.presentstep() === 2 && step > 2) {
+//       const formValid = this.form2Comp?.onSaveForm2();
+//       if (!formValid) return;
+//     }
+//     this.presentstep.set(step);
+//   }
+
+
+//   submitHelper() {
+//     console.log("submit triggered");
+//     this.form3Comp?.submitHelper();
+//   }
+//   saveAndExit() {
+//     if (this.presentstep() === 1) {
+//       const success = this.form1Comp?.onSaveForm1();
+//       if (success) {
+//         this.router.navigate(['/']);
+//       }
+//     } else if (this.presentstep() === 2) {
+//       const success = this.form2Comp?.onSaveForm2();
+//       if (success) {
+//         this.router.navigate(['/']);
+//       }
+//     }
+//   }
+
+// }
+
+import { Component, signal, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { HelperServiceService } from '../../shared/helper-service.service';
 @Component({
   selector: 'app-add-edit',
   templateUrl: './add-edit.component.html',
-  styleUrls: ['./add-edit.component.css']
+  styleUrls: ['./add-edit.component.scss']
 })
 export class AddEditComponent implements OnInit {
   presentstep = signal(1);
   isEditMode = false;
-  selectedHelper: any = null;
   loading = false;
-  @ViewChild(Helperform1Component) form1Comp!: Helperform1Component;
-  @ViewChild(Helperform2Component) form2Comp!: Helperform2Component;
-  @ViewChild(Helperform3Component) form3Comp!: Helperform3Component;
+  selectedHelper: any = null;
+
+  helperForm: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private helperService: HelperServiceService
-  ) { }
+  ) {
+    this.helperForm = this.fb.group({
+      fullname: [''],
+      typeofservice: [''],
+      organizationname: [''],
+      phno: [''],
+      email: [''],
+      languages: [[]], 
+      vehicletype: [''],
+      vehicleno: [''],
+      profile: [null],        
+      profileurl: [''],       
+      gender: [''],
+      countryCode : ['+91'],
+      kycdocname: [''],
+      kycdoctype: [''],
+      kycdoc: [null],        
+      kycdocurl: [''],
+
+      additionaldocname: [''],
+      additionaldoctype: [''],
+      additionaldoc: [null],  
+      additionaldocurl: ['']
+    });
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params['mode'] === 'edit') {
         this.isEditMode = true;
-        this.selectedHelper = this.helperService.getSelectedHelper();
-        console.log(this.selectedHelper)
+
+        this.selectedHelper = this.helperService.getSelectedHelper(); // Replace with getSelectedHelper() logic
         if (!this.selectedHelper) {
           alert('No helper data found. Redirecting...');
           this.router.navigate(['/']);
+        } else {
+          this.helperForm.patchValue({
+            ...this.selectedHelper
+          });
         }
       }
     });
-    console.log(this.presentstep());
   }
 
-  goback() {
+  goback(): void {
     this.router.navigate(['/']);
   }
-  onLoadingChange(value: boolean) {
+
+  onLoadingChange(value: boolean): void {
     this.loading = value;
   }
 
-  goto(step: number) {
+  goto(step: number): void {
     if (this.isEditMode) {
       this.presentstep.set(step);
       return;
     }
-    if (this.presentstep() === 1 && step > 1) {
-      const formValid = this.form1Comp?.onSaveForm1();
-      if (!formValid) return;
-    }
-    if (this.presentstep() === 2 && step > 2) {
-      const formValid = this.form2Comp?.onSaveForm2();
-      if (!formValid) return;
-    }
+
+    // if (step === 2 && !this.helperForm.valid) return;
+    // if (step === 3 && !this.helperForm.valid) return;
+
     this.presentstep.set(step);
+    console.log(`Navigated to step ${step}`);
   }
 
-
-  submitHelper() {
-    console.log("submit triggered");
-    this.form3Comp?.submitHelper();
+  submitHelper(): void {
+    const formData = this.helperForm.value;
+    console.log('Submitting helper data:', formData);
   }
-  saveAndExit() {
-    if (this.presentstep() === 1) {
-      const success = this.form1Comp?.onSaveForm1();
-      if (success) {
-        this.router.navigate(['/']);
-      }
-    } else if (this.presentstep() === 2) {
-      const success = this.form2Comp?.onSaveForm2();
-      if (success) {
-        this.router.navigate(['/']);
-      }
+
+  saveAndExit(): void {
+    if (this.helperForm.valid) {
+      console.log(`Saved step ${this.presentstep()}, exiting...`);
+      this.router.navigate(['/']);
     }
   }
-
 }

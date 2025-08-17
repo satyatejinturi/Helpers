@@ -14,17 +14,17 @@
       <div>{{ helper.gender }}</div>
 
       <div class="font-medium">Languages</div>
-      <div>{{ helper.languages || ' '}}</div>
+      <div>{{ helper.languages || '-' }}</div>
 
       <div class="font-medium">Mobile No.</div>
       <div>{{ helper.phno }}</div>
 
       <div class="font-medium">Email ID</div>
-      <div>{{ helper.email || '-' }}</div>
+      <div>{{ helper.email }}</div>
 
       <div class="font-medium">KYC Document</div>
       <div>
-        <a [href]="helper.kycDocUrl" class="text-indigo-600 hover:underline flex items-center space-x-1">
+        <a [href]="helper.kycDocUrl" class="text-indigo-600 hover:underline flex items-center space-x-1" target="_blank">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
             <path
               d="M10 3a1 1 0 01.993.883L11 4v6h3a1 1 0 01.117 1.993L14 12h-4a1 1 0 01-.993-.883L9 11V4a1 1 0 011-1z" />

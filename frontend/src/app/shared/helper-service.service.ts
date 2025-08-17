@@ -36,11 +36,7 @@ export class HelperServiceService {
   private form1Data = signal<any>(null);
   private form2Data = signal<any>(null);
 
-  private lasthelper = signal<any>(null);
-  readonly getlasthelper = computed(() => this.lasthelper());
 
-  private showmsg = signal<boolean>(false);
-  readonly showsucess = computed(() => this.showmsg());
 
   getData() {
     this.http.get<any[]>(`${this.url}/allhelpers`).subscribe(helper => {
@@ -89,13 +85,8 @@ export class HelperServiceService {
   }
 
 
-  updateHelper(id: number, formdata: any) {
-    this.http.patch(`${this.url}/editHelper?id=${id}`, formdata).subscribe(res => {
-      this.lasthelper.set(res);
-      this.showmsg.set(true);
-      console.log(res);
-      setTimeout(() => this.showmsg.set(false), 2000);
-    });
+  updateHelper(id: number, formdata: any): Observable<any>  {
+    return this.http.patch(`${this.url}/editHelper?id=${id}`, formdata)
   }
 
   setSelectedHelper(helper: any) {

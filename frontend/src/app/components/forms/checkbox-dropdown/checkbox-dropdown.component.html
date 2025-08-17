@@ -1,0 +1,32 @@
+<div class="mb-4" [formGroup]="formGroup">
+      <div class="flex mb-1">
+        <h2 class="text-sm font-medium">{{ label }}<span *ngIf="required" class="text-red-500">*</span></h2>
+        <button *ngIf="showReset" class="ml-auto text-xs text-indigo-500" (click)="reset()" type="button">Reset</button>
+      </div>
+      <div class="relative" #dropdownWrapper>
+        <button type="button" (click)="toggleDropdown()"
+          class="border px-4 py-2 rounded-md w-full text-left text-gray-800 flex items-center">
+          {{ getLabel() }}
+          <span class="ml-auto"><i class="ph ph-caret-down"></i></span>
+        </button>
+        <div *ngIf="isDropdownOpen" class="absolute mt-2 bg-white border shadow-md rounded-md w-full z-10 p-2"
+         >
+          <div class="flex items-center gap-2 p-1 hover:bg-gray-100 rounded font-medium text-sm">
+            <input type="checkbox" [checked]="isAllSelected()" (change)="toggleSelectAll()" id="selectAll" />
+            <label for="selectAll">Select All (Max: {{ maxSelection }})</label>
+          </div>
+          <div *ngFor="let option of visibleOptions"
+            class="flex items-center gap-2 p-1 hover:bg-gray-100 rounded text-sm"
+            [class.text-gray-400]="isDisabled(option.value)">
+            <input type="checkbox" [checked]="isChecked(option.value)" (change)="toggleOption(option.value)"
+              [disabled]="isDisabled(option.value)" [id]="option.value" />
+            <label [for]="option.value" class="cursor-pointer w-full flex justify-between items-center">
+              {{ option.label }}
+              <i *ngIf="isChecked(option.value)" class="ph ph-check text-indigo-600"></i>
+            </label>
+          </div>
+        </div>
+      </div>
+      <small class="text-gray-500">{{ hint }}</small>
+      <p *ngIf="touched && selectedValues.length === 0" class="text-red-500 text-xs mt-1">{{ errorMessage }}</p>
+    </div>
