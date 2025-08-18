@@ -3,36 +3,3 @@
 body {
   font-family: 'Nunito Sans', sans-serif;
 }
-
-/* Always ensure these styles are global */
-.cdk-overlay-container {
-  z-index: 1000 ;
-  position: fixed ;
-  pointer-events: none;
-}
-
-.cdk-overlay-backdrop {
-  z-index: 1001 ;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.mat-mdc-dialog-container {
-  z-index: 1002 ;
-  pointer-events: auto;
-}
-
-::ng-deep .custom-dialog-panel {
-  z-index: 2002 !important;
-}
-
-.success-snackbar {
-  background-color: #4caf50;
-  color: white;
-  font-weight: 500;
-}
-
-.error-snackbar {
-  background-color: #f44336;
-  color: white;
-  font-weight: 500;
-}

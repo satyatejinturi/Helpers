@@ -1,88 +1,30 @@
-<!-- <mat-progress-bar *ngIf="loading" mode="indeterminate" color="primary"></mat-progress-bar>
-
-<div class="flex items-center gap-3 px-6 pt-6 pb-4 bg-gray-100 min-w-screen">
-  <button (click)="goback()" class="flex items-center p-1 gap-1 cursor-pointer">
-    <i class="ph ph-caret-left"></i>
-    <span>{{ isEditMode ? 'Edit Helper' : 'Add Helper' }}</span>
-  </button>
-</div>
-
-<div class="flex ">
-  <div class=" w-70  bg-gray-100 rounded-2xl ">
-    <app-step-slider [currentStep]="presentstep()" [isEditMode]="isEditMode" (editStepSelected)="goto($event)"
-      class="w-64 bg-gray-100   ">
-    </app-step-slider>
-  </div>
-
-  <div class="flex-1 p-6 bg-gray-100">
-    <app-helperform1 *ngIf="presentstep() === 1 " [helperData]="selectedHelper"></app-helperform1>
-
-    <app-helperform2 *ngIf="presentstep() === 2" [isEditMode]="isEditMode" [helperData]="selectedHelper"
-      [employeeId]="selectedHelper?.employeeid">
-    </app-helperform2>
-    <app-helperform3 *ngIf="presentstep() === 3" 
-      (loadingChange)="onLoadingChange($event)"></app-helperform3>
-
-
-    <div class="flex justify-end mt-6 gap-4">
-      <button *ngIf="!isEditMode && presentstep() > 1" (click)="goto(presentstep() - 1)"
-        class="border border-indigo-400 rounded-md px-6 py-2">
-        Previous
-      </button>
-
-      <button *ngIf="!isEditMode && presentstep() < 3" (click)="goto(presentstep() + 1)"
-        class="border border-indigo-400 rounded-md px-6 py-2">
-        Next
-      </button>
-
-      <button *ngIf="!isEditMode && presentstep() === 3" (click)="submitHelper()"
-        class="bg-indigo-500 text-white rounded-md px-6 py-2">
-        Add Helper
-      </button>
-
-      <button *ngIf="isEditMode && presentstep() <= 2" (click)="saveAndExit()"
-        class="bg-indigo-500 text-white rounded-md px-6 py-2">
-        Save and Exit
-      </button>
-    </div>
-
-  </div>
-</div> -->
-<!-- Progress bar -->
- <!-- Progress bar -->
 <mat-progress-bar *ngIf="loading" mode="indeterminate" color="primary"></mat-progress-bar>
-
 <div class="flex items-center gap-3 px-6 pt-6 pb-4 bg-gray-100 min-w-screen">
   <button (click)="goback()" class="flex items-center p-1 gap-1 cursor-pointer">
     <i class="ph ph-caret-left"></i>
     <span>{{ isEditMode ? 'Edit Helper' : 'Add Helper' }}</span>
   </button>
 </div>
-
 <div class="flex">
   <div class="w-70 bg-gray-100 rounded-2xl">
     <app-step-slider [currentStep]="presentstep()" [isEditMode]="isEditMode" (editStepSelected)="goto($event)"
       class="w-64 bg-gray-100">
     </app-step-slider>
   </div>
-
   <div class="flex-1 p-6 bg-gray-100">
     <app-document-details
       *ngIf="presentstep() === 1"
       [detailsform]="documentForm">
     </app-document-details>
-
     <app-additional-details
       *ngIf="presentstep() === 2"
       [detailsform]="additionalDetailsForm">
     </app-additional-details>
-
     <app-review-details
       *ngIf="presentstep() === 3"
       [detailsform]="documentForm"
       >
     </app-review-details>
-
     <div class="flex justify-end mt-6 gap-4">
       <button
         *ngIf="!isEditMode && presentstep() > 1"
@@ -90,21 +32,18 @@
         class="border border-indigo-400 rounded-md px-6 py-2">
         Previous
       </button>
-
       <button
         *ngIf="!isEditMode && presentstep() < 3"
         (click)="goto(presentstep() + 1)"
         class="border border-indigo-400 rounded-md px-6 py-2">
         Next
       </button>
-
       <button
         *ngIf="!isEditMode && presentstep() === 3"
         (click)="submitHelper()"
         class="bg-indigo-500 text-white rounded-md px-6 py-2">
         Add Helper
       </button>
-
       <button
         *ngIf="isEditMode && presentstep() <= 2"
         (click)="saveAndExit()"

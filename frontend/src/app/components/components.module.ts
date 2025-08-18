@@ -7,9 +7,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { SidebarComponent } from './aside-components/sidebar/sidebar.component';
 import { StepSliderComponent } from './aside-components/step-slider/step-slider.component';
-import { Helperform1Component } from './forms/helperform1/helperform1.component';
-import { Helperform2Component } from './forms/helperform2/helperform2.component';
-import { Helperform3Component } from './forms/helperform3/helperform3.component';
 import { AdditionalcomponentComponent } from './dialog_components/additionalcomponent/additionalcomponent.component';
 import { DeleteDialogComponent } from './dialog_components/delete-dialog/delete-dialog.component';
 import { HelperDialogComponent } from './dialog_components/helper-dialog/helper-dialog.component';
@@ -33,9 +30,6 @@ import { CheckboxDropdownComponent } from './forms/checkbox-dropdown/checkbox-dr
     AdditionalDetailsComponent,
     ReviewDetailsComponent,
     DocumentDetailsComponent,
-    Helperform1Component,
-    Helperform2Component,
-    Helperform3Component,
     AdditionalcomponentComponent,
     DeleteDialogComponent,
     InputComponent,
@@ -64,9 +58,6 @@ import { CheckboxDropdownComponent } from './forms/checkbox-dropdown/checkbox-dr
     AdditionalDetailsComponent,
     ReviewDetailsComponent,
     DocumentDetailsComponent,
-    Helperform1Component,
-    Helperform2Component,
-    Helperform3Component,
     AdditionalcomponentComponent,
     DeleteDialogComponent,
     InputComponent,
