@@ -26,7 +26,7 @@ export class ReviewDetailsComponent implements OnInit {
       email: this.detailsform.get('email')?.value || '-',
       kycDocUrl: this.detailsform.get('kycDocUrl')?.value || '',
       organizationName: this.detailsform.get('organizationName')?.value || '',
-
+      profileurl:this.detailsform.get('profileurl')?.value || '',
       createdAt: '-' // Placeholder, as not in FormGroup
     };
 
