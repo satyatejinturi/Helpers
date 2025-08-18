@@ -4,6 +4,7 @@ import cloudinary from "../utils/cloudinary";
 import fs from "fs";
 import count, { Ecounter } from "../models/Employeeid";
 import  QRCode  from "qrcode";
+import { log } from "console";
 
 async function generateQr(name: string, employeeid: number | undefined): Promise<string> {
     const dataforqr = `Name : ${name}, Number : ${employeeid}`;
@@ -109,8 +110,10 @@ export const edithelper = async (req: Request, res: Response) => {
     const files = (req.files || {}) as {
       [filename: string]: Express.Multer.File[];
     };
+    console.log(req.query);
     const body = req.body;
     const emp_id = req.query.id;
+    
 
     const fields = [
       'typeOfService',

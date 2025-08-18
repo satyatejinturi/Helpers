@@ -58,6 +58,8 @@ export class AddEditComponent implements OnInit {
         this.isEditMode = true;
 
         this.selectedHelper = this.helperService.getSelectedHelper();
+        console.log(this.selectedHelper);
+
         if (!this.selectedHelper) {
           alert('No helper data found. Redirecting...');
           this.router.navigate(['/']);
@@ -72,7 +74,7 @@ export class AddEditComponent implements OnInit {
             vehicleType: this.selectedHelper.vehicleType,
             vehicleNo: this.selectedHelper.vehicleNo,
             profile: this.selectedHelper.profile,
-            profileurl: this.selectedHelper.profileurl,
+            profileurl: this.selectedHelper.profilePhotourl,
             gender: this.selectedHelper.gender,
             countryCode: this.selectedHelper.countryCode,
             kycDocName: this.selectedHelper.kycDocName,
@@ -111,6 +113,7 @@ export class AddEditComponent implements OnInit {
   }
 
   submitHelper(): void {
+    this.loading=true;
     const formDataValue = {
       ...this.documentForm.value,
       ...this.additionalDetailsForm.value
@@ -133,6 +136,7 @@ export class AddEditComponent implements OnInit {
           duration: 3000,
           panelClass: ['snackbar-success']
         });
+        this.loading=false
       },
       error: (err) => {
         console.error(err);
@@ -140,7 +144,9 @@ export class AddEditComponent implements OnInit {
           duration: 3000,
           panelClass: ['snackbar-error']
         });
+        this.loading=false
       }
+      
     });
   }
 
@@ -148,6 +154,36 @@ export class AddEditComponent implements OnInit {
     if (this.documentForm.valid && this.additionalDetailsForm.valid) {
       console.log(`Saved step ${this.presentstep()}, exiting...`);
       this.router.navigate(['/']);
+      const formDataValue = {
+        ...this.documentForm.value,
+        ...this.additionalDetailsForm.value
+      };
+
+      const formdata = new FormData();
+      Object.keys(formDataValue).forEach(key => {
+        const value = formDataValue[key];
+        if (value instanceof File) {
+          formdata.append(key, value, value.name);
+        } else {
+          formdata.append(key, value);
+        }
+      });
+      console.log('Submitting helper with data:', formDataValue);
+      this.helperService.updateHelper(this.selectedHelper.employeeid,formdata).subscribe({
+        next: (res) => {
+          this.snackBar.open('Helper updated successfully!', 'Close', {
+            duration: 3000,
+            panelClass: ['snackbar-success']
+          });
+        },
+        error: (err) => {
+          console.error(err);
+          this.snackBar.open('Failed to update helper. Try again.', 'Close', {
+            duration: 3000,
+            panelClass: ['snackbar-error']
+          });
+        }
+      });
     }
   }
 }

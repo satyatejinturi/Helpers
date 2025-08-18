@@ -59,27 +59,11 @@ export class DocumentDetailsComponent implements OnInit {
   ngOnInit() {
     this.detailsform.get('countryCode')?.setValue('+91');
     this.detailsform.get('vehicleType')?.setValue('none');
-    const savedFormData = this.helperService.getForm1Data();
-    if (savedFormData && !this.helperData) {
-      this.detailsform.patchValue({
-        typeOfService: savedFormData.typeOfService || '',
-        organizationName: savedFormData.organizationName || '',
-        fullName: savedFormData.fullName || '',
-        gender: savedFormData.gender || '',
-        phno: savedFormData.phno || '',
-        email: savedFormData.email || '',
-        vehicleType: savedFormData.vehicleType || 'none',
-        vehicleNo: savedFormData.vehicleNo || '',
-        kycDocType: savedFormData.kycDocType || '',
-        profileUrl: savedFormData.profilePhotoPreview || '',
-        languages: savedFormData.languages || []
-      });
-      this.profilePhotoPreview = savedFormData.profilePhotoPreview || '';
-      if (savedFormData.kycDocType) {
-        this.showlabel = true;
-      }
-    }
-
+    console.log(this.helperData);
+    this.profilePhotoPreview=this.detailsform.get('profileurl')?.value;
+    console.log(this.profilePhotoPreview);
+    console.log(this.detailsform);
+    
     if (this.helperData) {
       this.isEditMode = true;
       this.kycUrl = this.helperData.kycURL || '';
@@ -95,7 +79,7 @@ export class DocumentDetailsComponent implements OnInit {
         vehicleType: this.helperData.vehicleType || 'none',
         vehicleNo: this.helperData.vehicleNo || '',
         kycDocType: this.helperData.kycDocType || '',
-        profileUrl: this.helperData.profilePhotoUrl || '',
+        profileurl: this.helperData.profilePhotourl || '',
         languages: this.helperData.languages?.length
           ? this.helperData.languages[0].split(',').map((lang: string) => lang.trim())
           : []
@@ -105,6 +89,7 @@ export class DocumentDetailsComponent implements OnInit {
       }
       this.profilePhotoPreview = this.helperData.profilePhoto || '';
     }
+    
 
     this.detailsform.get('typeOfService')?.setValidators([Validators.required]);
     this.detailsform.get('organizationName')?.setValidators([Validators.required]);
