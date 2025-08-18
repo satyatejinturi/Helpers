@@ -111,7 +111,6 @@ export class AddEditComponent implements OnInit {
   }
 
   submitHelper(): void {
-    // merge form values
     const formDataValue = {
       ...this.documentForm.value,
       ...this.additionalDetailsForm.value

@@ -106,7 +106,6 @@ export class DocumentDetailsComponent implements OnInit {
       this.profilePhotoPreview = this.helperData.profilePhoto || '';
     }
 
-    // Add validators
     this.detailsform.get('typeOfService')?.setValidators([Validators.required]);
     this.detailsform.get('organizationName')?.setValidators([Validators.required]);
     this.detailsform.get('fullName')?.setValidators([Validators.required]);
