@@ -23,7 +23,7 @@
     <form [formGroup]="detailsform" (ngSubmit)="onSaveForm1()" class="space-y-5 max-w-2xl">
       <app-select-dropdown
         [formGroup]="detailsform"
-        controlName="typeofservice"
+        controlName="typeOfService"
         label="Type of Service"
         [options]="typeOfServiceOptions"
         placeholder="select"
@@ -32,7 +32,7 @@
 
       <app-select-dropdown
         [formGroup]="detailsform"
-        controlName="organizationname"
+        controlName="organizationName"
         label="Organization Name"
         [options]="organizationOptions"
         placeholder="Select Organization"
@@ -41,7 +41,7 @@
 
       <app-input
         [formGroup]="detailsform"
-        controlName="fullname"
+        controlName="fullName"
         label="Full Name"
         placeholder="Full Name"
         [required]="true"
@@ -114,17 +114,17 @@
 
       <app-select-dropdown
         [formGroup]="detailsform"
-        controlName="vehicletype"
+        controlName="vehicleType"
         label="Choose Vehicle Type"
         [options]="vehicleTypeOptions"
         [required]="true"
         (onChange)="updateVehicleNoValidator()"
       ></app-select-dropdown>
 
-      <div *ngIf="detailsform.get('vehicletype')?.value !== 'none'" class="mt-4">
+      <div *ngIf="detailsform.get('vehicleType')?.value !== 'none'" class="mt-4">
         <app-input
           [formGroup]="detailsform"
-          controlName="vehicleno"
+          controlName="vehicleNo"
           label="Enter Vehicle Number"
           placeholder="e.g., KA01AB1234"
           [required]="true"
@@ -146,10 +146,10 @@
             <button type="button" (click)="onKycUpload()" class="hidden"></button>
           </label>
 
-          <div *ngIf="detailsform.get('kycdoc')?.value" class="flex flex-col text-sm text-gray-700 mt-2">
+          <div *ngIf="detailsform.get('Kyc')?.value" class="flex flex-col text-sm text-gray-700 mt-2">
             <div class="flex items-center gap-2">
               <i class="fa-solid fa-file-pdf text-5xl text-red-500"></i>
-              <span class="truncate max-w-[150px]">{{ detailsform.get('kycdoc')?.value?.name }}</span>
+              <span class="truncate max-w-[150px]">{{ detailsform.get('Kyc')?.value?.name }}</span>
               <button type="button" (click)="removeKyc()"
                 class="text-red-500 hover:text-red-700 text-xs ml-2 underline">
                 Remove
@@ -158,7 +158,7 @@
             <span class="text-gray-500 text-xs mt-1">Type: {{ detailsform.get('kycdoctype')?.value }}</span>
           </div>
 
-          <div *ngIf="showlabel && existingKycUrl && !detailsform.get('kycdoc')?.value" class="flex flex-col text-sm text-gray-700 mt-2">
+          <div *ngIf="showlabel && existingKycUrl && !detailsform.get('Kyc')?.value" class="flex flex-col text-sm text-gray-700 mt-2">
             <div class="flex items-center gap-2">
               <i class="fa-solid fa-file-pdf text-5xl text-red-500"></i>
               <button type="button" (click)="openKycLink()"

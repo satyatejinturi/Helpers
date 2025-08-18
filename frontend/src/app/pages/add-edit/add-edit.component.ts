@@ -83,11 +83,12 @@
 //   }
 
 // }
-
 import { Component, signal, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HelperServiceService } from '../../shared/helper-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-add-edit',
   templateUrl: './add-edit.component.html',
@@ -99,35 +100,39 @@ export class AddEditComponent implements OnInit {
   loading = false;
   selectedHelper: any = null;
 
-  helperForm: FormGroup;
+  documentForm: FormGroup;
+  additionalDetailsForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private helperService: HelperServiceService
+    private helperService: HelperServiceService,
+    private snackBar: MatSnackBar
   ) {
-    this.helperForm = this.fb.group({
-      fullname: [''],
-      typeofservice: [''],
-      organizationname: [''],
+    this.documentForm = this.fb.group({
+      fullName: [''],
+      typeOfService: [''],
+      organizationName: [''],
       phno: [''],
       email: [''],
-      languages: [[]], 
-      vehicletype: [''],
-      vehicleno: [''],
-      profile: [null],        
-      profileurl: [''],       
+      languages: [[]],
+      vehicleType: [''],
+      vehicleNo: [''],
+      profile: [null],
+      profileurl: [''],
       gender: [''],
-      countryCode : ['+91'],
-      kycdocname: [''],
-      kycdoctype: [''],
-      kycdoc: [null],        
-      kycdocurl: [''],
+      countryCode: ['+91'],
+      kycDocName: [''],
+      kycDocType: [''],
+      Kyc: [null],
+      kycdocurl: ['']
+    });
 
-      additionaldocname: [''],
-      additionaldoctype: [''],
-      additionaldoc: [null],  
+    this.additionalDetailsForm = this.fb.group({
+      additionalDocName: [''],
+      additionalDocType: [''],
+      AdditionalDoc: [null],
       additionaldocurl: ['']
     });
   }
@@ -137,13 +142,35 @@ export class AddEditComponent implements OnInit {
       if (params['mode'] === 'edit') {
         this.isEditMode = true;
 
-        this.selectedHelper = this.helperService.getSelectedHelper(); // Replace with getSelectedHelper() logic
+        this.selectedHelper = this.helperService.getSelectedHelper();
         if (!this.selectedHelper) {
           alert('No helper data found. Redirecting...');
           this.router.navigate(['/']);
         } else {
-          this.helperForm.patchValue({
-            ...this.selectedHelper
+          this.documentForm.patchValue({
+            fullName: this.selectedHelper.fullName,
+            typeOfService: this.selectedHelper.typeOfService,
+            organizationName: this.selectedHelper.organizationName,
+            phno: this.selectedHelper.phno,
+            email: this.selectedHelper.email,
+            languages: this.selectedHelper.languages,
+            vehicleType: this.selectedHelper.vehicleType,
+            vehicleNo: this.selectedHelper.vehicleNo,
+            profile: this.selectedHelper.profile,
+            profileurl: this.selectedHelper.profileurl,
+            gender: this.selectedHelper.gender,
+            countryCode: this.selectedHelper.countryCode,
+            kycDocName: this.selectedHelper.kycDocName,
+            kycDocType: this.selectedHelper.kycDocType,
+            Kyc: this.selectedHelper.Kyc,
+            kycdocurl: this.selectedHelper.kycdocurl
+          });
+
+          this.additionalDetailsForm.patchValue({
+            additionalDocName: this.selectedHelper.additionalDocName,
+            additionalDocType: this.selectedHelper.additionalDocType,
+            AdditionalDoc: this.selectedHelper.AdditionalDoc,
+            additionaldocurl: this.selectedHelper.additionaldocurl
           });
         }
       }
@@ -164,20 +191,47 @@ export class AddEditComponent implements OnInit {
       return;
     }
 
-    // if (step === 2 && !this.helperForm.valid) return;
-    // if (step === 3 && !this.helperForm.valid) return;
-
     this.presentstep.set(step);
     console.log(`Navigated to step ${step}`);
   }
 
   submitHelper(): void {
-    const formData = this.helperForm.value;
-    console.log('Submitting helper data:', formData);
+    // merge form values
+    const formDataValue = {
+      ...this.documentForm.value,
+      ...this.additionalDetailsForm.value
+    };
+
+    const formdata = new FormData();
+    Object.keys(formDataValue).forEach(key => {
+      const value = formDataValue[key];
+      if (value instanceof File) {
+        formdata.append(key, value, value.name);
+      } else {
+        formdata.append(key, value);
+      }
+    });
+    console.log('Submitting helper with data:', formDataValue);
+
+    this.helperService.postData(formdata).subscribe({
+      next: (res) => {
+        this.snackBar.open('Helper submitted successfully!', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-success']
+        });
+      },
+      error: (err) => {
+        console.error(err);
+        this.snackBar.open('Failed to submit helper. Try again.', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error']
+        });
+      }
+    });
   }
 
   saveAndExit(): void {
-    if (this.helperForm.valid) {
+    if (this.documentForm.valid && this.additionalDetailsForm.valid) {
       console.log(`Saved step ${this.presentstep()}, exiting...`);
       this.router.navigate(['/']);
     }

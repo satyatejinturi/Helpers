@@ -18,18 +18,18 @@ export class ReviewDetailsComponent implements OnInit {
   ngOnInit() {
     // Prioritize FormGroup values
     this.helper = {
-      fullName: this.detailsform.get('fullname')?.value || '',
-      typeOfService: this.detailsform.get('typeofservice')?.value || '',
+      fullName: this.detailsform.get('fullName')?.value || '',
+      typeOfService: this.detailsform.get('typeOfService')?.value || '',
       gender: this.detailsform.get('gender')?.value || '',
       languages: this.detailsform.get('languages')?.value?.join(', ') || '',
       phno: this.detailsform.get('phno')?.value || '',
       email: this.detailsform.get('email')?.value || '-',
-      kycDocUrl: this.detailsform.get('kycdocurl')?.value || '',
-      organizationName: this.detailsform.get('organizationname')?.value || '',
+      kycDocUrl: this.detailsform.get('kycDocUrl')?.value || '',
+      organizationName: this.detailsform.get('organizationName')?.value || '',
+
       createdAt: '-' // Placeholder, as not in FormGroup
     };
 
-    // Fallback to HelperServiceService if FormGroup is empty and not in edit mode
     if (!this.helperData && !this.detailsform.dirty) {
       const data1 = this.helperService.getForm1Data();
       const data2 = this.helperService.getForm2Data();

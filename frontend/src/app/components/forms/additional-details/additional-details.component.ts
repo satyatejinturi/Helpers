@@ -29,7 +29,7 @@ export class AdditionalDetailsComponent implements OnInit {
     if (this.helperData && this.helperData.additionalDocUrl && this.helperData.additionalDocType) {
       this.isEditMode = true;
       this.detailsform.patchValue({
-        additionalDoc: new File([""], this.helperData.additionalDocUrl.split('/').pop(), {
+        AdditionalDoc: new File([""], this.helperData.additionalDocUrl.split('/').pop(), {
           type: 'application/octet-stream'
         }),
         additionalDocType: this.helperData.additionalDocType
@@ -37,10 +37,10 @@ export class AdditionalDetailsComponent implements OnInit {
       this.isfileupload = true;
     } else {
       const form2Data = this.helperService.getForm2Data();
-      if (form2Data?.additionalDoc) {
+      if (form2Data?.AdditionalDoc) {
         this.detailsform.patchValue({
-          additionalDoc: form2Data.additionalDoc.file,
-          additionalDocType: form2Data.additionalDoc.docType
+          AdditionalDoc: form2Data.AdditionalDoc.file,
+          additionalDocType: form2Data.AdditionalDoc.docType
         });
         
         this.isfileupload = true;
@@ -48,8 +48,6 @@ export class AdditionalDetailsComponent implements OnInit {
     }
 
     // Add validators
-    this.detailsform.get('additionalDoc')?.setValidators([Validators.required]);
-    this.detailsform.get('additionalDocType')?.setValidators([Validators.required]);
   }
 
   onAdditionalDocUpload() {
@@ -58,9 +56,9 @@ export class AdditionalDetailsComponent implements OnInit {
       if (result) {
         console.log(result);
         this.detailsform.patchValue({
-          additionaldoc: result.AdditionalFile,
-          additionaldoctype: result.AdditionalDocType,
-          additionaldocname : result.AdditionalFile.name,
+          AdditionalDoc: result.AdditionalFile,
+          additionalDocType: result.AdditionalDocType,
+          additionalDocName: result.AdditionalFile.name,
         });
         console.log(this.detailsform)
         this.isfileupload = true;
@@ -70,7 +68,7 @@ export class AdditionalDetailsComponent implements OnInit {
 
   removeDoc() {
     this.detailsform.patchValue({
-      additionalDoc: null,
+      AdditionalDoc: null,
       additionalDocType: ''
     });
     this.isfileupload = false;
@@ -79,13 +77,13 @@ export class AdditionalDetailsComponent implements OnInit {
   onSaveForm2(): boolean {
     this.detailsform.markAllAsTouched();
 
-    if (this.detailsform.invalid && this.detailsform.get('additionalDoc')?.value) {
+    if (this.detailsform.invalid && this.detailsform.get('AdditionalDoc')?.value) {
       return false;
     }
 
-    if (this.detailsform.get('additionalDoc')?.value) {
+    if (this.detailsform.get('AdditionalDoc')?.value) {
       const formData = new FormData();
-      formData.append('additionalDoc', this.detailsform.get('additionalDoc')?.value);
+      formData.append('AdditionalDoc', this.detailsform.get('AdditionalDoc')?.value);
       formData.append('additionalDocType', this.detailsform.get('additionalDocType')?.value);
 
       if (this.isEditMode) {
@@ -98,8 +96,8 @@ export class AdditionalDetailsComponent implements OnInit {
         });
       } else {
         this.helperService.setForm2Data({
-          additionalDoc: {
-            file: this.detailsform.get('additionalDoc')?.value,
+          AdditionalDoc: {
+            file: this.detailsform.get('AdditionalDoc')?.value,
             docType: this.detailsform.get('additionalDocType')?.value
           }
         });

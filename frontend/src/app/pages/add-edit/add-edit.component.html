@@ -50,9 +50,8 @@
 </div> -->
 <!-- Progress bar -->
  <!-- Progress bar -->
- <mat-progress-bar *ngIf="loading" mode="indeterminate" color="primary"></mat-progress-bar>
+<mat-progress-bar *ngIf="loading" mode="indeterminate" color="primary"></mat-progress-bar>
 
-<!-- Header back button -->
 <div class="flex items-center gap-3 px-6 pt-6 pb-4 bg-gray-100 min-w-screen">
   <button (click)="goback()" class="flex items-center p-1 gap-1 cursor-pointer">
     <i class="ph ph-caret-left"></i>
@@ -63,26 +62,25 @@
 <div class="flex">
   <div class="w-70 bg-gray-100 rounded-2xl">
     <app-step-slider [currentStep]="presentstep()" [isEditMode]="isEditMode" (editStepSelected)="goto($event)"
-      class="w-64 bg-gray-100   ">
+      class="w-64 bg-gray-100">
     </app-step-slider>
   </div>
 
   <div class="flex-1 p-6 bg-gray-100">
-
     <app-document-details
       *ngIf="presentstep() === 1"
-      [detailsform]="helperForm">
+      [detailsform]="documentForm">
     </app-document-details>
 
     <app-additional-details
       *ngIf="presentstep() === 2"
-      [detailsform]="helperForm">
+      [detailsform]="additionalDetailsForm">
     </app-additional-details>
 
     <app-review-details
       *ngIf="presentstep() === 3"
-      [detailsform]="helperForm"
-     >
+      [detailsform]="documentForm"
+      >
     </app-review-details>
 
     <div class="flex justify-end mt-6 gap-4">

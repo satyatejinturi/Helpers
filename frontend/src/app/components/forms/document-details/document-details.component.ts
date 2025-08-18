@@ -57,22 +57,21 @@ export class DocumentDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Set default country code
     this.detailsform.get('countryCode')?.setValue('+91');
-
+    this.detailsform.get('vehicleType')?.setValue('none');
     const savedFormData = this.helperService.getForm1Data();
     if (savedFormData && !this.helperData) {
       this.detailsform.patchValue({
-        typeofservice: savedFormData.typeOfService || '',
-        organizationname: savedFormData.organizationName || '',
-        fullname: savedFormData.fullName || '',
+        typeOfService: savedFormData.typeOfService || '',
+        organizationName: savedFormData.organizationName || '',
+        fullName: savedFormData.fullName || '',
         gender: savedFormData.gender || '',
         phno: savedFormData.phno || '',
         email: savedFormData.email || '',
-        vehicletype: savedFormData.vehicleType || 'none',
-        vehicleno: savedFormData.vehicleNo || '',
-        kycdoctype: savedFormData.kycDocType || '',
-        profileurl: savedFormData.profilePhotoPreview || '',
+        vehicleType: savedFormData.vehicleType || 'none',
+        vehicleNo: savedFormData.vehicleNo || '',
+        kycDocType: savedFormData.kycDocType || '',
+        profileUrl: savedFormData.profilePhotoPreview || '',
         languages: savedFormData.languages || []
       });
       this.profilePhotoPreview = savedFormData.profilePhotoPreview || '';
@@ -86,17 +85,17 @@ export class DocumentDetailsComponent implements OnInit {
       this.kycUrl = this.helperData.kycURL || '';
       this.existingKycUrl = this.helperData.kycDocUrl ?? null;
       this.detailsform.patchValue({
-        typeofservice: this.helperData.typeOfService || '',
-        organizationname: this.helperData.organizationName || '',
-        fullname: this.helperData.fullName || '',
+        typeOfService: this.helperData.typeOfService || '',
+        organizationName: this.helperData.organizationName || '',
+        fullName: this.helperData.fullName || '',
         gender: this.helperData.gender || '',
         countryCode: '+91',
         phno: this.helperData.phno || '',
         email: this.helperData.email || '',
-        vehicletype: this.helperData.vehicleType || 'none',
-        vehicleno: this.helperData.vehicleNo || '',
-        kycdoctype: this.helperData.kycDocType || '',
-        profileurl: this.helperData.profilePhotoUrl || '',
+        vehicleType: this.helperData.vehicleType || 'none',
+        vehicleNo: this.helperData.vehicleNo || '',
+        kycDocType: this.helperData.kycDocType || '',
+        profileUrl: this.helperData.profilePhotoUrl || '',
         languages: this.helperData.languages?.length
           ? this.helperData.languages[0].split(',').map((lang: string) => lang.trim())
           : []
@@ -108,20 +107,20 @@ export class DocumentDetailsComponent implements OnInit {
     }
 
     // Add validators
-    this.detailsform.get('typeofservice')?.setValidators([Validators.required]);
-    this.detailsform.get('organizationname')?.setValidators([Validators.required]);
-    this.detailsform.get('fullname')?.setValidators([Validators.required]);
+    this.detailsform.get('typeOfService')?.setValidators([Validators.required]);
+    this.detailsform.get('organizationName')?.setValidators([Validators.required]);
+    this.detailsform.get('fullName')?.setValidators([Validators.required]);
     this.detailsform.get('gender')?.setValidators([Validators.required]);
     this.detailsform.get('countryCode')?.setValidators([Validators.required]);
     this.detailsform.get('phno')?.setValidators([Validators.required, Validators.pattern('[0-9]{10}')]);
     this.detailsform.get('email')?.setValidators([Validators.email]);
-    this.detailsform.get('vehicletype')?.setValidators([Validators.required]);
+    this.detailsform.get('vehicleType')?.setValidators([Validators.required]);
     this.updateVehicleNoValidator();
   }
 
   updateVehicleNoValidator() {
-    const vehicleType = this.detailsform.get('vehicletype')?.value;
-    const vehicleNoControl = this.detailsform.get('vehicleno');
+    const vehicleType = this.detailsform.get('vehicleType')?.value;
+    const vehicleNoControl = this.detailsform.get('vehicleNo');
     if (vehicleType !== 'none') {
       vehicleNoControl?.setValidators([Validators.required]);
     } else {
@@ -149,8 +148,9 @@ export class DocumentDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.detailsform.patchValue({
-          kycdoc: result.kyc,
-          kycdoctype: result.kycDocType
+          Kyc: result.kyc,
+          kycDocType: result.kycDocType,
+          kycDocName: result.kyc.name,
         });
         this.showlabel = true;
         this.existingKycUrl = null;
@@ -170,21 +170,21 @@ export class DocumentDetailsComponent implements OnInit {
       return false;
     }
 
-    if (!this.existingKycUrl && (!this.detailsform.get('kycdoc')?.value || !this.detailsform.get('kycdoctype')?.value)) {
+    if (!this.existingKycUrl && (!this.detailsform.get('Kyc')?.value || !this.detailsform.get('kycDocType')?.value)) {
       alert('Please upload KYC document and select type.');
       return false;
     }
 
     const formData = new FormData();
-    formData.append('typeOfService', this.detailsform.get('typeofservice')?.value);
-    formData.append('organizationName', this.detailsform.get('organizationname')?.value);
-    formData.append('fullName', this.detailsform.get('fullname')?.value);
+    formData.append('typeOfService', this.detailsform.get('typeOfService')?.value);
+    formData.append('organizationName', this.detailsform.get('organizationName')?.value);
+    formData.append('fullName', this.detailsform.get('fullName')?.value);
     formData.append('gender', this.detailsform.get('gender')?.value);
     formData.append('phno', this.detailsform.get('phno')?.value);
     formData.append('email', this.detailsform.get('email')?.value || '');
-    formData.append('vehicleType', this.detailsform.get('vehicletype')?.value);
-    formData.append('vehicleNo', this.detailsform.get('vehicleno')?.value || '');
-    formData.append('kycDocType', this.detailsform.get('kycdoctype')?.value || '');
+    formData.append('vehicleType', this.detailsform.get('vehicleType')?.value);
+    formData.append('vehicleNo', this.detailsform.get('vehicleNo')?.value || '');
+    formData.append('kycDocType', this.detailsform.get('kycDocType')?.value || '');
     formData.append('languages', this.detailsform.get('languages')?.value.join(','));
 
     const profileFile = this.detailsform.get('profile')?.value;
@@ -198,15 +198,15 @@ export class DocumentDetailsComponent implements OnInit {
     }
 
     const plainData = {
-      typeOfService: this.detailsform.get('typeofservice')?.value,
-      organizationName: this.detailsform.get('organizationname')?.value,
+      typeOfService: this.detailsform.get('typeOfService')?.value,
+      organizationName: this.detailsform.get('organizationName')?.value,
       fullName: this.detailsform.get('fullname')?.value,
       gender: this.detailsform.get('gender')?.value,
       phno: this.detailsform.get('phno')?.value,
       email: this.detailsform.get('email')?.value,
-      vehicleType: this.detailsform.get('vehicletype')?.value,
-      vehicleNo: this.detailsform.get('vehicleno')?.value,
-      kycDocType: this.detailsform.get('kycdoctype')?.value,
+      vehicleType: this.detailsform.get('vehicleType')?.value,
+      vehicleNo: this.detailsform.get('vehicleNo')?.value,
+      kycDocType: this.detailsform.get('kycDocType')?.value,
       languages: this.detailsform.get('languages')?.value,
       profilePhotoPreview: this.profilePhotoPreview
     };
@@ -228,8 +228,8 @@ export class DocumentDetailsComponent implements OnInit {
 
   removeKyc() {
     this.detailsform.patchValue({
-      kycdoc: null,
-      kycdoctype: '',
+      Kyc: null,
+      kycDocType: '',
       kycdocurl: ''
     });
     this.kycUrl = '';

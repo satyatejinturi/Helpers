@@ -22,10 +22,10 @@
         <p class="text-xs text-gray-400 mb-10">Upload photo (.png, .jpeg) size 5 mb</p>
       </div>
 
-      <div *ngIf="detailsform.get('additionaldoc')?.value" class="flex flex-col text-sm text-gray-700 mt-2">
+      <div *ngIf="detailsform.get('AdditionalDoc')?.value" class="flex flex-col text-sm text-gray-700 mt-2">
         <div class="flex items-center gap-2">
           <i class="fa-solid fa-file-pdf text-5xl text-red-500"></i>
-          <span class="truncate max-w-[150px]">{{ detailsform.get('additionaldoc')?.value.name }}</span>
+          <span class="truncate max-w-[150px]">{{ detailsform.get('AdditionalDoc')?.value.name }}</span>
           <button type="button" (click)="removeDoc()" class="text-red-500 hover:text-red-700 text-xs ml-2 underline">
             Remove
           </button>
