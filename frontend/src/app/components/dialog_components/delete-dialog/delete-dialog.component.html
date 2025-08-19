@@ -1,11 +1,17 @@
-<div class="mt-5">
-<i class="ph ph-warning text-3xl text-red-500 ml-6"></i>
-    <p class="ml-6 mt-2">Delete <strong class="text-red-600">{{ data.fullName }}</strong>(<strong>{{ data.typeOfService}}</strong>)</p>
-    <p class="ml-6 mt-2 text-gray-400">You can't undo this action </p>
-    <div class="border-b border-gray-200 m-2"></div>
+<div class="delete-dialog">
+  <i class="ph ph-warning warning-icon"></i>
 
-    <mat-dialog-actions align="end" class="p-3 mb-2">
-      <button mat-button (click)="onCancel()" class="p-3 mb-3">Cancel</button>
-      <button mat-raised-button color="warn" (click)="onConfirm()" class="mb-3 mr-2">Delete</button>
-    </mat-dialog-actions>
-    </div>
+  <p class="delete-message">
+    Delete <strong class="highlight">{{ data.fullName }}</strong>
+    (<strong>{{ data.typeOfService }}</strong>)
+  </p>
+
+  <p class="delete-subtext">You can't undo this action</p>
+
+  <div class="divider"></div>
+
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="warn" (click)="onConfirm()">Delete</button>
+  </mat-dialog-actions>
+</div>

@@ -1,48 +1,46 @@
-<mat-dialog-content class="dialog-content p-6">
-  <div class="flex justify-between items-center mb-4">
-    <h2 class="text-xl font-semibold">Upload Additional Document</h2>
-    <button (click)="cancel()" class="focus:outline-none">
-      <i class="ph ph-x text-2xl"></i>
+<mat-dialog-content class="dialog-content">
+  <div class="dialog-header">
+    <h2 class="dialog-title">Upload Additional Document</h2>
+    <button (click)="cancel()" class="close-btn">
+      <i class="ph ph-x"></i>
     </button>
   </div>
 
-  <mat-divider class="mb-6"></mat-divider>
+  <mat-divider class="dialog-divider"></mat-divider>
 
-  <div class="form-section space-y-6">
-    <div>
-      <label class="block text-sm font-medium mb-1">Select Document Type</label>
-      <mat-form-field appearance="fill" class="w-full">
+  <div class="form-section">
+    <div class="form-group">
+      <label>Select Document Type</label>
+      <mat-form-field appearance="fill" class="form-field">
         <mat-label>Document Type</mat-label>
         <input matInput [(ngModel)]="name" placeholder="e.g., Offer Letter, Resume" />
       </mat-form-field>
     </div>
 
-    <p class="text-sm text-gray-600">Please ensure both sides of the document are uploaded.</p>
+    <p class="form-hint">Please ensure both sides of the document are uploaded.</p>
 
-    <div *ngIf="!uploadfile"
-      class="border-2 border-dashed border-indigo-300 bg-indigo-50 hover:bg-indigo-100 p-6 rounded-md text-center cursor-pointer transition"
-      (click)="fileInput.click()">
-      <div class="flex flex-col items-center space-y-2">
-        <i class="ph ph-cloud-arrow-up text-4xl text-indigo-600"></i>
+    <div *ngIf="!uploadfile" class="upload-box" (click)="fileInput.click()">
+      <div class="upload-content">
+        <i class="ph ph-cloud-arrow-up"></i>
         <p>
-          <span class="text-indigo-600 font-medium">Click to upload</span>
+          <span class="upload-highlight">Click to upload</span>
           or drag and drop
         </p>
       </div>
-      <input #fileInput type="file" class="hidden" (change)="onFileChange($event)" />
+      <input #fileInput type="file" class="hidden-input" (change)="onFileChange($event)" />
     </div>
   </div>
 
-  <div *ngIf="uploadedFile">
-    <i class="fa-solid fa-file-pdf text-5xl text-red-500"></i>
-    <span class="truncate max-w-[150px]">{{ uploadedFile.name }}</span>
-    <button type="button" (click)="removekyc()" class="text-red-500 hover:text-red-700 text-xs ml-2 underline">
+  <div *ngIf="uploadedFile" class="uploaded-file">
+    <i class="fa-solid fa-file-pdf"></i>
+    <span>{{ uploadedFile.name }}</span>
+    <button type="button" (click)="removekyc()" class="remove-btn">
       Remove
     </button>
   </div>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end" class="p-4">
+<mat-dialog-actions align="end" class="dialog-actions">
   <button mat-stroked-button (click)="cancel()">Cancel</button>
   <button mat-raised-button color="primary" (click)="submit()">Save</button>
 </mat-dialog-actions>

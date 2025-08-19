@@ -1,8 +1,12 @@
-<div
-  class="w-{{width}} h-{{height}} rounded-full bg-amber-200 text-white font-bold flex justify-center items-center overflow-hidden text-2xl uppercase">
-  <img *ngIf="profilephotourl; else initials" [src]="profilephotourl" alt="profile" class="w-full h-full object-fit" />
+<div class="profile-container" [ngStyle]="{ width: width + 'px', height: height + 'px' }">
+  <img
+    *ngIf="profilephotourl; else initials"
+    [src]="profilephotourl"
+    alt="profile"
+    class="profile-image"
+  />
   <ng-template #initials>
-    <div class="flex items-center justify-center w-full h-full">
+    <div class="profile-initials">
       {{ profile }}
     </div>
   </ng-template>

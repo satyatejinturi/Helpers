@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   selector: 'app-helper-data',
 
   templateUrl: './helper-data.component.html',
-  styleUrls: ['./helper-data.component.css']
+  styleUrls: ['./helper-data.component.scss']
 })
 export class HelperDataComponent {
   @Input() helper: any;

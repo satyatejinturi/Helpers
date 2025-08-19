@@ -1,59 +1,55 @@
-<div class="bg-white border rounded-xl shadow-md p-4 w-full h-full">
-  <div class=" h-15 w-full flex ">
-    <p class="mt-4 ml-4">Employee ID</p>
+<div class="employee-card">
+  <div class="card-header">
+    <p>Employee ID Card</p>
   </div>
-  <div class="border-b border-gray-200 mb-3"></div>
-  <div class="flex items-center space-x-4 ml-25">
 
-    <app-profile-photo [userName]="data?.fullName" [profilephotourl]="data?.profilePhotourl" [width]="'20'"
-      [height]="'20'" class="mr-5">
-    </app-profile-photo>
+  <div class="divider"></div>
 
-    <div class="flex-1">
-      <h2 class="text-xl font-semibold text-gray-800">{{ data.fullName }}</h2>
+  <div class="card-profile">
+    <app-profile-photo
+      [userName]="data?.fullName"
+      [profilephotourl]="data?.profilePhotourl"
+      [width]="'20'"
+      [height]="'20'"
+      class="profile-photo"
+    ></app-profile-photo>
 
-      <p class="text-sm text-gray-500">{{ data.organizationName }}</p>
+    <div class="profile-text">
+      <h2 class="employee-name">{{ data.fullName }}</h2>
+      <p class="employee-org">{{ data.organizationName }}</p>
     </div>
   </div>
 
-  <div class="mt-4 flex text-sm text-gray-700 w-150 justify-center items-center">
-    <div>
-      <img [src]="data.qrcodeUrl" alt="qr" class="mb-3 mr-15">
-      <div>
-        <div class="flex-1 ml-3">
-          <h2 class="text-gray-800">Name : {{ data.fullName }}</h2>
+  <div class="card-body">
+    <div class="qr-section">
+      <img [src]="data.qrcodeUrl" alt="qr" class="qr-image" />
 
-          <p class="">Organization : {{ data.organizationName }}</p>
-          <p class="">Type Of Service : {{ data.typeOfService }}</p>
-        </div>
+      <div class="details">
+        <h2 class="detail-name">Name : {{ data.fullName }}</h2>
+        <p>Organization : {{ data.organizationName }}</p>
+        <p>Type Of Service : {{ data.typeOfService }}</p>
       </div>
     </div>
-    <div>
-      <div>
-        <strong>Organization: </strong>
-        <span>{{ data.organizationName}}</span>
-      </div>
-      <div>
-        <strong>Employee ID: </strong>
-        <span>{{ data.employeeid }} </span>
-      </div>
-      <div>
-        <strong>Phone: </strong>
-        <span>{{data.phno}}</span>
-      </div>
-      <div class="mb-5">
+
+    <div class="info-section">
+      <div><strong>Organization: </strong><span>{{ data.organizationName }}</span></div>
+      <div><strong>Employee ID: </strong><span>{{ data.employeeid }}</span></div>
+      <div><strong>Phone: </strong><span>{{ data.phno }}</span></div>
+      <div class="joined-date">
         <strong>Joined Date: </strong>
-        <span>{{ data.createdAt | date:'dd-MM-YYYY' }} </span>
+        <span>{{ data.createdAt | date:'dd-MM-YYYY' }}</span>
       </div>
-      <div class="w-20 h-20">
-        <img [src]="data.qrcodeUrl" alt="qr" class="w-full h-full object-cover">
+
+      <div class="qr-box">
+        <img [src]="data.qrcodeUrl" alt="qr" />
       </div>
-      <div class="flex justify-center items-center w-full">
-        <p class="font-light text-gray-300 ">
-          Unauthorized Usage of Someone <br>else Card is Legal Offense
+
+      <div class="warning">
+        <p>
+          Unauthorized Usage of Someone <br />
+          else Card is Legal Offense
         </p>
       </div>
     </div>
-
   </div>
 </div>
