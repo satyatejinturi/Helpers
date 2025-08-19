@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angu
 @Component({
   selector: 'app-delete-dialog',
   templateUrl: './delete-dialog.component.html',
-  styleUrl: './delete-dialog.component.css'
+  styleUrls: ['./delete-dialog.component.scss']
 })
 export class DeleteDialogComponent {
   constructor(

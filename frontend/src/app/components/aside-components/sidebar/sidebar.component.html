@@ -1,22 +1,22 @@
-<div class="w-full max-h-[580px] overflow-y-auto rounded-2xl border border-gray-300">
+<div class="sidebar-container">
   <div 
     *ngFor="let item of sortedHelpers; let i = index"
     (click)="selectuser(item, i)"
     [ngClass]="{
-      'bg-indigo-100': i === curind,
-      'hover:bg-indigo-200': i !== curind
+      'active': i === curind,
+      'inactive': i !== curind
     }"
-    class="flex items-center cursor-pointer p-3 transition-colors border-b border-gray-100"
+    class="sidebar-item"
   >
     <app-profile-photo 
       [userName]="item.fullName"
       [profilephotourl]="item.profilePhotourl"
-      class="w-12 h-12 rounded-full border border-gray-300 mr-3"
+      class="profile-photo"
     ></app-profile-photo>
     
-    <div>
-      <h3 class="font-semibold text-gray-800">{{ item.fullName }}</h3>
-      <p class="text-xs text-gray-500">{{ item.typeOfService }}</p>
+    <div class="sidebar-text">
+      <h3 class="sidebar-name">{{ item.fullName }}</h3>
+      <p class="sidebar-service">{{ item.typeOfService }}</p>
     </div>
   </div>
 </div>

@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-helper-dialog',
   templateUrl: './helper-dialog.component.html',
-  styleUrl: './helper-dialog.component.css'
+  styleUrl: './helper-dialog.component.scss'
 })
 export class HelperDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {

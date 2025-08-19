@@ -12,8 +12,7 @@ import { AdditionalcomponentComponent } from '../../dialog_components/additional
 })
 export class AdditionalDetailsComponent implements OnInit {
   @Input() detailsform!: FormGroup;
-  @Input() helperData: any = null;
-  @Input() employeeId!: number;
+  
 
   isEditMode: boolean = false;
   isfileupload: boolean = false;
@@ -26,28 +25,10 @@ export class AdditionalDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.helperData && this.helperData.additionalDocUrl && this.helperData.additionalDocType) {
-      this.isEditMode = true;
-      this.detailsform.patchValue({
-        AdditionalDoc: new File([""], this.helperData.additionalDocUrl.split('/').pop(), {
-          type: 'application/octet-stream'
-        }),
-        additionalDocType: this.helperData.additionalDocType
-      });
+    console.log(this.detailsform);
+    if(this.detailsform.get('additionaldocurl')?.value) {
       this.isfileupload = true;
-    } else {
-      const form2Data = this.helperService.getForm2Data();
-      if (form2Data?.AdditionalDoc) {
-        this.detailsform.patchValue({
-          AdditionalDoc: form2Data.AdditionalDoc.file,
-          additionalDocType: form2Data.AdditionalDoc.docType
-        });
-        
-        this.isfileupload = true;
-      }
     }
-
-    // Add validators
   }
 
   onAdditionalDocUpload() {
@@ -76,34 +57,6 @@ export class AdditionalDetailsComponent implements OnInit {
 
   onSaveForm2(): boolean {
     this.detailsform.markAllAsTouched();
-
-    if (this.detailsform.invalid && this.detailsform.get('AdditionalDoc')?.value) {
-      return false;
-    }
-
-    if (this.detailsform.get('AdditionalDoc')?.value) {
-      const formData = new FormData();
-      formData.append('AdditionalDoc', this.detailsform.get('AdditionalDoc')?.value);
-      formData.append('additionalDocType', this.detailsform.get('additionalDocType')?.value);
-
-      if (this.isEditMode) {
-        this.helperService.updateHelper(this.employeeId, formData);
-        this.snackBar.open('Helper edited successfully!', 'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar'],
-          verticalPosition: 'top',
-          horizontalPosition: 'right'
-        });
-      } else {
-        this.helperService.setForm2Data({
-          AdditionalDoc: {
-            file: this.detailsform.get('AdditionalDoc')?.value,
-            docType: this.detailsform.get('additionalDocType')?.value
-          }
-        });
-      }
-    }
-
     return true;
   }
 }

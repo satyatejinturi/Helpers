@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-step-slider',
   templateUrl: './step-slider.component.html',
-  styleUrl: './step-slider.component.css'
+  styleUrls: ['./step-slider.component.scss']
 })
 export class StepSliderComponent {
   @Input() currentStep: number = 1;

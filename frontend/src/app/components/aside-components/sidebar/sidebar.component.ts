@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from
   selector: 'app-sidebar',
 
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnChanges {
   @Input() allhelper: any[] = [];
@@ -12,6 +12,11 @@ export class SidebarComponent implements OnChanges {
   @Output() lengthEmitted = new EventEmitter<number>();
   curind = 0;
   sortedHelpers: any[] = [];
+  
+  ngOnInit(): void {
+    this.lengthEmitted.emit(this.allhelper.length);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['allhelper'] || changes['sortType']) {
       this.applySort();

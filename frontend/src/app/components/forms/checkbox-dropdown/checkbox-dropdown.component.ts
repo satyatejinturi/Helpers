@@ -1,4 +1,7 @@
-import { Component, Input, ViewChild, ElementRef, HostListener, Output, EventEmitter } from '@angular/core';
+import {
+  Component, Input, ViewChild, ElementRef, HostListener,
+  Output, EventEmitter, OnInit, OnChanges, SimpleChanges
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,7 +9,7 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './checkbox-dropdown.component.html',
   styles: []
 })
-export class CheckboxDropdownComponent {
+export class CheckboxDropdownComponent implements OnInit, OnChanges {
   @Input() formGroup!: FormGroup;
   @Input() controlName!: string;
   @Input() label: string = '';
@@ -28,14 +31,19 @@ export class CheckboxDropdownComponent {
   selectedValues: string[] = [];
 
   ngOnInit() {
-    // Initialize selected values from form control
-    this.selectedValues = this.formGroup.get(this.controlName)?.value || [];
-    this.updateVisibleOptions();
+    // subscribe to form value changes
     this.formGroup.get(this.controlName)?.valueChanges.subscribe(value => {
       this.selectedValues = value || [];
       this.updateVisibleOptions();
       this.selectionChange.emit(this.selectedValues);
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['options'] || changes['formGroup']) {
+      this.selectedValues = this.formGroup?.get(this.controlName)?.value || [];
+      this.updateVisibleOptions();
+    }
   }
 
   toggleDropdown() {
@@ -54,20 +62,24 @@ export class CheckboxDropdownComponent {
     } else if (this.selectedValues.length < this.maxSelection) {
       this.selectedValues.push(value);
     }
-    this.formGroup.get(this.controlName)?.setValue(this.selectedValues);
+    this.formGroup.get(this.controlName)?.setValue([...this.selectedValues]);
     this.updateVisibleOptions();
   }
 
   updateVisibleOptions() {
-    const all = [...this.selectedValues, ...this.options.map(opt => opt.value)];
-    const deduped = Array.from(new Set(all));
-    const selectedSet = new Set(this.selectedValues);
-    const unselected = deduped.filter(val => !selectedSet.has(val));
-    const result = [
-      ...this.selectedValues,
-      ...unselected.slice(0, Math.max(0, this.displayLimit - this.selectedValues.length))
-    ].map(value => this.options.find(opt => opt.value === value)!);
-    this.visibleOptions = result;
+    // always include selected options
+    const selectedOptions = this.selectedValues.map(
+      val => this.options.find(opt => opt.value === val) || { value: val, label: val }
+    );
+    console.log('Selected options:', selectedOptions);
+    const unselectedOptions = this.options.filter(
+      opt => !this.selectedValues.includes(opt.value)
+    );
+
+    this.visibleOptions = [
+      ...selectedOptions,
+      ...unselectedOptions.slice(0, Math.max(0, this.displayLimit - selectedOptions.length))
+    ];
   }
 
   isChecked(value: string): boolean {
@@ -81,6 +93,7 @@ export class CheckboxDropdownComponent {
   toggleSelectAll() {
     const allToSelect = this.visibleOptions.slice(0, this.maxSelection).map(opt => opt.value);
     const alreadySelected = this.selectedValues.filter(val => allToSelect.includes(val));
+
     if (alreadySelected.length === allToSelect.length) {
       this.selectedValues = this.selectedValues.filter(val => !allToSelect.includes(val));
     } else {
@@ -88,24 +101,36 @@ export class CheckboxDropdownComponent {
       const toAdd = allToSelect.filter(val => !this.selectedValues.includes(val)).slice(0, remaining);
       this.selectedValues = [...this.selectedValues, ...toAdd];
     }
-    this.formGroup.get(this.controlName)?.setValue(this.selectedValues);
+
+    this.formGroup.get(this.controlName)?.setValue([...this.selectedValues]);
     this.updateVisibleOptions();
   }
 
   isAllSelected(): boolean {
-    return this.visibleOptions.filter(opt => this.selectedValues.includes(opt.value)).length === Math.min(this.visibleOptions.length, this.maxSelection);
+    return (
+      this.visibleOptions.filter(opt => this.selectedValues.includes(opt.value)).length ===
+      Math.min(this.visibleOptions.length, this.maxSelection)
+    );
   }
 
   reset() {
     this.selectedValues = [];
-    this.formGroup.get(this.controlName)?.setValue(this.selectedValues);
+    this.formGroup.get(this.controlName)?.setValue([]);
     this.updateVisibleOptions();
   }
 
   getLabel(): string {
     if (!this.selectedValues.length) return this.label;
-    if (this.selectedValues.length === 1) return this.options.find(opt => opt.value === this.selectedValues[0])?.label || this.label;
-    return `${this.options.find(opt => opt.value === this.selectedValues[0])?.label} +${this.selectedValues.length - 1} more`;
+    if (this.selectedValues.length === 1) {
+      return (
+        this.options.find(opt => opt.value === this.selectedValues[0])?.label ||
+        this.selectedValues[0]
+      );
+    }
+    const firstLabel =
+      this.options.find(opt => opt.value === this.selectedValues[0])?.label ||
+      this.selectedValues[0];
+    return `${firstLabel} +${this.selectedValues.length - 1} more`;
   }
 
   @HostListener('document:click', ['$event'])

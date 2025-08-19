@@ -5,7 +5,6 @@ import { ComponentsModule } from '../../components/components.module';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../shared/material.module';
-
 const routes: Routes = [
   { path: '', component: AddEditComponent },
   { path: ':mode', component: AddEditComponent }
@@ -18,6 +17,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     ComponentsModule,
     MaterialModule,
+   
     RouterModule.forChild(routes) 
   ]
 })

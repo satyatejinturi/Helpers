@@ -15,7 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
   selector: 'app-kycdocument',
   
   templateUrl: './kycdocument.component.html',
-  styleUrl: './kycdocument.component.css'
+  styleUrls: ['./kycdocument.component.scss']
 })
 export class KycdocumentComponent {
   name:string=""

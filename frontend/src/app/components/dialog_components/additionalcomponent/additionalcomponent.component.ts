@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-additionalcomponent',
   templateUrl: './additionalcomponent.component.html',
-  styleUrl: './additionalcomponent.component.css'
+  styleUrls: ['./additionalcomponent.component.scss']
 })
 export class AdditionalcomponentComponent {
   name: string = '';
