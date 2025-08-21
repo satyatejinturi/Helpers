@@ -5,7 +5,7 @@ import { FormGroup } from '@angular/forms';
   selector: 'app-input',
  
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.css']  
+  styleUrls: ['./input.component.scss']  
 })
 export class InputComponent {
   @Input() formGroup!: FormGroup;

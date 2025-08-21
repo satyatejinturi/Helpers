@@ -8,12 +8,12 @@
   height: 100%;
 
   .card-header {
-    height: 3.75rem; // h-15
+    height: 3.75rem; 
     display: flex;
     align-items: center;
 
     p {
-      margin-left: 1rem;
+      margin-left: 2rem;
       margin-top: 1rem;
       font-weight: 500;
     }
@@ -28,10 +28,10 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-left: 6.25rem; // ml-25
+    margin-left: 5rem; 
 
     .profile-photo {
-      margin-right: 1.25rem; // mr-5
+      margin-right: 1rem; 
     }
 
     .profile-text {
@@ -52,17 +52,18 @@
 
   .card-body {
     margin-top: 1rem;
+    margin-left: 3rem;
     display: flex;
     font-size: 0.875rem; // text-sm
     color: #374151; // gray-700
-    width: 150%;
-    justify-content: center;
+    width: 100%;
+    justify-content: flex-start;
     align-items: center;
 
     .qr-section {
       .qr-image {
         margin-bottom: 0.75rem;
-        margin-right: 3.75rem; // mr-15
+        
       }
 
       .details {
@@ -76,6 +77,7 @@
 
     .info-section {
       div {
+        margin-left: 2rem;
         margin-bottom: 0.5rem;
       }
 
@@ -102,7 +104,7 @@
 
         p {
           font-weight: 300; // font-light
-          color: #d1d5db; // gray-300
+          color: #828385; // gray-300
           text-align: center;
         }
       }

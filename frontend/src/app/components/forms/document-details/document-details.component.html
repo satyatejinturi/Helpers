@@ -1,4 +1,4 @@
-<div class="flex min-h-screen bg-gray-100 text-gray-800 border border-gray-300 rounded-2xl">
+<!-- <div class="flex min-h-screen bg-gray-100 text-gray-800 border border-gray-300 rounded-2xl">
   <main class="flex-1 ml-5px px-12 py-10 w-[1100px]">
     <h1 class="text-2xl font-semibold mb-2">Helper Details</h1>
     <p class="text-sm text-gray-500 mb-8">Track, Add & Manage all your helpers at one place</p>
@@ -167,6 +167,156 @@
         <p class="text-xs text-gray-400 mb-10">Upload photo (.png, .jpeg) size 5 mb</p>
         <p *ngIf="(!detailsform.get('Kyc')?.value && !detailsform.get('kycdocurl')?.value && detailsform.touched)" class="text-red-500 text-xs mt-1">This field is
           necessary</p>
+      </div>
+
+      <button type="submit"></button>
+    </form>
+  </main>
+</div> -->
+
+<div class="container">
+  <main class="main-content">
+    <h1 class="title">Helper Details</h1>
+    <p class="subtitle">Track, Add & Manage all your helpers at one place</p>
+
+    <div class="photo-upload">
+      <label class="photo-label">
+        <ng-container *ngIf="profilePhotoPreview; else uploadIcon">
+          <img [src]="profilePhotoPreview" alt="Profile Preview" class="photo-preview" />
+        </ng-container>
+        <ng-template #uploadIcon>
+          <div class="upload-icon">
+            <i class="ph ph-cloud-arrow-up"></i>
+          </div>
+          <span class="upload-text">Upload<br><span class="ml-1">Photo</span></span>
+        </ng-template>
+        <input type="file" accept="image/*" class="file-input" (change)="onPhotoUpload($event)" />
+      </label>
+    </div>
+
+    <p class="upload-hint">Upload photo (.png, .jpeg) size 5 mb</p>
+
+    <form [formGroup]="detailsform" (ngSubmit)="onSaveForm1()" class="form">
+      <app-select-dropdown 
+      [formGroup]="detailsform"
+        controlName="typeOfService"
+        label="Type of Service"
+        [options]="typeOfServiceOptions"
+        placeholder="select"
+        [required]="true" ></app-select-dropdown>
+
+      <app-select-dropdown 
+      [formGroup]="detailsform"
+        controlName="organizationName"
+        label="Organization Name"
+        [options]="organizationOptions"
+        placeholder="Select Organization"
+        [required]="true" ></app-select-dropdown>
+
+      <app-input 
+        [formGroup]="detailsform"
+        controlName="fullName"
+        label="Full Name"
+        placeholder="Full Name"
+        [required]="true"></app-input>
+      <app-checkbox-dropdown 
+       [formGroup]="detailsform"
+        controlName="languages"
+        label="Languages"
+        [options]="languageOptions"
+        [required]="true"
+        [maxSelection]="3"
+        [displayLimit]="5"
+        maxHeight="130px"
+        hint="Select Min 1 Max 3 Languages."></app-checkbox-dropdown>
+
+      <!-- Gender -->
+      <div class="form-group">
+        <label class="label">Gender<span class="required">*</span></label>
+        <div class="radio-group">
+          <label class="radio-label" *ngFor="let option of genderOptions">
+            <input type="radio" [formControlName]="'gender'" [value]="option.value" class="radio-input"
+              [ngClass]="{'error-border': detailsform.get('gender')?.invalid && (detailsform.get('gender')?.dirty || detailsform.get('gender')?.touched)}" />
+            <span>{{ option.label }}</span>
+          </label>
+        </div>
+        <p *ngIf="detailsform.get('gender')?.invalid && (detailsform.get('gender')?.dirty || detailsform.get('gender')?.touched)" class="error-text">This field is necessary</p>
+      </div>
+
+      <!-- Phone -->
+      <div class="form-group">
+        <label class="label">Phone<span class="required">*</span></label>
+        <div class="phone-group">
+          <div class="country-code">
+            <select formControlName="countryCode" class="country-select"
+              [ngClass]="{'error-border': detailsform.get('countryCode')?.invalid && (detailsform.get('countryCode')?.dirty || detailsform.get('countryCode')?.touched)}">
+              <option value="+91">+91</option>
+            </select>
+          </div>
+          <input type="text" formControlName="phno" placeholder="Phone number" class="phone-input"
+            [ngClass]="{'error-border': detailsform.get('phno')?.invalid && (detailsform.get('phno')?.dirty || detailsform.get('phno')?.touched)}" />
+        </div>
+        <p *ngIf="detailsform.get('countryCode')?.invalid && (detailsform.get('countryCode')?.dirty || detailsform.get('countryCode')?.touched)" class="error-text">This field is necessary</p>
+        <p *ngIf="detailsform.get('phno')?.invalid && (detailsform.get('phno')?.dirty || detailsform.get('phno')?.touched)" class="error-text">Please enter a valid 10-digit phone number</p>
+      </div>
+
+      <app-input  
+      [formGroup]="detailsform"
+        controlName="email"
+        label="Email"
+        type="email"
+        placeholder="example@abc.com"
+        errorMessage="Invalid email format"
+      ></app-input>
+
+      <app-select-dropdown
+        [formGroup]="detailsform"
+        controlName="vehicleType"
+        label="Vehicle Type"
+        [options]="vehicleTypeOptions"
+        placeholder="Select Vehicle Type"
+        [required]="true"
+      ></app-select-dropdown>
+
+      <div *ngIf="detailsform.get('vehicleType')?.value !== 'none'" class="vehicle">
+        <app-input
+          [formGroup]="detailsform"
+          controlName="vehicleNo"
+          label="Vehicle Number"
+          placeholder="Vehicle Number"
+          [required]="true"
+        ></app-input>
+      </div>
+
+      <!-- KYC Document -->
+      <div class="form-group">
+        <label class="label">KYC Document<span class="required">*</span></label>
+        <div class="kyc-upload">
+          <label *ngIf="!showlabel" class="kyc-label">
+            <div class="kyc-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#3F51B5" viewBox="0 0 256 256" >
+                <path
+                  d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
+                </path>
+              </svg>
+            </div>
+            <button type="button" (click)="onKycUpload()" class="hidden"></button>
+          </label>
+
+          <div *ngIf="showlabel && detailsform.get('kycDocType')?.value" class="kyc-preview">
+            <div class="file-info">
+              <i class="fa-solid fa-file-pdf file-icon"></i>
+              <button *ngIf="detailsform.get('kycdocurl')?.value" type="button" (click)="openKycLink()" class="file-link">
+                {{ detailsform.get('Kyc')?.value?.name || detailsform.get('kycDocName')?.value }}
+              </button>
+              <span *ngIf="!detailsform.get('kycdocurl')?.value" class="file-name">{{ detailsform.get('Kyc')?.value?.name || detailsform.get('kycDocName')?.value }}</span>
+              <button type="button" (click)="removeKyc()" class="remove-btn">Remove</button>
+            </div>
+            <span class="file-type">Type: {{ detailsform.get('kycDocType')?.value }}</span>
+          </div>
+        </div>
+        <p class="upload-hint">Upload photo (.png, .jpeg) size 5 mb</p>
+        <p *ngIf="(!detailsform.get('Kyc')?.value && !detailsform.get('kycdocurl')?.value && detailsform.touched)" class="error-text">This field is necessary</p>
       </div>
 
       <button type="submit"></button>

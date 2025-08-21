@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-document-details',
   templateUrl: './document-details.component.html',
-  styleUrls: ['./document-details.component.css']
+  styleUrls: ['./document-details.component.scss']
 })
 export class DocumentDetailsComponent implements OnInit {
   @Input() detailsform!: FormGroup;

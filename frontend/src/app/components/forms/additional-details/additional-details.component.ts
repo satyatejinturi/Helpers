@@ -8,7 +8,7 @@ import { AdditionalcomponentComponent } from '../../dialog_components/additional
 @Component({
   selector: 'app-additional-details',
   templateUrl: './additional-details.component.html',
-  styleUrls: ['./additional-details.component.css']
+  styleUrls: ['./additional-details.component.scss']
 })
 export class AdditionalDetailsComponent implements OnInit {
   @Input() detailsform!: FormGroup;

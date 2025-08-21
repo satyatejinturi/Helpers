@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-portal',
   templateUrl: './portal.component.html',
-  styleUrl: './portal.component.css'
+  styleUrl: './portal.component.scss'
 })
 export class PortalComponent implements OnInit {
   allhelper = this.helperservice.helper;

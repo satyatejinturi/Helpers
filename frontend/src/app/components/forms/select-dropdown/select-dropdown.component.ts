@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-select-dropdown',
   templateUrl: './select-dropdown.component.html',
-  styleUrls: ['./select-dropdown.component.css']
+  styleUrls: ['./select-dropdown.component.scss']
 })
 export class SelectDropdownComponent {
   @Input() formGroup!: FormGroup;

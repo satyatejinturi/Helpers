@@ -5,7 +5,7 @@ import { HelperServiceService } from '../../../shared/helper-service.service';
 @Component({
   selector: 'app-review-details',
   templateUrl: './review-details.component.html',
-  styleUrls: ['./review-details.component.css']
+  styleUrls: ['./review-details.component.scss']
 })
 export class ReviewDetailsComponent implements OnInit {
   @Input() detailsform!: FormGroup;

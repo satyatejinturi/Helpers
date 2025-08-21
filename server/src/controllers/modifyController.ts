@@ -25,7 +25,7 @@ async function getfileurl(localpath:string , folder:string
 ):Promise<string> {
     try{
         const result=await cloudinary.uploader
-                .upload(localpath,{folder})
+                .upload(localpath,{folder,resource_type:"auto"})
         console.log(result);
 
         return result.secure_url;

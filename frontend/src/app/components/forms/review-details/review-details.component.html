@@ -1,31 +1,31 @@
-<div class="mx-auto bg-white rounded-xl shadow p-6 w-[1100px] border border-gray-200">
-  <div class="flex items-center space-x-4">
-    <app-profile-photo [userName]="helper.fullName" [profilephotourl]="helper.profileurl"></app-profile-photo>
+<div class="helper-card">
+  <div class="header">
+    <app-profile-photo [userName]="helper.fullName" [profilephotourl]="helper.profileurl" [width]="'64'" [height]="'64'"></app-profile-photo>
     <div>
-      <h2 class="text-xl font-semibold text-gray-800">{{ helper.fullName }}</h2>
-      <p class="text-sm text-gray-500">{{ helper.typeOfService }}</p>
+      <h2 class="name">{{ helper.fullName }}</h2>
+      <p class="service">{{ helper.typeOfService }}</p>
     </div>
   </div>
 
-  <div class="mt-6 border-t pt-4">
-    <h3 class="text-sm font-bold text-gray-600 mb-2">PERSONAL DETAILS</h3>
-    <div class="grid grid-cols-2 gap-y-2 text-sm text-gray-700">
-      <div class="font-medium">Gender</div>
+  <div class="section">
+    <h3 class="section-title">PERSONAL DETAILS</h3>
+    <div class="details-grid">
+      <div class="label">Gender</div>
       <div>{{ helper.gender }}</div>
 
-      <div class="font-medium">Languages</div>
+      <div class="label">Languages</div>
       <div>{{ helper.languages || '-' }}</div>
 
-      <div class="font-medium">Mobile No.</div>
+      <div class="label">Mobile No.</div>
       <div>{{ helper.phno }}</div>
 
-      <div class="font-medium">Email ID</div>
+      <div class="label">Email ID</div>
       <div>{{ helper.email }}</div>
 
-      <div class="font-medium">KYC Document</div>
+      <div class="label">KYC Document</div>
       <div>
-        <a [href]="helper.kycDocUrl" class="text-indigo-600 hover:underline flex items-center space-x-1" target="_blank">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+        <a [href]="helper.kycDocUrl" class="kyc-link" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" class="kyc-icon" viewBox="0 0 20 20" fill="currentColor">
             <path
               d="M10 3a1 1 0 01.993.883L11 4v6h3a1 1 0 01.117 1.993L14 12h-4a1 1 0 01-.993-.883L9 11V4a1 1 0 011-1z" />
             <path d="M3 17a1 1 0 011-1h12a1 1 0 01.117 1.993L16 18H4a1 1 0 01-1-1z" />
@@ -36,16 +36,16 @@
     </div>
   </div>
 
-  <div class="mt-6 border-t pt-4">
-    <h3 class="text-sm font-bold text-gray-600 mb-2">SERVICE DETAILS</h3>
-    <div class="grid grid-cols-2 gap-y-2 text-sm text-gray-700">
-      <div class="font-medium">Type</div>
+  <div class="section">
+    <h3 class="section-title">SERVICE DETAILS</h3>
+    <div class="details-grid">
+      <div class="label">Type</div>
       <div>{{ helper.typeOfService }}</div>
 
-      <div class="font-medium">Organization</div>
+      <div class="label">Organization</div>
       <div>{{ helper.organizationName }}</div>
 
-      <div class="font-medium">Joined On</div>
+      <div class="label">Joined On</div>
       <div>{{ helper.createdAt }}</div>
     </div>
   </div>

@@ -8,7 +8,7 @@ import modifyRoute from "./routes/modifyRoute"
 import cors from "cors"
 
 app.use(cors({
-  origin: 'http://localhost:4200',
+  origin: '*',
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type']
 }));

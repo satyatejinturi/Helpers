@@ -1,169 +1,204 @@
-<div class="text-3xl w-200 h-20 p-5 py-6 bg-white min-w-screen">
+<div class="helpers-header">
   <h2>Helpers</h2>
 </div>
-<div class="border-b border-gray-300"></div>
+<div class="divider"></div>
 
-<div class="flex items-center gap-3 px-6 pt-6 pb-4 bg-white min-w-screen">
-  <div class="flex items-center gap-4">
-    <div class="border border-gray-300 rounded-md w-10 h-10 flex items-center justify-center">
-      <button mat-icon-button [matMenuTriggerFor]="sortMenu"
-        class="w-full h-full flex items-center justify-center mb-2">
-        <i class="ph ph-arrows-down-up text-xl text-gray-700"></i>
+<div class="helpers-toolbar">
+  <div class="helpers-toolbar-actions">
+    <!-- Sort -->
+    <div class="icon-btn">
+      <button mat-icon-button [matMenuTriggerFor]="sortMenu" class="menu-trigger">
+        <i class="ph ph-arrows-down-up"></i>
       </button>
     </div>
     <mat-menu #sortMenu="matMenu" class="custom-sort-menu">
-      <button mat-menu-item *ngFor="let option of sortOptions" (click)="selectSort(option.value)" [ngClass]="{
-        'bg-indigo-500 text-white': selectedSort === option.value
-      }">
-        <span class="flex justify-between w-full items-center">
+      <button
+        mat-menu-item
+        *ngFor="let option of sortOptions"
+        (click)="selectSort(option.value)"
+        [ngClass]="{ 'selected-sort': selectedSort === option.value }"
+      >
+        <span class="menu-option">
           {{ option.label }}
-          <i *ngIf="selectedSort === option.value" class="ph ph-check text-indigo ml-2"></i>
+          <i *ngIf="selectedSort === option.value" class="ph ph-check"></i>
         </span>
       </button>
     </mat-menu>
 
-    <div class="border border-gray-300 rounded-md w-10 h-10 flex items-center justify-center">
-      <button mat-icon-button [matMenuTriggerFor]="filterMenu" #filterMenuTrigger="matMenuTrigger"
-        class="w-full h-full flex items-center justify-center mb-2">
-        <i class="ph ph-funnel text-lg text-gray-700 mb-6"></i>
+    <!-- Filter -->
+    <div class="icon-btn">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="filterMenu"
+        #filterMenuTrigger="matMenuTrigger"
+        class="menu-trigger"
+      >
+        <i class="ph ph-funnel"></i>
       </button>
     </div>
-    <mat-menu #filterMenu="matMenu" [overlapTrigger]="false" class="px-2 py-2 w-[320px]">
+    <mat-menu #filterMenu="matMenu" [overlapTrigger]="false" class="filter-menu">
       <div matMenuContent (click)="$event.stopPropagation()">
-        <h2 class="text-base font-semibold text-gray-600 m-2">Filter by</h2>
+        <h2 class="filter-title">Filter by</h2>
 
-        <div class="p-2">
-          <div class="flex justify-between items-center">
-            <h3 class="text-sm font-medium">Type of Services</h3>
-            <button class="text-xs text-indigo-500" (click)="selectedServiceTypes = []">Reset</button>
+        <div class="filter-section">
+          <div class="filter-header">
+            <h3>Type of Services</h3>
+            <button class="reset-btn" (click)="selectedServiceTypes = []">Reset</button>
           </div>
-          <div class="relative">
-            <div
-              class="border px-3 py-2 rounded-md w-full text-left flex items-center justify-between bg-white cursor-pointer mt-1 dropdown-trigger"
-              (click)="toggleDropdown('services')">
+          <div class="dropdown">
+            <div class="dropdown-trigger" (click)="toggleDropdown('services')">
               {{ getSelectedLabel(selectedServiceTypes, 'Type of Services') }}
-              <i class="ph ph-caret-down ml-auto"></i>
+              <i class="ph ph-caret-down"></i>
             </div>
 
-            <div *ngIf="dropdownOpen === 'services'"
-              class="custom-dropdown absolute z-10 w-full bg-white border shadow-md mt-1 rounded-md p-2 max-h-[130px] overflow-y-auto">
-
-              <div class="flex items-center gap-2 text-sm hover:bg-gray-100 p-1 rounded mb-1">
-                <input type="checkbox" [checked]="areAllSelected('services')" (change)="toggleSelectAll('services')"
-                  id="select_all_services" />
-                <label for="select_all_services" class="w-full flex justify-between items-center font-medium">
-                  Select All
-                </label>
-              </div>
-
-              <div *ngFor="let option of allServiceTypes"
-                class="flex items-center gap-2 text-sm hover:bg-gray-100 p-1 rounded">
-                <input type="checkbox" [checked]="selectedServiceTypes.includes(option)"
-                  (change)="toggleOption(option, 'services')" [id]="'service_' + option" />
-                <label [for]="'service_' + option" class="w-full flex justify-between items-center">
-                  {{ option }}
-                  <i *ngIf="selectedServiceTypes.includes(option)" class="ph ph-check text-indigo-600"></i>
-                </label>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="p-2">
-          <div class="flex justify-between items-center">
-            <h3 class="text-sm font-medium">Organization Names</h3>
-            <button class="text-xs text-indigo-500" (click)="selectedOrganizations = []">Reset</button>
-          </div>
-          <div class="relative">
             <div
-              class="border px-3 py-2 rounded-md w-full text-left flex items-center justify-between bg-white cursor-pointer mt-1"
-              (click)="toggleDropdown('organizations')">
-              {{ getSelectedLabel(selectedOrganizations, 'Organization Names') }}
-              <i class="ph ph-caret-down ml-auto"></i>
-            </div>
-            <div *ngIf="dropdownOpen === 'organizations'"
-              class="absolute z-10 w-full bg-white border shadow-md mt-1 rounded-md p-2 max-h-[130px] overflow-y-auto">
-              <!-- Select All -->
-              <div class="flex items-center gap-2 text-sm hover:bg-gray-100 p-1 rounded mb-1">
-                <input type="checkbox" [checked]="areAllSelected('organizations')"
-                  (change)="toggleSelectAll('organizations')" id="select_all_organizations" />
-                <label for="select_all_organizations" class="w-full flex justify-between items-center font-medium">
+              *ngIf="dropdownOpen === 'services'"
+              class="custom-dropdown"
+            >
+              <div class="dropdown-option select-all">
+                <input
+                  type="checkbox"
+                  [checked]="areAllSelected('services')"
+                  (change)="toggleSelectAll('services')"
+                  id="select_all_services"
+                />
+                <label
+                  for="select_all_services"
+                  class="option-label"
+                >
                   Select All
                 </label>
               </div>
-              <!-- Individual Options -->
-              <div *ngFor="let option of allOrganizations"
-                class="flex items-center gap-2 text-sm hover:bg-gray-100 p-1 rounded">
-                <input type="checkbox" [checked]="selectedOrganizations.includes(option)"
-                  (change)="toggleOption(option, 'organizations')" [id]="'org_' + option" />
-                <label [for]="'org_' + option" class="w-full flex justify-between items-center">
+
+              <div
+                *ngFor="let option of allServiceTypes"
+                class="dropdown-option"
+              >
+                <input
+                  type="checkbox"
+                  [checked]="selectedServiceTypes.includes(option)"
+                  (change)="toggleOption(option, 'services')"
+                  [id]="'service_' + option"
+                />
+                <label [for]="'service_' + option" class="option-label">
                   {{ option }}
-                  <i *ngIf="selectedOrganizations.includes(option)" class="ph ph-check text-indigo-600"></i>
+                  <i *ngIf="selectedServiceTypes.includes(option)" class="ph ph-check"></i>
                 </label>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="border-t border-gray-300 mt-2 mb-2"></div>
-        <div class="flex justify-between px-3 py-1">
-          <button mat-stroked-button color="warn" class="text-xs"
+        <div class="filter-section">
+          <div class="filter-header">
+            <h3>Organization Names</h3>
+            <button class="reset-btn" (click)="selectedOrganizations = []">Reset</button>
+          </div>
+          <div class="dropdown">
+            <div class="dropdown-trigger" (click)="toggleDropdown('organizations')">
+              {{ getSelectedLabel(selectedOrganizations, 'Organization Names') }}
+              <i class="ph ph-caret-down"></i>
+            </div>
+            <div *ngIf="dropdownOpen === 'organizations'" class="custom-dropdown">
+              <div class="dropdown-option select-all">
+                <input
+                  type="checkbox"
+                  [checked]="areAllSelected('organizations')"
+                  (change)="toggleSelectAll('organizations')"
+                  id="select_all_organizations"
+                />
+                <label
+                  for="select_all_organizations"
+                  class="option-label"
+                >
+                  Select All
+                </label>
+              </div>
+
+              <div
+                *ngFor="let option of allOrganizations"
+                class="dropdown-option"
+              >
+                <input
+                  type="checkbox"
+                  [checked]="selectedOrganizations.includes(option)"
+                  (change)="toggleOption(option, 'organizations')"
+                  [id]="'org_' + option"
+                />
+                <label [for]="'org_' + option" class="option-label">
+                  {{ option }}
+                  <i *ngIf="selectedOrganizations.includes(option)" class="ph ph-check"></i>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="divider"></div>
+        <div class="filter-actions">
+          <button mat-stroked-button color="warn" class="action-btn"
             (click)="resetFilters(); filterMenuTrigger.closeMenu()">Reset</button>
-          <button mat-flat-button color="primary" class="text-xs text-white bg-indigo-500 px-3 py-1 rounded"
+          <button mat-flat-button color="primary" class="apply-btn"
             (click)="applyFilters(); filterMenuTrigger.closeMenu()">Apply</button>
         </div>
       </div>
     </mat-menu>
 
-    <button class="border border-gray-300 rounded-md p-2 w-10 h-10">
+    <!-- Calendar -->
+    <button class="icon-btn p-btn">
       <i class="ph ph-calendar-blank"></i>
     </button>
   </div>
 
-  <div class="relative w-full max-w-xs ml-4">
-    <span class="absolute inset-y-0 left-3 flex items-center text-gray-400">
-      <i class="fas fa-search text-sm"></i>
+  <!-- Search -->
+  <div class="search-box">
+    <span class="search-icon">
+      <i class="fas fa-search"></i>
     </span>
-    <input type="text" (input)="onsearch($event)" placeholder="Name, Employee ID, Phone"
-      class="pl-9 pr-3 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-sm placeholder:text-gray-400" />
+    <input
+      type="text"
+      (input)="onsearch($event)"
+      placeholder="Name, Employee ID, Phone"
+      class="search-input"
+    />
   </div>
 
-  <div *ngIf="showfilter && nofhelpers !== totalno(); else totalCount" class="text-sm text-gray-500">
+  <!-- Results -->
+  <div *ngIf="showfilter && nofhelpers !== totalno(); else totalCount" class="results-count">
     {{ nofhelpers }} of {{ totalno() }} results
   </div>
   <ng-template #totalCount>
-    <div class="text-sm text-gray-500">
+    <div class="results-count">
       {{ totalno() }} helpers
     </div>
   </ng-template>
 
-  <div class="flex ml-auto gap-4">
-    <button class="border border-gray-300 rounded-md p-2 w-10 h-10">
-      <i class="ph ph-download-simple w-8 h-8"></i>
+  <!-- Export / Add -->
+  <div class="toolbar-right">
+    <button class="icon-btn">
+      <i class="ph ph-download-simple"></i>
     </button>
-    <button
-      class="flex items-center gap-2 px-3 bg-indigo-500 text-white rounded-md h-10 hover:bg-indigo-600 cursor-pointer"
-      (click)="onclick()">
+    <button class="add-btn" (click)="onclick()">
       <i class="ph ph-plus"></i>
       <span>Add Helper</span>
     </button>
   </div>
 </div>
 
-<div class="flex bg-white">
-  <div class="w-100 border-l border-gray-300 rounded-3xl bg-white pl-4">
-    <app-sidebar [allhelper]="allhelper() | searchhelper:searchText:['fullName','phno','employeeid']"
-      (selectedhelper)="handleselect($event)" [sortType]="selectedSort"
-      (lengthEmitted)="updateLength($event)">
-    </app-sidebar>
+<div class="helpers-layout">
+  <div class="sidebar">
+    <app-sidebar
+      [allhelper]="allhelper() | searchhelper:searchText:['fullName','phno','employeeid']"
+      (selectedhelper)="handleselect($event)"
+      [sortType]="selectedSort"
+      (lengthEmitted)="updateLength($event)"
+    ></app-sidebar>
   </div>
 
-  <main class="flex-grow bg-white">
-    <div>
-      <ng-container *ngIf="selectedhelper">
-        <app-helper-data [helper]="selectedhelper"></app-helper-data>
-      </ng-container>
-    </div>
+  <main class="main-content">
+    <ng-container *ngIf="selectedhelper">
+      <app-helper-data [helper]="selectedhelper" class="helper-data"></app-helper-data>
+    </ng-container>
   </main>
 </div>

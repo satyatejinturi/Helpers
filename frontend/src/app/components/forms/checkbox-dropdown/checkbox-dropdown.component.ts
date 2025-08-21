@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-checkbox-dropdown',
   templateUrl: './checkbox-dropdown.component.html',
-  styles: []
+  styleUrls: ['./checkbox-dropdown.component.scss']
 })
 export class CheckboxDropdownComponent implements OnInit, OnChanges {
   @Input() formGroup!: FormGroup;

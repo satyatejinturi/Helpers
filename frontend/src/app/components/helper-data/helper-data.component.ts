@@ -53,8 +53,8 @@ export class HelperDataComponent {
   openHelperCardDialog(helper: any) {
     this.dialog.open(HelperDialogComponent, {
       data: helper,
-      width: '700px',
-      height: '600px',
+      width: '50%',
+      height: '60%',
       panelClass: 'custom-helper-dialog'
     });
   }

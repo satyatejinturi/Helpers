@@ -1,8 +1,8 @@
 .helper-card {
   width: 100%;
-  max-width: 64rem; 
+  height: calc(100vh - 12rem);
   margin: 0 auto;
-  background: #fff;
+  background: #e8e8e8;
   border: 1px solid #d1d5db;
   border-radius: 0.75rem;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -68,8 +68,8 @@
   }
 
   .helper-details {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
     font-size: 0.875rem;
     color: #1f2937;
